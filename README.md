@@ -1,2 +1,2 @@
-# VR operating table model
+# Virtual Operating Table
 engineering thesis project 
