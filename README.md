@@ -4,7 +4,7 @@
 ## Project description
 Engineering thesis project
 
-## Technologie
+## Technologies
 - [`Unity 2018.1.9`](https://unity.com/releases/editor/whats-new/2018.1.9f1#installs) 
 - [`Blender`](https://www.blender.org/)
 
