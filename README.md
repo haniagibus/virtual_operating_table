@@ -1,4 +1,4 @@
-# Virtual Operating Table with simulation of its functionality
+# Virtual Operating Table
 **Authors:** [`Agnieszka Kulesz`](https://github.com/agatherat), [`Weronika Koterba`](https://github.com/weronikakoterba), [`Hania Gibus`](https://github.com/haniagibus)
 
 ## Project description
