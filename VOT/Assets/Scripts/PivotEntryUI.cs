@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class PivotEntryUI : MonoBehaviour
 {
-    public Text pivotLabel;
+    public Text nameText;
 
     public Slider sliderX;
     public Slider sliderY;
@@ -12,15 +12,49 @@ public class PivotEntryUI : MonoBehaviour
     public RotationPivot pivot;
     public SelectorWindow selector;
 
+    private float lastX = 0f;
+    private float lastY = 0f;
+    private float lastZ = 0f;
+
     void Start()
     {
         if (sliderX != null)
-            sliderX.onValueChanged.AddListener(v => selector.RotatePivot(pivot, v, Vector3.right));
+        {
+            lastX = sliderX.value;
+            sliderX.onValueChanged.AddListener(OnSliderXChanged);
+        }
 
         if (sliderY != null)
-            sliderY.onValueChanged.AddListener(v => selector.RotatePivot(pivot, v, Vector3.up));
+        {
+            lastY = sliderY.value;
+            sliderY.onValueChanged.AddListener(OnSliderYChanged);
+        }
 
         if (sliderZ != null)
-            sliderZ.onValueChanged.AddListener(v => selector.RotatePivot(pivot, v, Vector3.forward));
+        {
+            lastZ = sliderZ.value;
+            sliderZ.onValueChanged.AddListener(OnSliderZChanged);
+        }
+    }
+
+    void OnSliderXChanged(float value)
+    {
+        float delta = value - lastX;
+        lastX = value;
+        selector.RotatePivot(pivot, delta, Vector3.right);
+    }
+
+    void OnSliderYChanged(float value)
+    {
+        float delta = value - lastY;
+        lastY = value;
+        selector.RotatePivot(pivot, delta, Vector3.up);
+    }
+
+    void OnSliderZChanged(float value)
+    {
+        float delta = value - lastZ;
+        lastZ = value;
+        selector.RotatePivot(pivot, delta, Vector3.forward);
     }
 }

@@ -117,6 +117,8 @@ public class SelectorWindow : MonoBehaviour
             currentPivots.AddRange(cfg.pivots);
             currentPivot = currentPivots[0]; // wybierz pierwszy pivot
             Debug.Log("Aktywny pivot: " + currentPivot.pivotName);
+
+
         }
         else
         {
@@ -173,7 +175,7 @@ public class SelectorWindow : MonoBehaviour
     void RotateAroundPivot(RotationPivot pivot, float angle, Vector3 axis)
     {
         if (currentSelectedElement == null) return;
-
+        
         currentSelectedElement.RotateAround(
             pivot.transform.position,
             pivot.transform.TransformDirection(axis),
@@ -208,11 +210,15 @@ public class SelectorWindow : MonoBehaviour
 
         entry.pivot = pivot;
         entry.selector = this;
-        //entry.pivotLabel.text = pivot.pivotName;
+        entry.nameText.text = pivot.pivotName;
 
         entry.sliderX.gameObject.SetActive(pivot.allowX);
         entry.sliderY.gameObject.SetActive(pivot.allowY);
         entry.sliderZ.gameObject.SetActive(pivot.allowZ);
+
+        if (pivot.allowX && entry.sliderX != null) entry.sliderX.value = 0;
+        if (pivot.allowY && entry.sliderY != null) entry.sliderY.value = 0;
+        if (pivot.allowZ && entry.sliderZ != null) entry.sliderZ.value = 0;
     }
 }
 
@@ -220,12 +226,23 @@ public void RotatePivot(RotationPivot pivot, float value, Vector3 axis)
 {
     if (currentSelectedElement == null) return;
 
-    currentSelectedElement.RotateAround(
-        pivot.transform.position,
-        pivot.transform.TransformDirection(axis),
-        value
-    );
+    foreach (Transform child in pivot.transform)
+    {
+        child.RotateAround(
+            pivot.transform.position,
+            pivot.transform.TransformDirection(axis),
+            value
+        );
+    }
 
+    // currentSelectedElement.RotateAround(
+    //     pivot.transform.position,
+    //     pivot.transform.TransformDirection(axis),
+    //     value
+    // );
+    Debug.Log(currentSelectedElement.name +
+              " - dzieci pivotu " + pivot.pivotName +
+              " obracane o " + value + "° (oś " + axis + ")");
     Debug.Log(currentSelectedElement.name +
               " obracany wokół " + pivot.pivotName +
               " o " + value + "° (oś " + axis + ")");

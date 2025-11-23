@@ -427,8 +427,8 @@ MonoBehaviour:
   m_FillRect: {fileID: 224359240471266266}
   m_HandleRect: {fileID: 224706296829230728}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 360
+  m_MinValue: -180
+  m_MaxValue: 180
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -642,7 +642,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92a0dbf45980bd8479e841e495b3a16a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pivotLabel: {fileID: 0}
+  nameText: {fileID: 114995921770904494}
   sliderX: {fileID: 114794693316687358}
   sliderY: {fileID: 114043376459465156}
   sliderZ: {fileID: 114919879749493220}
@@ -747,8 +747,8 @@ MonoBehaviour:
   m_FillRect: {fileID: 224701635621438744}
   m_HandleRect: {fileID: 224354141493030014}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 360
+  m_MinValue: -180
+  m_MaxValue: 180
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -909,8 +909,8 @@ MonoBehaviour:
   m_FillRect: {fileID: 224745412032790276}
   m_HandleRect: {fileID: 224937987917040052}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 360
+  m_MinValue: -180
+  m_MaxValue: 180
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
