@@ -117,8 +117,6 @@ public class SelectorWindow : MonoBehaviour
             currentPivots.AddRange(cfg.pivots);
             currentPivot = currentPivots[0]; // wybierz pierwszy pivot
             Debug.Log("Aktywny pivot: " + currentPivot.pivotName);
-
-
         }
         else
         {
@@ -221,32 +219,18 @@ public class SelectorWindow : MonoBehaviour
         if (pivot.allowZ && entry.sliderZ != null) entry.sliderZ.value = 0;
     }
 }
-
-public void RotatePivot(RotationPivot pivot, float value, Vector3 axis)
-{
-    if (currentSelectedElement == null) return;
-
-    foreach (Transform child in pivot.transform)
+    public void RotatePivot(RotationPivot pivot, float value, Vector3 axis)
     {
-        child.RotateAround(
-            pivot.transform.position,
-            pivot.transform.TransformDirection(axis),
-            value
-        );
+        if (currentSelectedElement == null) return;
+        if (pivot == null) return;
+
+        // Obróć sam pivot w przestrzeni lokalnej
+        // Dzieci automatycznie obrócą się razem z nim
+        pivot.transform.Rotate(axis, value, Space.Self);
+
+        Debug.Log(currentSelectedElement.name +
+                " - pivot " + pivot.pivotName +
+                " obrócony o " + value + "° (oś " + axis + ")");
     }
-
-    // currentSelectedElement.RotateAround(
-    //     pivot.transform.position,
-    //     pivot.transform.TransformDirection(axis),
-    //     value
-    // );
-    Debug.Log(currentSelectedElement.name +
-              " - dzieci pivotu " + pivot.pivotName +
-              " obracane o " + value + "° (oś " + axis + ")");
-    Debug.Log(currentSelectedElement.name +
-              " obracany wokół " + pivot.pivotName +
-              " o " + value + "° (oś " + axis + ")");
-}
-
 
 }
