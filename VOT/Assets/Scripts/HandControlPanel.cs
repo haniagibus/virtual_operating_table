@@ -13,8 +13,12 @@ public class HandControlPanel : MonoBehaviour
     public EventSystem eventSystem;            // opcjonalnie: EventSystem (jeśli null, użyje EventSystem.current)
     public bool autoSelectFirst = true;        // czy ustawić pierwszy Selectable po otwarciu
 
+    [Header("Table Reset")]
+    public TableStateManager tableStateManager;       
+    public KeyCode resetKey = KeyCode.R;           //resetuj ustawienia stołu (normal)
     private bool isOpen = false;
 
+    
     void Awake()
     {
         if (handControlPanel == null)
@@ -41,6 +45,19 @@ public class HandControlPanel : MonoBehaviour
         if (Input.GetKeyDown(toggleKey))
         {
             ToggleHandControlPanel();
+        }
+
+        if (Input.GetKeyDown(resetKey))
+        {
+            if (tableStateManager != null)
+            {
+                Debug.Log("Naciśnięto klawisz R - resetuję stół!");
+                tableStateManager.ResetToNormalPosition();
+            }
+            else
+            {
+                Debug.LogWarning("TableStateManager nie przypisany!");
+            }
         }
     }
 
