@@ -194,31 +194,62 @@ public class SelectorWindow : MonoBehaviour
     }
 
     void BuildPivotUI()
-{
-    foreach (Transform child in pivotListContainer)
-        Destroy(child.gameObject);
-
-    if (currentPivots.Count == 0)
-        return;
-
-    foreach (var pivot in currentPivots)
     {
-        var entryObj = Instantiate(pivotEntryPrefab, pivotListContainer);
-        var entry = entryObj.GetComponent<PivotEntryUI>();
+        foreach (Transform child in pivotListContainer)
+            Destroy(child.gameObject);
 
-        entry.pivot = pivot;
-        entry.selector = this;
-        entry.nameText.text = pivot.pivotName;
+        if (currentPivots.Count == 0)
+            return;
 
-        entry.sliderX.gameObject.SetActive(pivot.allowX);
-        entry.sliderY.gameObject.SetActive(pivot.allowY);
-        entry.sliderZ.gameObject.SetActive(pivot.allowZ);
+        foreach (var pivot in currentPivots)
+        {
+            var entryObj = Instantiate(pivotEntryPrefab, pivotListContainer);
+            var entry = entryObj.GetComponent<PivotEntryUI>();
 
-        if (pivot.allowX && entry.sliderX != null) entry.sliderX.value = 0;
-        if (pivot.allowY && entry.sliderY != null) entry.sliderY.value = 0;
-        if (pivot.allowZ && entry.sliderZ != null) entry.sliderZ.value = 0;
+            entry.pivot = pivot;
+            entry.selector = this;
+            entry.nameText.text = pivot.pivotName;
+
+            entry.sliderX.gameObject.SetActive(pivot.allowX);
+            entry.sliderY.gameObject.SetActive(pivot.allowY);
+            entry.sliderZ.gameObject.SetActive(pivot.allowZ);
+
+            // if (pivot.allowX && entry.sliderX != null) entry.sliderX.value = 0;
+            // if (pivot.allowY && entry.sliderY != null) entry.sliderY.value = 0;
+            // if (pivot.allowZ && entry.sliderZ != null) entry.sliderZ.value = 0;
+            if (pivot.allowX && entry.sliderX != null) 
+            {
+                float angleX = NormalizeAngle(pivot.transform.localEulerAngles.x);
+                entry.sliderX.value = angleX;
+                entry.lastX = angleX;
+            }
+            
+            if (pivot.allowY && entry.sliderY != null) 
+            {
+                float angleY = NormalizeAngle(pivot.transform.localEulerAngles.y);
+                entry.sliderY.value = angleY;
+                entry.lastY = angleY;
+            }
+            
+            if (pivot.allowZ && entry.sliderZ != null) 
+            {
+                float angleZ = NormalizeAngle(pivot.transform.localEulerAngles.z);
+                entry.sliderZ.value = angleZ;
+                entry.lastZ = angleZ;
+            }
+
+            
+        }
     }
-}
+
+
+    float NormalizeAngle(float angle)
+    {
+        // Unity zwraca kąty 0-360, konwertuj na -180 do 180
+        if (angle > 180)
+            angle -= 360;
+        return angle;
+    }
     public void RotatePivot(RotationPivot pivot, float value, Vector3 axis)
     {
         if (currentSelectedElement == null) return;

@@ -12,9 +12,9 @@ public class PivotEntryUI : MonoBehaviour
     public RotationPivot pivot;
     public SelectorWindow selector;
 
-    private float lastX = 0f;
-    private float lastY = 0f;
-    private float lastZ = 0f;
+    public float lastX = 0f;
+    public float lastY = 0f;
+    public float lastZ = 0f;
 
     void Start()
     {
