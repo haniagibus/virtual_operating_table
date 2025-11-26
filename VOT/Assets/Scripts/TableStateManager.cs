@@ -6,9 +6,9 @@ using UnityEngine;
 public class PartState
 {
     public Transform part;
-    public Vector3 initialPosition;
-    public Quaternion initialRotation;
-    public Vector3 initialScale;
+    public Vector3 initialLocalPosition;    // ZMIANA: local zamiast world
+    public Quaternion initialLocalRotation; // ZMIANA: local zamiast world
+    public Vector3 initialLocalScale;
 }
 
 public class TableStateManager : MonoBehaviour
@@ -17,18 +17,51 @@ public class TableStateManager : MonoBehaviour
     public List<Transform> tableParts = new List<Transform>();
 
     [Header("Ustawienia animacji")]
-    public float resetDuration = 2f; // czas w sekundach na powrót do pozycji
+    public float resetSpeed = 2f;
     public AnimationCurve resetCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
     private List<PartState> savedStates = new List<PartState>();
-    private bool isResetting = false;
+    [HideInInspector] public bool isResetting = false;
 
     void Start()
     {
         SaveInitialState();
     }
 
-   // Zapisz pozycje całej hierarchii
+    void Update()
+    {
+
+        if (isResetting)
+        {
+            foreach (var state in savedStates)
+            {
+                if (state.part == null) continue;
+
+                state.part.localPosition = Vector3.Lerp(
+                    state.part.localPosition,
+                    state.initialLocalPosition,
+                    Time.deltaTime * resetSpeed
+                );
+
+                state.part.localRotation = Quaternion.Lerp(
+                    state.part.localRotation,
+                    state.initialLocalRotation,
+                    Time.deltaTime * resetSpeed
+                );
+
+                state.part.localScale = Vector3.Lerp(
+                    state.part.localScale,
+                    state.initialLocalScale,
+                    Time.deltaTime * resetSpeed
+                );
+
+                 // if (pivot.allowX && entry.sliderX != null) entry.sliderX.value = 0;
+                 // if (pivot.allowY && entry.sliderY != null) entry.sliderY.value = 0;
+                // if (pivot.allowZ && entry.sliderZ != null) entry.sliderZ.value = 0;
+            }
+        }
+    }
+
     void SaveInitialState()
     {
         savedStates.Clear();
@@ -36,106 +69,31 @@ public class TableStateManager : MonoBehaviour
         foreach (var part in tableParts)
         {
             if (part == null) continue;
-
-            // Zapisz element
             SaveTransformRecursive(part);
         }
 
         Debug.Log("Zapisano " + savedStates.Count + " elementów (z dziećmi)");
     }
 
-    // Rekurencyjnie zapisz element i wszystkie jego dzieci
     void SaveTransformRecursive(Transform t)
     {
         PartState state = new PartState
         {
             part = t,
-            initialPosition = t.position,
-            initialRotation = t.rotation,
-            initialScale = t.localScale
+            initialLocalPosition = t.localPosition,    // ZMIANA: local
+            initialLocalRotation = t.localRotation,    // ZMIANA: local
+            initialLocalScale = t.localScale
         };
 
         savedStates.Add(state);
-        Debug.Log("Zapisano: " + t.name + " (pos: " + t.position + ", rot: " + t.rotation.eulerAngles + ")");
+        Debug.Log("Zapisano: " + t.name + 
+                  " (localPos: " + t.localPosition + 
+                  ", localRot: " + t.localRotation.eulerAngles + ")");
 
-        // Zapisz wszystkie dzieci
         foreach (Transform child in t)
         {
             SaveTransformRecursive(child);
         }
-    }
-
-    public void ResetToNormalPosition()
-    {
-        if (isResetting)
-        {
-            Debug.LogWarning("Resetowanie w toku");
-            return;
-        }
-
-        Debug.Log("Rozpoczynam reset do pozycji normalnej");
-        StartCoroutine(ResetCoroutine());
-    }
-
-    IEnumerator ResetCoroutine()
-    {
-        isResetting = true;
-        float elapsed = 0f;
-
-        // Zapisz aktualne pozycje i rotacje
-        Dictionary<Transform, Vector3> startPositions = new Dictionary<Transform, Vector3>();
-        Dictionary<Transform, Quaternion> startRotations = new Dictionary<Transform, Quaternion>();
-
-        foreach (var state in savedStates)
-        {
-            if (state.part != null)
-            {
-                startPositions[state.part] = state.part.position;
-                startRotations[state.part] = state.part.rotation;
-
-            }
-        }
-
-        // Animuj powrót
-        while (elapsed < resetDuration)
-        {
-            elapsed += Time.deltaTime;
-            float progress = elapsed / resetDuration;
-            float curvedProgress = resetCurve.Evaluate(progress);
-
-            foreach (var state in savedStates)
-            {
-                if (state.part == null) continue;
-
-                state.part.position = Vector3.Lerp(
-                    startPositions[state.part],
-                    state.initialPosition,
-                    curvedProgress
-                );
-
-                state.part.rotation = Quaternion.Lerp(
-                    startRotations[state.part],
-                    state.initialRotation,
-                    curvedProgress
-                );
-            }
-
-            yield return null;
-        }
-
-        // Ustaw dokładne pozycje końcowe
-        foreach (var state in savedStates)
-        {
-            if (state.part != null)
-            {
-                state.part.position = state.initialPosition;
-                state.part.rotation = state.initialRotation;
-                Debug.Log("Zresetowano: " + state.part.name);
-            }
-        }
-
-        isResetting = false;
-        Debug.Log("Reset zakończony");
     }
 
     public void SaveCurrentAsNormal()

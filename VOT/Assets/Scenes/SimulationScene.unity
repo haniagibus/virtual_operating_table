@@ -113,6 +113,29 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &9609533 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1013058991088502, guid: a83b74e799fb5ca4b8c5562d84b5740d,
+    type: 2}
+  m_PrefabInternal: {fileID: 1336681796}
+--- !u!114 &9609535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 9609533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88af6a1e8345c6546b8f10a10ddc31f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pivotName: table_back_part_upper_rotate
+  allowX: 1
+  allowY: 0
+  allowZ: 0
+  minAngle: -180
+  maxAngle: 180
+  currentAngle: 0
 --- !u!1 &14844948
 GameObject:
   m_ObjectHideFlags: 0
@@ -192,6 +215,7 @@ GameObject:
   - component: {fileID: 31301721}
   - component: {fileID: 31301720}
   - component: {fileID: 31301719}
+  - component: {fileID: 31301722}
   m_Layer: 0
   m_Name: reverseTrendelenburgButton
   m_TagString: Untagged
@@ -255,18 +279,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 31301720}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 775134021}
-        m_MethodName: ResetToNormalPosition
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &31301720
@@ -302,6 +315,53 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 31301717}
+--- !u!114 &31301722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 31301717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 729786447}
+          m_MethodName: ReverseTrendelenburgPositionStart
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 729786447}
+          m_MethodName: TiltStop
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 730025176}
+            m_ObjectArgumentAssemblyTypeName: RotationPivot, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!1 &56180921
 GameObject:
   m_ObjectHideFlags: 0
@@ -313,6 +373,7 @@ GameObject:
   - component: {fileID: 56180925}
   - component: {fileID: 56180924}
   - component: {fileID: 56180923}
+  - component: {fileID: 56180926}
   m_Layer: 0
   m_Name: tiltRightButton
   m_TagString: Untagged
@@ -376,18 +437,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 56180924}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 775134021}
-        m_MethodName: ResetToNormalPosition
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &56180924
@@ -423,6 +473,53 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 56180921}
+--- !u!114 &56180926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 56180921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 729786447}
+          m_MethodName: TiltTableRightStart
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 729786447}
+          m_MethodName: TiltStop
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 730025176}
+            m_ObjectArgumentAssemblyTypeName: RotationPivot, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!1 &77345621
 GameObject:
   m_ObjectHideFlags: 0
@@ -704,6 +801,9 @@ MonoBehaviour:
   allowX: 0
   allowY: 1
   allowZ: 0
+  minAngle: -180
+  maxAngle: 180
+  currentAngle: 0
 --- !u!1 &100106443
 GameObject:
   m_ObjectHideFlags: 0
@@ -905,6 +1005,9 @@ MonoBehaviour:
   allowX: 1
   allowY: 0
   allowZ: 0
+  minAngle: -180
+  maxAngle: 180
+  currentAngle: 0
 --- !u!1 &167293730
 GameObject:
   m_ObjectHideFlags: 0
@@ -1475,18 +1578,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 351120702}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 775134021}
-        m_MethodName: ResetToNormalPosition
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &351120702
@@ -1624,13 +1716,13 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 403665943}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0.008727774, z: -0, w: 0.9999619}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 729786444}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -1, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -1795,6 +1887,7 @@ GameObject:
   - component: {fileID: 527302126}
   - component: {fileID: 527302125}
   - component: {fileID: 527302124}
+  - component: {fileID: 527302127}
   m_Layer: 0
   m_Name: backPlateDownButton
   m_TagString: Untagged
@@ -1858,18 +1951,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 527302125}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 775134021}
-        m_MethodName: ResetToNormalPosition
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &527302125
@@ -1905,6 +1987,53 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 527302122}
+--- !u!114 &527302127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 527302122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 729786447}
+          m_MethodName: TiltBackDownStart
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 729786447}
+          m_MethodName: TiltStop
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 9609535}
+            m_ObjectArgumentAssemblyTypeName: RotationPivot, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!1 &534085349
 GameObject:
   m_ObjectHideFlags: 0
@@ -1950,6 +2079,7 @@ GameObject:
   - component: {fileID: 543089523}
   - component: {fileID: 543089522}
   - component: {fileID: 543089521}
+  - component: {fileID: 543089524}
   m_Layer: 0
   m_Name: legPlatesUpButton
   m_TagString: Untagged
@@ -2013,18 +2143,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 543089522}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 775134021}
-        m_MethodName: ResetToNormalPosition
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &543089522
@@ -2060,6 +2179,53 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 543089519}
+--- !u!114 &543089524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 543089519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 729786447}
+          m_MethodName: TiltLegsUpStart
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 729786447}
+          m_MethodName: TiltStop
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 654633561}
+            m_ObjectArgumentAssemblyTypeName: RotationPivot, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!1 &556941558
 GameObject:
   m_ObjectHideFlags: 0
@@ -2071,6 +2237,7 @@ GameObject:
   - component: {fileID: 556941562}
   - component: {fileID: 556941561}
   - component: {fileID: 556941560}
+  - component: {fileID: 556941563}
   m_Layer: 0
   m_Name: legPlatesDownButton
   m_TagString: Untagged
@@ -2134,18 +2301,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 556941561}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 775134021}
-        m_MethodName: ResetToNormalPosition
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &556941561
@@ -2181,6 +2337,53 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 556941558}
+--- !u!114 &556941563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 556941558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 729786447}
+          m_MethodName: TiltLegsDownStart
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 729786447}
+          m_MethodName: TiltStop
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 654633561}
+            m_ObjectArgumentAssemblyTypeName: RotationPivot, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!1 &573833681
 GameObject:
   m_ObjectHideFlags: 0
@@ -2262,6 +2465,32 @@ MonoBehaviour:
   allowX: 1
   allowY: 1
   allowZ: 1
+  minAngle: -180
+  maxAngle: 180
+  currentAngle: 0
+--- !u!1 &654633558 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1527431808957464, guid: a83b74e799fb5ca4b8c5562d84b5740d,
+    type: 2}
+  m_PrefabInternal: {fileID: 1336681796}
+--- !u!114 &654633561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 654633558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88af6a1e8345c6546b8f10a10ddc31f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pivotName: table_back_part_lower_rotate
+  allowX: 1
+  allowY: 0
+  allowZ: 0
+  minAngle: -180
+  maxAngle: 180
+  currentAngle: 0
 --- !u!1 &706590884 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100352, guid: c1acdd5f77203e948b44fdcc2220a30a, type: 3}
@@ -2316,6 +2545,7 @@ GameObject:
   - component: {fileID: 729786444}
   - component: {fileID: 729786446}
   - component: {fileID: 729786445}
+  - component: {fileID: 729786447}
   m_Layer: 0
   m_Name: HandControlPanel
   m_TagString: Untagged
@@ -2398,11 +2628,55 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 729786443}
+--- !u!114 &729786447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 729786443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d05f406694d997d4f8e37431ec3504f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handControlPanel: {fileID: 729786443}
+  toggleKey: 112
+  startClosed: 1
+  eventSystem: {fileID: 0}
+  autoSelectFirst: 1
+  tableStateManager: {fileID: 775134021}
+  resetKey: 114
+  tableBackPartUpperRotate: {fileID: 9609535}
+  tableBackPartLowerRotate: {fileID: 654633561}
+  tableRotation: {fileID: 730025176}
+--- !u!1 &730025174 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1555504798733228, guid: a83b74e799fb5ca4b8c5562d84b5740d,
+    type: 2}
+  m_PrefabInternal: {fileID: 1336681796}
 --- !u!4 &730025175 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4307129692854954, guid: a83b74e799fb5ca4b8c5562d84b5740d,
     type: 2}
   m_PrefabInternal: {fileID: 1336681796}
+--- !u!114 &730025176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 730025174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88af6a1e8345c6546b8f10a10ddc31f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pivotName: table_rotate
+  allowX: 1
+  allowY: 1
+  allowZ: 1
+  minAngle: -180
+  maxAngle: 180
+  currentAngle: 0
 --- !u!1 &735892606
 GameObject:
   m_ObjectHideFlags: 0
@@ -2477,7 +2751,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tableParts:
   - {fileID: 730025175}
-  resetDuration: 2
+  resetSpeed: 2
   resetCurve:
     serializedVersion: 2
     m_Curve:
@@ -2502,6 +2776,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  isResetting: 0
 --- !u!4 &775134022
 Transform:
   m_ObjectHideFlags: 0
@@ -2620,6 +2895,7 @@ GameObject:
   - component: {fileID: 811566552}
   - component: {fileID: 811566551}
   - component: {fileID: 811566550}
+  - component: {fileID: 811566553}
   m_Layer: 0
   m_Name: tiltLeftButton
   m_TagString: Untagged
@@ -2633,13 +2909,13 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 811566548}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0.0020426535, w: 0.9999979}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.0000136, y: 1.0000136, z: 1.0000136}
   m_Children: []
   m_Father: {fileID: 729786444}
   m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.23400001}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -43.89997, y: 0.7}
@@ -2683,18 +2959,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 811566551}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 775134021}
-        m_MethodName: ResetToNormalPosition
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &811566551
@@ -2730,6 +2995,53 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 811566548}
+--- !u!114 &811566553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 811566548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 729786447}
+          m_MethodName: TiltTableLeftStart
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 729786447}
+          m_MethodName: TiltStop
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 730025176}
+            m_ObjectArgumentAssemblyTypeName: RotationPivot, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!1 &823253029
 GameObject:
   m_ObjectHideFlags: 0
@@ -2956,6 +3268,9 @@ MonoBehaviour:
   allowX: 1
   allowY: 1
   allowZ: 1
+  minAngle: -180
+  maxAngle: 180
+  currentAngle: 0
 --- !u!4 &889317857 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4273539283560588, guid: a83b74e799fb5ca4b8c5562d84b5740d,
@@ -3049,6 +3364,9 @@ MonoBehaviour:
   allowX: 0
   allowY: 1
   allowZ: 0
+  minAngle: -180
+  maxAngle: 180
+  currentAngle: 0
 --- !u!1 &961110700
 GameObject:
   m_ObjectHideFlags: 0
@@ -3736,6 +4054,7 @@ GameObject:
   - component: {fileID: 1212710257}
   - component: {fileID: 1212710256}
   - component: {fileID: 1212710255}
+  - component: {fileID: 1212710258}
   m_Layer: 0
   m_Name: trendelenburgButton
   m_TagString: Untagged
@@ -3799,18 +4118,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1212710256}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 775134021}
-        m_MethodName: ResetToNormalPosition
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1212710256
@@ -3846,6 +4154,53 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1212710253}
+--- !u!114 &1212710258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1212710253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 729786447}
+          m_MethodName: TrendelenburgPositionStart
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 729786447}
+          m_MethodName: TiltStop
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 730025176}
+            m_ObjectArgumentAssemblyTypeName: RotationPivot, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!1 &1260973943
 GameObject:
   m_ObjectHideFlags: 0
@@ -4130,6 +4485,9 @@ MonoBehaviour:
   allowX: 1
   allowY: 1
   allowZ: 1
+  minAngle: -180
+  maxAngle: 180
+  currentAngle: 0
 --- !u!1 &1307601569
 GameObject:
   m_ObjectHideFlags: 0
@@ -4429,6 +4787,9 @@ MonoBehaviour:
   allowX: 1
   allowY: 1
   allowZ: 1
+  minAngle: -180
+  maxAngle: 180
+  currentAngle: 0
 --- !u!1 &1422623956
 GameObject:
   m_ObjectHideFlags: 0
@@ -4758,6 +5119,9 @@ MonoBehaviour:
   allowX: 1
   allowY: 1
   allowZ: 1
+  minAngle: -180
+  maxAngle: 180
+  currentAngle: 0
 --- !u!1 &1549960687
 GameObject:
   m_ObjectHideFlags: 0
@@ -4979,6 +5343,9 @@ MonoBehaviour:
   allowX: 1
   allowY: 1
   allowZ: 1
+  minAngle: -180
+  maxAngle: 180
+  currentAngle: 0
 --- !u!1 &1653690598
 GameObject:
   m_ObjectHideFlags: 0
@@ -5173,6 +5540,9 @@ MonoBehaviour:
   allowX: 0
   allowY: 1
   allowZ: 0
+  minAngle: -180
+  maxAngle: 180
+  currentAngle: 0
 --- !u!1 &1750507765
 GameObject:
   m_ObjectHideFlags: 0
@@ -5243,6 +5613,9 @@ MonoBehaviour:
   autoSelectFirst: 1
   tableStateManager: {fileID: 775134021}
   resetKey: 114
+  tableBackPartUpperRotate: {fileID: 9609535}
+  tableBackPartLowerRotate: {fileID: 654633561}
+  tableRotation: {fileID: 730025176}
 --- !u!1 &1843734519
 GameObject:
   m_ObjectHideFlags: 0
@@ -5934,6 +6307,7 @@ GameObject:
   - component: {fileID: 1926702936}
   - component: {fileID: 1926702935}
   - component: {fileID: 1926702934}
+  - component: {fileID: 1926702937}
   m_Layer: 0
   m_Name: backPlateUpButton
   m_TagString: Untagged
@@ -5997,18 +6371,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1926702935}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 775134021}
-        m_MethodName: ResetToNormalPosition
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1926702935
@@ -6044,6 +6407,53 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1926702932}
+--- !u!114 &1926702937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1926702932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 729786447}
+          m_MethodName: TiltBackUpStart
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 729786447}
+          m_MethodName: TiltStop
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 9609535}
+            m_ObjectArgumentAssemblyTypeName: RotationPivot, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!1 &1968268966
 GameObject:
   m_ObjectHideFlags: 0
@@ -6173,6 +6583,9 @@ MonoBehaviour:
   allowX: 1
   allowY: 1
   allowZ: 1
+  minAngle: -180
+  maxAngle: 180
+  currentAngle: 0
 --- !u!1 &1985249760
 GameObject:
   m_ObjectHideFlags: 0
@@ -6184,6 +6597,7 @@ GameObject:
   - component: {fileID: 1985249764}
   - component: {fileID: 1985249763}
   - component: {fileID: 1985249762}
+  - component: {fileID: 1985249765}
   m_Layer: 0
   m_Name: levelZeroButton
   m_TagString: Untagged
@@ -6247,18 +6661,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1985249763}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 775134021}
-        m_MethodName: ResetToNormalPosition
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1985249763
@@ -6294,6 +6697,53 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1985249760}
+--- !u!114 &1985249765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1985249760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 729786447}
+          m_MethodName: StartReset
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 729786447}
+          m_MethodName: StopReset
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!1 &1999083778
 GameObject:
   m_ObjectHideFlags: 0
@@ -6839,3 +7289,6 @@ MonoBehaviour:
   allowX: 0
   allowY: 1
   allowZ: 0
+  minAngle: -180
+  maxAngle: 180
+  currentAngle: 0

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-
+using System.Collections;
 public class HandControlPanel : MonoBehaviour
 {
     [Header("Hand Control Panel")]
@@ -18,6 +18,18 @@ public class HandControlPanel : MonoBehaviour
     public KeyCode resetKey = KeyCode.R;           //resetuj ustawienia stołu (normal)
     private bool isOpen = false;
 
+    [Header("Specific Pivots")]
+    private Coroutine currentTiltCoroutine = null;
+    private bool isTilting =false;
+
+    public RotationPivot tableBackPartUpperRotate; 
+    public RotationPivot tableBackPartLowerRotate;
+    public RotationPivot tableRotation;
+
+    
+
+    //ograniczenia stołu
+    private float maxBackTilt = 90f;
     
     void Awake()
     {
@@ -46,19 +58,197 @@ public class HandControlPanel : MonoBehaviour
         {
             ToggleHandControlPanel();
         }
+    }
 
-        if (Input.GetKeyDown(resetKey))
+    // ----------------------------------------------------
+    // Level zero button
+    // ----------------------------------------------------
+    public void StartReset()
+    {
+        if (tableStateManager != null)
         {
-            if (tableStateManager != null)
-            {
-                Debug.Log("Naciśnięto klawisz R - resetuję stół!");
-                tableStateManager.ResetToNormalPosition();
-            }
-            else
-            {
-                Debug.LogWarning("TableStateManager nie przypisany!");
-            }
+            Debug.Log("Rozpoczynam reset - trzymam przycisk");
+            tableStateManager.isResetting = true;
         }
+    }
+
+    public void StopReset()
+    {
+        if (tableStateManager != null)
+        {
+            Debug.Log("Zatrzymuję reset - puszczam przycisk");
+            tableStateManager.isResetting = false;
+        }
+    }
+
+    // ----------------------------------------------------
+    // Tilt functiions
+    // ----------------------------------------------------
+    public void TiltStart(RotationPivot pivot){
+        if (pivot == null)
+        {
+            Debug.LogError("Nie przypisano pivotu!");
+            return;
+        }
+        isTilting = true;
+        if (currentTiltCoroutine != null)
+        {
+            StopCoroutine(currentTiltCoroutine);
+        }
+    }
+
+    public void TiltStop(RotationPivot pivot){
+        isTilting= false;
+        Debug.Log("Zatrzymuję obracanie");
+
+        if (currentTiltCoroutine != null)
+        {
+            StopCoroutine(currentTiltCoroutine);
+            currentTiltCoroutine = null;
+        }
+    }
+
+    // ----------------------------------------------------
+    // Tilt back buttons
+    // ----------------------------------------------------
+    public void TiltBackUpStart(){
+        Debug.Log("Podnoszę górną część stołu");
+        TiltStart(tableBackPartUpperRotate);
+        currentTiltCoroutine = StartCoroutine(TiltElement(
+        tableBackPartUpperRotate, 
+        Vector3.right,  // oś X
+        1,              // kierunek: 1 = dodatni, -1 = ujemny
+        2f              // krok co x stopni
+    ));
+
+    }
+
+    public void TiltBackDownStart(){
+        isTilting = true;
+        Debug.Log("Opuszczam górną część stołu");
+        TiltStart(tableBackPartUpperRotate);
+        currentTiltCoroutine = StartCoroutine(TiltElement(
+            tableBackPartUpperRotate,
+            Vector3.right,
+            -1,
+            2f
+        ));
+    }
+
+    // ----------------------------------------------------
+    // Tilt leg functiions
+    // ----------------------------------------------------
+    public void TiltLegsUpStart(){
+        Debug.Log("Podnoszę dolną część stołu");
+        TiltStart(tableBackPartLowerRotate);
+        currentTiltCoroutine = StartCoroutine(TiltElement(
+        tableBackPartLowerRotate, 
+        Vector3.right,  // oś X
+        -1,              // kierunek: 1 = dodatni, -1 = ujemny
+        2f              // krok co x stopni
+    ));
+
+    }
+
+    public void TiltLegsDownStart(){
+        isTilting = true;
+        Debug.Log("Opuszczam dolną część stołu");
+        TiltStart(tableBackPartLowerRotate);
+        currentTiltCoroutine = StartCoroutine(TiltElement(
+            tableBackPartLowerRotate,
+            Vector3.right,
+            1,
+            2f
+        ));
+    }
+
+    // ----------------------------------------------------
+    // Trendelenburg position
+    // ----------------------------------------------------
+    public void TrendelenburgPositionStart(){
+        Debug.Log("Pozycja trendelenburga");
+        TiltStart(tableRotation);
+        currentTiltCoroutine = StartCoroutine(TiltElement(
+        tableRotation, 
+        Vector3.right,  // oś X
+        -1,              // kierunek: 1 = dodatni, -1 = ujemny
+        2f              // krok co x stopni
+        ));
+    }
+
+    public void ReverseTrendelenburgPositionStart(){
+        isTilting = true;
+        Debug.Log("Odwrócona pozycja trendelenburga");
+        TiltStart(tableRotation);
+        currentTiltCoroutine = StartCoroutine(TiltElement(
+            tableRotation,
+            Vector3.right,
+            1,
+            2f
+        ));
+    }
+
+    // ----------------------------------------------------
+    // Tilt table
+    // ----------------------------------------------------
+
+    public void TiltTableRightStart(){
+        Debug.Log("Pozycja trendelenburga");
+        TiltStart(tableRotation);
+        currentTiltCoroutine = StartCoroutine(TiltElement(
+        tableRotation, 
+        Vector3.up ,  // oś Y
+        -1,              // kierunek: 1 = dodatni, -1 = ujemny
+        2f              // krok co x stopni
+        ));
+    }
+
+    public void TiltTableLeftStart(){
+        isTilting = true;
+        Debug.Log("Odwrócona pozycja trendelenburga");
+        TiltStart(tableRotation);
+        currentTiltCoroutine = StartCoroutine(TiltElement(
+            tableRotation,
+            Vector3.up,
+            1,
+            2f
+        ));
+    }
+
+    private IEnumerator TiltElement(RotationPivot pivot, Vector3 axis, int direction, float step = 5f)
+    {
+        // Pobierz aktualny kąt z pivotu
+        float currentAngle = pivot.currentAngle;
+        
+        while (isTilting)
+        {
+            // Oblicz nowy kąt
+            float newAngle = currentAngle + (step * direction);
+            
+            // Sprawdź limity
+            if (newAngle > pivot.maxAngle)
+            {
+               Debug.Log("Osiągnięto maksymalny kąt");
+                break;
+            }
+            if (newAngle < pivot.minAngle)
+            {
+                Debug.Log("Osiągnięto minimalny kąt");
+                break;
+            }
+            
+            // Wykonaj obrót
+            float rotationStep = step * direction;
+            pivot.transform.Rotate(axis, rotationStep, Space.Self);
+            
+            // Zaktualizuj zapisany kąt
+            currentAngle = newAngle;
+            pivot.currentAngle = newAngle;
+            
+            yield return new WaitForSeconds(0.05f);
+        }
+        
+        currentTiltCoroutine = null;
     }
 
     public void ToggleHandControlPanel()
