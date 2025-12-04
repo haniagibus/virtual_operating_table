@@ -83,6 +83,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4797451060255826}
+  - component: {fileID: 114393099053776332}
   m_Layer: 0
   m_Name: table_back_part_upper_rotate
   m_TagString: Untagged
@@ -1704,6 +1705,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4485670859906460}
   - component: {fileID: 65399433171078614}
+  - component: {fileID: 114002588644963730}
   m_Layer: 0
   m_Name: table_back_part_lower_rotate
   m_TagString: Untagged
@@ -1836,6 +1838,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4307129692854954}
+  - component: {fileID: 114817446514624518}
   m_Layer: 0
   m_Name: table_rotate
   m_TagString: Untagged
@@ -12290,6 +12293,30 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114002588644963730
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1527431808957464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88af6a1e8345c6546b8f10a10ddc31f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pivotName: table_back_part_lower_rotate
+  allowX: 1
+  allowY: 0
+  allowZ: 0
+  minAngleX: -180
+  maxAngleX: 180
+  minAngleY: -180
+  maxAngleY: 180
+  minAngleZ: -180
+  maxAngleZ: 180
+  currentAngleX: 0
+  currentAngleY: 0
+  currentAngleZ: 0
 --- !u!114 &114157000635260904
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12318,6 +12345,15 @@ MonoBehaviour:
   allowX: 0
   allowY: 1
   allowZ: 0
+  minAngleX: -180
+  maxAngleX: 180
+  minAngleY: -180
+  maxAngleY: 180
+  minAngleZ: -180
+  maxAngleZ: 180
+  currentAngleX: 0
+  currentAngleY: 0
+  currentAngleZ: 0
 --- !u!114 &114169389455793796
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12333,6 +12369,15 @@ MonoBehaviour:
   allowX: 1
   allowY: 1
   allowZ: 1
+  minAngleX: -10
+  maxAngleX: 10
+  minAngleY: -30
+  maxAngleY: 30
+  minAngleZ: -180
+  maxAngleZ: 180
+  currentAngleX: 0
+  currentAngleY: 0
+  currentAngleZ: 0
 --- !u!114 &114307513955631298
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12362,6 +12407,39 @@ MonoBehaviour:
   allowX: 1
   allowY: 1
   allowZ: 1
+  minAngleX: -180
+  maxAngleX: 180
+  minAngleY: -180
+  maxAngleY: 180
+  minAngleZ: -180
+  maxAngleZ: 180
+  currentAngleX: 0
+  currentAngleY: 0
+  currentAngleZ: 0
+--- !u!114 &114393099053776332
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1013058991088502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88af6a1e8345c6546b8f10a10ddc31f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pivotName: table_back_part_upper_rotate
+  allowX: 1
+  allowY: 0
+  allowZ: 0
+  minAngleX: -180
+  maxAngleX: 180
+  minAngleY: -180
+  maxAngleY: 180
+  minAngleZ: -180
+  maxAngleZ: 180
+  currentAngleX: 0
+  currentAngleY: 0
+  currentAngleZ: 0
 --- !u!114 &114400642414021352
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12404,6 +12482,15 @@ MonoBehaviour:
   allowX: 0
   allowY: 1
   allowZ: 0
+  minAngleX: -180
+  maxAngleX: 180
+  minAngleY: -180
+  maxAngleY: 180
+  minAngleZ: -180
+  maxAngleZ: 180
+  currentAngleX: 0
+  currentAngleY: 0
+  currentAngleZ: 0
 --- !u!114 &114683757240652772
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12419,6 +12506,15 @@ MonoBehaviour:
   allowX: 1
   allowY: 1
   allowZ: 1
+  minAngleX: -180
+  maxAngleX: 180
+  minAngleY: -180
+  maxAngleY: 180
+  minAngleZ: -180
+  maxAngleZ: 180
+  currentAngleX: 0
+  currentAngleY: 0
+  currentAngleZ: 0
 --- !u!114 &114729946950509070
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12434,6 +12530,39 @@ MonoBehaviour:
   allowX: 1
   allowY: 0
   allowZ: 0
+  minAngleX: -180
+  maxAngleX: 180
+  minAngleY: -180
+  maxAngleY: 180
+  minAngleZ: -180
+  maxAngleZ: 180
+  currentAngleX: 0
+  currentAngleY: 0
+  currentAngleZ: 0
+--- !u!114 &114817446514624518
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1555504798733228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88af6a1e8345c6546b8f10a10ddc31f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pivotName: table_rotate
+  allowX: 1
+  allowY: 1
+  allowZ: 1
+  minAngleX: -180
+  maxAngleX: 180
+  minAngleY: -180
+  maxAngleY: 180
+  minAngleZ: -180
+  maxAngleZ: 180
+  currentAngleX: 0
+  currentAngleY: 0
+  currentAngleZ: 0
 --- !u!114 &114844324725516178
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12449,6 +12578,15 @@ MonoBehaviour:
   allowX: 0
   allowY: 1
   allowZ: 0
+  minAngleX: -180
+  maxAngleX: 180
+  minAngleY: -180
+  maxAngleY: 180
+  minAngleZ: -180
+  maxAngleZ: 180
+  currentAngleX: 0
+  currentAngleY: 0
+  currentAngleZ: 0
 --- !u!114 &114857224320904696
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12464,6 +12602,15 @@ MonoBehaviour:
   allowX: 1
   allowY: 1
   allowZ: 1
+  minAngleX: -180
+  maxAngleX: 180
+  minAngleY: -180
+  maxAngleY: 180
+  minAngleZ: -180
+  maxAngleZ: 180
+  currentAngleX: 0
+  currentAngleY: 0
+  currentAngleZ: 0
 --- !u!114 &114879604286674154
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12479,6 +12626,15 @@ MonoBehaviour:
   allowX: 0
   allowY: 1
   allowZ: 0
+  minAngleX: -180
+  maxAngleX: 180
+  minAngleY: -180
+  maxAngleY: 180
+  minAngleZ: -180
+  maxAngleZ: 180
+  currentAngleX: 0
+  currentAngleY: 0
+  currentAngleZ: 0
 --- !u!114 &114889655824803164
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12494,6 +12650,15 @@ MonoBehaviour:
   allowX: 1
   allowY: 1
   allowZ: 1
+  minAngleX: -180
+  maxAngleX: 180
+  minAngleY: -180
+  maxAngleY: 180
+  minAngleZ: -180
+  maxAngleZ: 180
+  currentAngleX: 0
+  currentAngleY: 0
+  currentAngleZ: 0
 --- !u!114 &114919995684826218
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12509,6 +12674,15 @@ MonoBehaviour:
   allowX: 1
   allowY: 1
   allowZ: 1
+  minAngleX: -180
+  maxAngleX: 180
+  minAngleY: -180
+  maxAngleY: 180
+  minAngleZ: -180
+  maxAngleZ: 180
+  currentAngleX: 0
+  currentAngleY: 0
+  currentAngleZ: 0
 --- !u!114 &114968452260772088
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12524,6 +12698,15 @@ MonoBehaviour:
   allowX: 1
   allowY: 1
   allowZ: 1
+  minAngleX: -180
+  maxAngleX: 180
+  minAngleY: -180
+  maxAngleY: 180
+  minAngleZ: -180
+  maxAngleZ: 180
+  currentAngleX: 0
+  currentAngleY: 0
+  currentAngleZ: 0
 --- !u!137 &137617788099221186
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

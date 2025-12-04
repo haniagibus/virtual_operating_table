@@ -429,7 +429,7 @@ MonoBehaviour:
   m_Direction: 0
   m_MinValue: -180
   m_MaxValue: 180
-  m_WholeNumbers: 0
+  m_WholeNumbers: 1
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -648,6 +648,10 @@ MonoBehaviour:
   sliderZ: {fileID: 114919879749493220}
   pivot: {fileID: 0}
   selector: {fileID: 0}
+  lastX: 0
+  lastY: 0
+  lastZ: 0
+  stepSize: 5
 --- !u!114 &114432956663514354
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -749,7 +753,7 @@ MonoBehaviour:
   m_Direction: 0
   m_MinValue: -180
   m_MaxValue: 180
-  m_WholeNumbers: 0
+  m_WholeNumbers: 1
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -911,7 +915,7 @@ MonoBehaviour:
   m_Direction: 0
   m_MinValue: -180
   m_MaxValue: 180
-  m_WholeNumbers: 0
+  m_WholeNumbers: 1
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:

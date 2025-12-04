@@ -8,25 +8,28 @@ public class MouseLook : MonoBehaviour
     private float xRotation = 0f;
     private bool isCursorLocked = true;
 
-      void Start()
+    private bool menuActive = false;
+    private bool HandPanelActive = false;
+
+    void Start()
     {
         LockCursor();
     }
     
     void Update()
     {
-        // Przełączanie trybu kursora klawiszem I
         if (Input.GetKeyDown(KeyCode.I))
         {
-            isCursorLocked = !isCursorLocked;
-            
-            if (isCursorLocked)
-                LockCursor();
-            else
-                UnlockCursor();
+            menuActive = !menuActive;
+            UpdateCursorState();
         }
         
-        // Obracanie kamery tylko gdy kursor jest zablokowany
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            HandPanelActive = !HandPanelActive;
+            UpdateCursorState();
+        }
+        
         if (isCursorLocked)
         {
             float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
@@ -40,15 +43,29 @@ public class MouseLook : MonoBehaviour
         }
     }
     
+    void UpdateCursorState()
+    {
+        if (menuActive || HandPanelActive)
+        {
+            isCursorLocked = false;
+            UnlockCursorButKeepInvisible(); 
+        }
+        else
+        {
+            isCursorLocked = true;
+            LockCursor();
+        }
+    }
+    
     void LockCursor()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
     
-    void UnlockCursor()
+    void UnlockCursorButKeepInvisible()
     {
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;  
+        Cursor.visible = false;                       
     }
 }

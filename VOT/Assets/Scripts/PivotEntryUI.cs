@@ -16,6 +16,10 @@ public class PivotEntryUI : MonoBehaviour
     public float lastY = 0f;
     public float lastZ = 0f;
 
+    private bool suppressEvent = false;
+
+    public float stepSize = 50f; // krok slidera
+
     void Start()
     {
         if (sliderX != null)
@@ -39,22 +43,49 @@ public class PivotEntryUI : MonoBehaviour
 
     void OnSliderXChanged(float value)
     {
-        float delta = value - lastX;
-        lastX = value;
+        if (suppressEvent) return;
+
+        float stepped = Mathf.Round(value / stepSize) * stepSize;
+
+        suppressEvent = true;
+        sliderX.value = stepped;
+        suppressEvent = false;
+
+        float delta = stepped - lastX;
+        lastX = stepped;
+
         selector.RotatePivot(pivot, delta, Vector3.right);
     }
 
     void OnSliderYChanged(float value)
     {
-        float delta = value - lastY;
-        lastY = value;
+        if (suppressEvent) return;
+
+        float stepped = Mathf.Round(value / stepSize) * stepSize;
+
+        suppressEvent = true;
+        sliderY.value = stepped;
+        suppressEvent = false;
+
+        float delta = stepped - lastY;
+        lastY = stepped;
+
         selector.RotatePivot(pivot, delta, Vector3.up);
     }
 
     void OnSliderZChanged(float value)
     {
-        float delta = value - lastZ;
-        lastZ = value;
+        if (suppressEvent) return;
+
+        float stepped = Mathf.Round(value / stepSize) * stepSize;
+
+        suppressEvent = true;
+        sliderZ.value = stepped;
+        suppressEvent = false;
+
+        float delta = stepped - lastZ;
+        lastZ = stepped;
+
         selector.RotatePivot(pivot, delta, Vector3.forward);
     }
 }

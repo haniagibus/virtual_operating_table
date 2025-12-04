@@ -9,22 +9,18 @@ public class SelectorWindow : MonoBehaviour
     public Dropdown dropdown;
     public Toggle visibilityToggle;
 
-    // [Header("Rotation Sliders")]
-    // public Slider rotationY;
-
     [Header("Elementy stołu")]
     public List<Transform> tableParts = new List<Transform>();
 
     [Header("Pivot System")]
-    public Transform pivotListContainer;     // panel w UI
-    public GameObject pivotEntryPrefab;      // prefab PivotEntryUI
+    public Transform pivotListContainer;
+    public GameObject pivotEntryPrefab;
 
     private Transform currentSelectedElement = null;
     private RotationPivot currentPivot = null;
     private List<RotationPivot> currentPivots = new List<RotationPivot>();
 
     private bool suppressToggleCallback = false;
-    private bool suppressSliderCallback = false;
 
     void Start()
     {
@@ -33,7 +29,6 @@ public class SelectorWindow : MonoBehaviour
 
         dropdown.onValueChanged.AddListener(OnDropdownChange);
         visibilityToggle.onValueChanged.AddListener(OnVisibilityToggleChanged);
-        //rotationY.onValueChanged.AddListener(OnRotateY);
 
         if (tableParts.Count > 0)
         {
@@ -101,9 +96,7 @@ public class SelectorWindow : MonoBehaviour
 
         LoadPivotsForSelected();
         UpdateToggleState();
-        //UpdateSlidersFromRotation();
         BuildPivotUI();
-
     }
 
     void LoadPivotsForSelected()
@@ -115,7 +108,7 @@ public class SelectorWindow : MonoBehaviour
         if (cfg != null && cfg.pivots.Count > 0)
         {
             currentPivots.AddRange(cfg.pivots);
-            currentPivot = currentPivots[0]; // wybierz pierwszy pivot
+            currentPivot = currentPivots[0];
             Debug.Log("Aktywny pivot: " + currentPivot.pivotName);
         }
         else
@@ -134,54 +127,6 @@ public class SelectorWindow : MonoBehaviour
     }
 
     // ----------------------------------------------------
-    // ROTATION SYSTEM
-    // ----------------------------------------------------
-
-    // void UpdateSlidersFromRotation()
-    // {
-    //     if (currentSelectedElement == null) return;
-
-    //     suppressSliderCallback = true;
-
-    //     Vector3 rot = currentSelectedElement.localEulerAngles;
-    //     rotationY.value = rot.y;
-
-    //     suppressSliderCallback = false;
-    // }
-
-    void OnRotateY(float value)
-    {
-        if (suppressSliderCallback || currentSelectedElement == null) return;
-        if (currentPivot == null) return;
-
-        if (!currentPivot.allowY)
-        {
-            Debug.LogWarning("Pivot " + currentPivot.pivotName + " nie pozwala na rotację Y!");
-            return;
-        }
-
-        float currentY = currentSelectedElement.localEulerAngles.y;
-        float delta = value - currentY;
-
-        RotateAroundPivot(currentPivot, delta, Vector3.up);
-
-        Debug.Log(currentSelectedElement.name +
-                  " obracany wokół pivotu '" + currentPivot.pivotName +
-                  "' o ΔY = " + delta + "°");
-    }
-
-    void RotateAroundPivot(RotationPivot pivot, float angle, Vector3 axis)
-    {
-        if (currentSelectedElement == null) return;
-        
-        currentSelectedElement.RotateAround(
-            pivot.transform.position,
-            pivot.transform.TransformDirection(axis),
-            angle
-        );
-    }
-
-    // ----------------------------------------------------
     // VISIBILITY SYSTEM
     // ----------------------------------------------------
 
@@ -192,6 +137,10 @@ public class SelectorWindow : MonoBehaviour
 
         currentSelectedElement.gameObject.SetActive(isOn);
     }
+
+    // ----------------------------------------------------
+    // PIVOT UI SYSTEM
+    // ----------------------------------------------------
 
     void BuildPivotUI()
     {
@@ -210,38 +159,64 @@ public class SelectorWindow : MonoBehaviour
             entry.selector = this;
             entry.nameText.text = pivot.pivotName;
 
-            entry.sliderX.gameObject.SetActive(pivot.allowX);
-            entry.sliderY.gameObject.SetActive(pivot.allowY);
-            entry.sliderZ.gameObject.SetActive(pivot.allowZ);
-
-            // if (pivot.allowX && entry.sliderX != null) entry.sliderX.value = 0;
-            // if (pivot.allowY && entry.sliderY != null) entry.sliderY.value = 0;
-            // if (pivot.allowZ && entry.sliderZ != null) entry.sliderZ.value = 0;
-            if (pivot.allowX && entry.sliderX != null) 
+            // Konfiguruj slider X
+            if (pivot.allowX && entry.sliderX != null)
             {
-                float angleX = NormalizeAngle(pivot.transform.localEulerAngles.x);
+                entry.sliderX.gameObject.SetActive(true);
+                entry.sliderX.minValue = pivot.minAngleX;
+                entry.sliderX.maxValue = pivot.maxAngleX;
+                
+                float angleX = NormalizeAngle(pivot.currentAngleX);
                 entry.sliderX.value = angleX;
                 entry.lastX = angleX;
+                
+                Debug.Log(pivot.pivotName + " - Slider X: min=" + pivot.minAngleX + 
+                         ", max=" + pivot.maxAngleX + ", value=" + angleX);
             }
-            
-            if (pivot.allowY && entry.sliderY != null) 
+            else
             {
-                float angleY = NormalizeAngle(pivot.transform.localEulerAngles.y);
+                entry.sliderX.gameObject.SetActive(false);
+            }
+
+            // Konfiguruj slider Y
+            if (pivot.allowY && entry.sliderY != null)
+            {
+                entry.sliderY.gameObject.SetActive(true);
+                entry.sliderY.minValue = pivot.minAngleY;
+                entry.sliderY.maxValue = pivot.maxAngleY;
+                
+                float angleY = NormalizeAngle(pivot.currentAngleY);
                 entry.sliderY.value = angleY;
                 entry.lastY = angleY;
+                
+                Debug.Log(pivot.pivotName + " - Slider Y: min=" + pivot.minAngleY + 
+                         ", max=" + pivot.maxAngleY + ", value=" + angleY);
             }
-            
-            if (pivot.allowZ && entry.sliderZ != null) 
+            else
             {
-                float angleZ = NormalizeAngle(pivot.transform.localEulerAngles.z);
+                entry.sliderY.gameObject.SetActive(false);
+            }
+
+            // Konfiguruj slider Z
+            if (pivot.allowZ && entry.sliderZ != null)
+            {
+                entry.sliderZ.gameObject.SetActive(true);
+                entry.sliderZ.minValue = pivot.minAngleZ;
+                entry.sliderZ.maxValue = pivot.maxAngleZ;
+                
+                float angleZ = NormalizeAngle(pivot.currentAngleZ);
                 entry.sliderZ.value = angleZ;
                 entry.lastZ = angleZ;
+                
+                Debug.Log(pivot.pivotName + " - Slider Z: min=" + pivot.minAngleZ + 
+                         ", max=" + pivot.maxAngleZ + ", value=" + angleZ);
             }
-
-            
+            else
+            {
+                entry.sliderZ.gameObject.SetActive(false);
+            }
         }
     }
-
 
     float NormalizeAngle(float angle)
     {
@@ -250,18 +225,19 @@ public class SelectorWindow : MonoBehaviour
             angle -= 360;
         return angle;
     }
-    public void RotatePivot(RotationPivot pivot, float value, Vector3 axis)
+
+    // ----------------------------------------------------
+    // ROTATION SYSTEM - używa RotationPivot.RotateWithVector3
+    // ----------------------------------------------------
+
+    public void RotatePivot(RotationPivot pivot, float delta, Vector3 axis)
     {
         if (currentSelectedElement == null) return;
         if (pivot == null) return;
 
-        // Obróć sam pivot w przestrzeni lokalnej
-        // Dzieci automatycznie obrócą się razem z nim
-        pivot.transform.Rotate(axis, value, Space.Self);
-
-        Debug.Log(currentSelectedElement.name +
-                " - pivot " + pivot.pivotName +
-                " obrócony o " + value + "° (oś " + axis + ")");
+        // Użyj metody z RotationPivot, która sprawdza limity
+        pivot.RotateWithVector3(axis, delta);
+        
+        // Debug zostanie wypisany wewnątrz RotationPivot.RotateWithVector3
     }
-
 }
