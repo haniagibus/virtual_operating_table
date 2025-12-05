@@ -53,8 +53,7 @@ public class PivotEntryUI : MonoBehaviour
 
         float delta = stepped - lastX;
         lastX = stepped;
-
-        selector.RotatePivot(pivot, delta, Vector3.right);
+        pivot.RotateWithVector3(Vector3.right, delta);
     }
 
     void OnSliderYChanged(float value)
@@ -70,7 +69,9 @@ public class PivotEntryUI : MonoBehaviour
         float delta = stepped - lastY;
         lastY = stepped;
 
-        selector.RotatePivot(pivot, delta, Vector3.up);
+        
+        pivot.RotateWithVector3(Vector3.up, delta);
+
     }
 
     void OnSliderZChanged(float value)
@@ -86,6 +87,7 @@ public class PivotEntryUI : MonoBehaviour
         float delta = stepped - lastZ;
         lastZ = stepped;
 
-        selector.RotatePivot(pivot, delta, Vector3.forward);
+        pivot.RotateWithVector3(Vector3.forward, delta);
+
     }
 }

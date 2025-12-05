@@ -102,14 +102,12 @@ public class SelectorWindow : MonoBehaviour
     void LoadPivotsForSelected()
     {
         currentPivots.Clear();
-        currentPivot = null;
 
         RotationConfig cfg = currentSelectedElement.GetComponent<RotationConfig>();
         if (cfg != null && cfg.pivots.Count > 0)
         {
             currentPivots.AddRange(cfg.pivots);
-            currentPivot = currentPivots[0];
-            Debug.Log("Aktywny pivot: " + currentPivot.pivotName);
+
         }
         else
         {
@@ -166,7 +164,7 @@ public class SelectorWindow : MonoBehaviour
                 entry.sliderX.minValue = pivot.minAngleX;
                 entry.sliderX.maxValue = pivot.maxAngleX;
                 
-                float angleX = NormalizeAngle(pivot.currentAngleX);
+                float angleX = pivot.currentAngleX;
                 entry.sliderX.value = angleX;
                 entry.lastX = angleX;
                 
@@ -185,7 +183,7 @@ public class SelectorWindow : MonoBehaviour
                 entry.sliderY.minValue = pivot.minAngleY;
                 entry.sliderY.maxValue = pivot.maxAngleY;
                 
-                float angleY = NormalizeAngle(pivot.currentAngleY);
+                float angleY = pivot.currentAngleY;
                 entry.sliderY.value = angleY;
                 entry.lastY = angleY;
                 
@@ -204,7 +202,7 @@ public class SelectorWindow : MonoBehaviour
                 entry.sliderZ.minValue = pivot.minAngleZ;
                 entry.sliderZ.maxValue = pivot.maxAngleZ;
                 
-                float angleZ = NormalizeAngle(pivot.currentAngleZ);
+                float angleZ = pivot.currentAngleZ;
                 entry.sliderZ.value = angleZ;
                 entry.lastZ = angleZ;
                 
@@ -218,26 +216,5 @@ public class SelectorWindow : MonoBehaviour
         }
     }
 
-    float NormalizeAngle(float angle)
-    {
-        // Unity zwraca kąty 0-360, konwertuj na -180 do 180
-        if (angle > 180)
-            angle -= 360;
-        return angle;
-    }
-
-    // ----------------------------------------------------
-    // ROTATION SYSTEM - używa RotationPivot.RotateWithVector3
-    // ----------------------------------------------------
-
-    public void RotatePivot(RotationPivot pivot, float delta, Vector3 axis)
-    {
-        if (currentSelectedElement == null) return;
-        if (pivot == null) return;
-
-        // Użyj metody z RotationPivot, która sprawdza limity
-        pivot.RotateWithVector3(axis, delta);
-        
-        // Debug zostanie wypisany wewnątrz RotationPivot.RotateWithVector3
-    }
+    
 }
