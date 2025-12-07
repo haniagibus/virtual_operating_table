@@ -103,7 +103,7 @@ public class MovementAxis : MonoBehaviour
             hitLimit = true;
         }
 
-        if (Mathf.Abs(delta) > 0.001f)
+        if (Mathf.Abs(delta) > 0.000001f)
         {
             Vector3 movement = axis.normalized * delta;
             transform.localPosition += movement;

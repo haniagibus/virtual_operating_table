@@ -1,29 +1,27 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-/// <summary>
-/// HandControl rozszerzony o obsługę teleskopowego podnoszenia
-/// </summary>
+
 public class HandControl : MonoBehaviour
 {
     [Header("Table Components - Rotation")]
     public RotationPivot tableBackPartUpperRotate;
     public RotationPivot tableBackPartLowerRotate;
     public RotationPivot tableRotation;
-    
+
     [Header("Table Components - Telescopic Height")]
     [Tooltip("Teleskopowy mechanizm podnoszenia stołu")]
     public TelescopicMovement tableHeightControl;
-    
+
     [Header("Table State")]
     public TableStateManager tableStateManager;
 
     [Header("Rotation Settings")]
     public float rotationStep = 2f;
     public float rotationTickInterval = 0.05f;
-    
+
     [Header("Height Movement Settings")]
-    public float heightStep = 0.02f; // 2cm na tick
+    public float heightStep = 0.0001f; // 2cm na tick
     public float heightTickInterval = 0.05f;
 
     private Coroutine currentTiltCoroutine = null;
@@ -31,54 +29,32 @@ public class HandControl : MonoBehaviour
     private bool isTilting = false;
     private bool isMovingHeight = false;
 
-    // ============================================================
-    // TABLE RESET
-    // ============================================================
-    
-    public void StartReset()
-    {
-        if (tableStateManager != null)
-        {
-            Debug.Log("[HandControl] Rozpoczynam reset stołu");
-            tableStateManager.isResetting = true;
-        }
-    }
+    // // ============================================================
+    // // TABLE RESET
+    // // ============================================================
 
-    public void StopReset()
-    {
-        if (tableStateManager != null)
-        {
-            Debug.Log("[HandControl] Zatrzymuję reset stołu");
-            tableStateManager.isResetting = false;
-        }
-    }
+    // public void StartReset()
+    // {
+    //     if (tableStateManager != null)
+    //     {
+    //         Debug.Log("[HandControl] Rozpoczynam reset stołu");
+    //         tableStateManager.isResetting = true;
+    //     }
+    // }
 
-    // ============================================================
-    // TABLE HEIGHT (teleskopowe podnoszenie)
-    // ============================================================
-    
-    /// <summary>
-    /// Podnosi stół (teleskopowo)
-    /// </summary>
-    public void RaiseTable()
-    {
-        Debug.Log("[HandControl] Podnoszę stół");
-        StartHeightMovement(1);
-    }
-    
-    /// <summary>
-    /// Opuszcza stół (teleskopowo)
-    /// </summary>
-    public void LowerTable()
-    {
-        Debug.Log("[HandControl] Opuszczam stół");
-        StartHeightMovement(-1);
-    }
+    // public void StopReset()
+    // {
+    //     if (tableStateManager != null)
+    //     {
+    //         Debug.Log("[HandControl] Zatrzymuję reset stołu");
+    //         tableStateManager.isResetting = false;
+    //     }
+    // }
+
 
     // ============================================================
-    // BACK TILT (górna część stołu)
+    // BACK TILT
     // ============================================================
-    
     public void TiltBackUp()
     {
         Debug.Log("[HandControl] Podnoszę górną część stołu");
@@ -92,9 +68,8 @@ public class HandControl : MonoBehaviour
     }
 
     // ============================================================
-    // LEGS TILT (dolna część stołu)
+    // LEGS TILT
     // ============================================================
-    
     public void TiltLegsUp()
     {
         Debug.Log("[HandControl] Podnoszę dolną część stołu");
@@ -110,7 +85,6 @@ public class HandControl : MonoBehaviour
     // ============================================================
     // TRENDELENBURG POSITION
     // ============================================================
-    
     public void TiltTrendelenburg()
     {
         Debug.Log("[HandControl] Pozycja Trendelenburga");
@@ -124,9 +98,8 @@ public class HandControl : MonoBehaviour
     }
 
     // ============================================================
-    // TABLE LATERAL TILT (przechylenie boczne)
+    // TABLE LATERAL TILT
     // ============================================================
-    
     public void TiltTableRight()
     {
         Debug.Log("[HandControl] Przechylam stół w prawo");
@@ -140,9 +113,23 @@ public class HandControl : MonoBehaviour
     }
 
     // ============================================================
+    // TABLE HEIGHT
+    // ============================================================
+    public void RaiseTable()
+    {
+        Debug.Log("[HandControl] Podnoszę stół");
+        StartHeightMovement(1);
+    }
+
+    public void LowerTable()
+    {
+        Debug.Log("[HandControl] Opuszczam stół");
+        StartHeightMovement(-1);
+    }
+
+    // ============================================================
     // STOP ALL MOVEMENT
     // ============================================================
-    
     public void StopAllMovement()
     {
         // Zatrzymaj rotację
@@ -152,7 +139,7 @@ public class HandControl : MonoBehaviour
             StopCoroutine(currentTiltCoroutine);
             currentTiltCoroutine = null;
         }
-        
+
         // Zatrzymaj ruch wysokości
         isMovingHeight = false;
         if (currentHeightCoroutine != null)
@@ -160,14 +147,13 @@ public class HandControl : MonoBehaviour
             StopCoroutine(currentHeightCoroutine);
             currentHeightCoroutine = null;
         }
-        
+
         Debug.Log("[HandControl] Zatrzymuję ruch stołu");
     }
 
     // ============================================================
     // INTERNAL LOGIC - Rotation
     // ============================================================
-
     private void StartTiltElement(RotationPivot pivot, Vector3 axis, int direction)
     {
         if (pivot == null)
@@ -197,7 +183,7 @@ public class HandControl : MonoBehaviour
         {
             float delta = rotationStep * direction;
             bool canContinue = pivot.RotateWithVector3(axis, delta);
-            
+
             if (!canContinue)
             {
                 Debug.Log("[HandControl] Osiągnięto limit rotacji");
@@ -210,11 +196,10 @@ public class HandControl : MonoBehaviour
 
         currentTiltCoroutine = null;
     }
-    
+
     // ============================================================
     // INTERNAL LOGIC - Telescopic Height
     // ============================================================
-    
     private void StartHeightMovement(int direction)
     {
         if (tableHeightControl == null)
@@ -222,52 +207,51 @@ public class HandControl : MonoBehaviour
             Debug.LogError("[HandControl] TelescopicMovement nie jest przypisany!");
             return;
         }
-        
+
         if (currentHeightCoroutine != null)
         {
             StopCoroutine(currentHeightCoroutine);
         }
-        
+
         isMovingHeight = true;
         currentHeightCoroutine = StartCoroutine(HeightMovementCoroutine(direction));
     }
-    
+
     private IEnumerator HeightMovementCoroutine(int direction)
     {
         while (isMovingHeight)
         {
             float delta = heightStep * direction;
             bool canContinue = tableHeightControl.Move(delta);
-            
+
             if (!canContinue)
             {
                 Debug.Log("[HandControl] Teleskop osiągnął limit");
                 isMovingHeight = false;
                 break;
             }
-            
+
             yield return new WaitForSeconds(heightTickInterval);
         }
-        
+
         currentHeightCoroutine = null;
     }
 
     // ============================================================
     // PUBLIC GETTERS
     // ============================================================
-    
-    public bool IsTilting 
-    { 
-        get { return isTilting; } 
+    public bool IsTilting
+    {
+        get { return isTilting; }
     }
-    
+
     public bool IsMovingHeight
     {
         get { return isMovingHeight; }
     }
 
-    public bool IsResetting 
-    { 
-        get { return tableStateManager != null && tableStateManager.isResetting; } 
+    public bool IsResetting
+    {
+        get { return tableStateManager != null && tableStateManager.isResetting; }
     }
 }

@@ -70,14 +70,6 @@ public class HandControlPanel : MonoBehaviour
     //     }
     // }
 
-    // public void OnResetButtonUp()
-    // {
-    //     if (handControl != null)
-    //     {
-    //         handControl.StopReset();
-    //     }
-    // }
-
     // ============================================================
     // TABLE HEIGHT (teleskopowe podnoszenie)
     // ============================================================
@@ -89,27 +81,13 @@ public class HandControlPanel : MonoBehaviour
         }
     }
 
-    public void OnRaiseTableButtonUp()
-    {
-        if (handControl != null)
-        {
-            handControl.StopAllMovement();
-        }
-    }
+
 
     public void OnLowerTableButtonDown()
     {
         if (handControl != null)
         {
             handControl.LowerTable();
-        }
-    }
-
-    public void OnLowerTableButtonUp()
-    {
-        if (handControl != null)
-        {
-            handControl.StopAllMovement();
         }
     }
 
@@ -124,27 +102,11 @@ public class HandControlPanel : MonoBehaviour
         }
     }
 
-    public void OnTiltBackUpButtonUp()
-    {
-        if (handControl != null)
-        {
-            handControl.StopAllMovement();
-        }
-    }
-
     public void OnTiltBackDownButtonDown()
     {
         if (handControl != null)
         {
             handControl.TiltBackDown();
-        }
-    }
-
-    public void OnTiltBackDownButtonUp()
-    {
-        if (handControl != null)
-        {
-            handControl.StopAllMovement();
         }
     }
 
@@ -159,27 +121,11 @@ public class HandControlPanel : MonoBehaviour
         }
     }
 
-    public void OnTiltLegsUpButtonUp()
-    {
-        if (handControl != null)
-        {
-            handControl.StopAllMovement();
-        }
-    }
-
     public void OnTiltLegsDownButtonDown()
     {
         if (handControl != null)
         {
             handControl.TiltLegsDown();
-        }
-    }
-
-    public void OnTiltLegsDownButtonUp()
-    {
-        if (handControl != null)
-        {
-            handControl.StopAllMovement();
         }
     }
 
@@ -194,27 +140,11 @@ public class HandControlPanel : MonoBehaviour
         }
     }
 
-    public void OnTrendelenburgButtonUp()
-    {
-        if (handControl != null)
-        {
-            handControl.StopAllMovement();
-        }
-    }
-
     public void OnReverseTrendelenburgButtonDown()
     {
         if (handControl != null)
         {
             handControl.TiltReverseTrendelenburg();
-        }
-    }
-
-    public void OnReverseTrendelenburgButtonUp()
-    {
-        if (handControl != null)
-        {
-            handControl.StopAllMovement();
         }
     }
 
@@ -229,14 +159,6 @@ public class HandControlPanel : MonoBehaviour
         }
     }
 
-    public void OnTiltTableRightButtonUp()
-    {
-        if (handControl != null)
-        {
-            handControl.StopAllMovement();
-        }
-    }
-
     public void OnTiltTableLeftButtonDown()
     {
         if (handControl != null)
@@ -245,7 +167,10 @@ public class HandControlPanel : MonoBehaviour
         }
     }
 
-    public void OnTiltTableLeftButtonUp()
+    // ============================================================
+    // STOP ALL MOVEMENT
+    // ============================================================
+    public void OnButtonUpStopAllMovement()
     {
         if (handControl != null)
         {
