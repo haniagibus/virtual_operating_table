@@ -2,40 +2,36 @@
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Collections;
+
 public class HandControlPanel : MonoBehaviour
 {
     [Header("Hand Control Panel")]
-    public GameObject handControlPanel;              // przypisz panel pilota (UI) w Inspectorze
-    public KeyCode toggleKey = KeyCode.P;      // klawisz do otwierania/zamykania panelu
-    public bool startClosed = true;            // czy panel ma być zamknięty na starcie
+    public GameObject handControlPanel;
+    public KeyCode toggleKey = KeyCode.P;
+    public bool startClosed = true;
 
     [Header("Optional")]
-    public EventSystem eventSystem;            // opcjonalnie: EventSystem (jeśli null, użyje EventSystem.current)
-    public bool autoSelectFirst = true;        // czy ustawić pierwszy Selectable po otwarciu
+    public EventSystem eventSystem;
+    public bool autoSelectFirst = true;
 
     [Header("Table Reset")]
-    public TableStateManager tableStateManager;       
-    public KeyCode resetKey = KeyCode.R;           //resetuj ustawienia stołu (normal)
+    public TableStateManager tableStateManager;
+    public KeyCode resetKey = KeyCode.R;
     private bool isOpen = false;
 
     [Header("Specific Pivots")]
     private Coroutine currentTiltCoroutine = null;
-    private bool isTilting =false;
+    private bool isTilting = false;
 
-    public RotationPivot tableBackPartUpperRotate; 
+    public RotationPivot tableBackPartUpperRotate;
     public RotationPivot tableBackPartLowerRotate;
     public RotationPivot tableRotation;
 
-    
-
-    //ograniczenia stołu
-    private float maxBackTilt = 90f;
-    
     void Awake()
     {
         if (handControlPanel == null)
         {
-            Debug.LogError("[PilotPanelToggle] pilotPanel nie przypisany w Inspectorze!");
+            Debug.LogError("[HandControlPanel] handControlPanel nie przypisany w Inspektorze!");
         }
 
         if (eventSystem == null)
@@ -47,7 +43,7 @@ public class HandControlPanel : MonoBehaviour
         if (handControlPanel != null)
         {
             isOpen = !startClosed;
-            SetPanelState(!startClosed); // jeśli startClosed = true -> zamknij
+            SetPanelState(!startClosed);
             SetCursorForPanel(isOpen);
         }
     }
@@ -60,9 +56,9 @@ public class HandControlPanel : MonoBehaviour
         }
     }
 
-    // ----------------------------------------------------
-    // Level zero button
-    // ----------------------------------------------------
+    // ============================================================
+    // LEVEL ZERO BUTTON
+    // ============================================================
     public void StartReset()
     {
         if (tableStateManager != null)
@@ -81,10 +77,11 @@ public class HandControlPanel : MonoBehaviour
         }
     }
 
-    // ----------------------------------------------------
-    // Tilt functiions
-    // ----------------------------------------------------
-    public void TiltStart(RotationPivot pivot){
+    // ============================================================
+    // TILT FUNCTIONS
+    // ============================================================
+    public void TiltStart(RotationPivot pivot)
+    {
         if (pivot == null)
         {
             Debug.LogError("Nie przypisano pivotu!");
@@ -97,9 +94,10 @@ public class HandControlPanel : MonoBehaviour
         }
     }
 
-    public void TiltStop(RotationPivot pivot){
-        isTilting= false;
-        Debug.Log("Zatrzymuję obracanie");
+    public void TiltStop()
+    {
+        isTilting = false;
+        Debug.Log("Zatrzymuję obracanie - puszczono przycisk");
 
         if (currentTiltCoroutine != null)
         {
@@ -108,23 +106,23 @@ public class HandControlPanel : MonoBehaviour
         }
     }
 
-    // ----------------------------------------------------
-    // Tilt back buttons
-    // ----------------------------------------------------
-    public void TiltBackUpStart(){
+    // ============================================================
+    // TILT BACK BUTTONS
+    // ============================================================
+    public void TiltBackUpStart()
+    {
         Debug.Log("Podnoszę górną część stołu");
         TiltStart(tableBackPartUpperRotate);
         currentTiltCoroutine = StartCoroutine(TiltElement(
-        tableBackPartUpperRotate, 
-        Vector3.right,  // oś X
-        1,              // kierunek: 1 = dodatni, -1 = ujemny
-        2f              // krok co x stopni
-    ));
-
+            tableBackPartUpperRotate,
+            Vector3.right,  // oś X
+            1,
+            2f
+        ));
     }
 
-    public void TiltBackDownStart(){
-        isTilting = true;
+    public void TiltBackDownStart()
+    {
         Debug.Log("Opuszczam górną część stołu");
         TiltStart(tableBackPartUpperRotate);
         currentTiltCoroutine = StartCoroutine(TiltElement(
@@ -135,23 +133,23 @@ public class HandControlPanel : MonoBehaviour
         ));
     }
 
-    // ----------------------------------------------------
-    // Tilt leg functiions
-    // ----------------------------------------------------
-    public void TiltLegsUpStart(){
+    // ============================================================
+    // TILT LEGS
+    // ============================================================
+    public void TiltLegsUpStart()
+    {
         Debug.Log("Podnoszę dolną część stołu");
         TiltStart(tableBackPartLowerRotate);
         currentTiltCoroutine = StartCoroutine(TiltElement(
-        tableBackPartLowerRotate, 
-        Vector3.right,  // oś X
-        -1,              // kierunek: 1 = dodatni, -1 = ujemny
-        2f              // krok co x stopni
-    ));
-
+            tableBackPartLowerRotate,
+            Vector3.right,
+            -1,
+            2f
+        ));
     }
 
-    public void TiltLegsDownStart(){
-        isTilting = true;
+    public void TiltLegsDownStart()
+    {
         Debug.Log("Opuszczam dolną część stołu");
         TiltStart(tableBackPartLowerRotate);
         currentTiltCoroutine = StartCoroutine(TiltElement(
@@ -162,95 +160,96 @@ public class HandControlPanel : MonoBehaviour
         ));
     }
 
-    // ----------------------------------------------------
-    // Trendelenburg position
-    // ----------------------------------------------------
-    public void TrendelenburgPositionStart(){
-        Debug.Log("Pozycja trendelenburga");
-        TiltStart(tableRotation);
-        currentTiltCoroutine = StartCoroutine(TiltElement(
-        tableRotation, 
-        Vector3.right,  // oś X
-        -1,              // kierunek: 1 = dodatni, -1 = ujemny
-        2f              // krok co x stopni
-        ));
-    }
-
-    public void ReverseTrendelenburgPositionStart(){
-        isTilting = true;
-        Debug.Log("Odwrócona pozycja trendelenburga");
-        TiltStart(tableRotation);
-        currentTiltCoroutine = StartCoroutine(TiltElement(
-            tableRotation,
-            Vector3.right,
-            1,
-            2f
-        ));
-    }
-
-    // ----------------------------------------------------
-    // Tilt table
-    // ----------------------------------------------------
-
-    public void TiltTableRightStart(){
-        Debug.Log("Pozycja trendelenburga");
-        TiltStart(tableRotation);
-        currentTiltCoroutine = StartCoroutine(TiltElement(
-        tableRotation, 
-        Vector3.up ,  // oś Y
-        -1,              // kierunek: 1 = dodatni, -1 = ujemny
-        2f              // krok co x stopni
-        ));
-    }
-
-    public void TiltTableLeftStart(){
-        isTilting = true;
-        Debug.Log("Odwrócona pozycja trendelenburga");
-        TiltStart(tableRotation);
-        currentTiltCoroutine = StartCoroutine(TiltElement(
-            tableRotation,
-            Vector3.up,
-            1,
-            2f
-        ));
-    }
-
-    private IEnumerator TiltElement(RotationPivot pivot, Vector3 axis, int direction, float step = 5f)
+    // ============================================================
+    // TRENDELENBURG POSITION
+    // ============================================================
+    public void TrendelenburgPositionStart()
     {
-        // Pobierz aktualny kąt z pivotu
-        float currentAngle = pivot.currentAngle;
-        
+        Debug.Log("Pozycja Trendelenburga");
+        TiltStart(tableRotation);
+        currentTiltCoroutine = StartCoroutine(TiltElement(
+            tableRotation,
+            Vector3.right,  // oś Z dla Trendelenburga
+            -1,
+            2f
+        ));
+    }
+
+    public void ReverseTrendelenburgPositionStart()
+    {
+        Debug.Log("Odwrócona pozycja Trendelenburga");
+        TiltStart(tableRotation);
+        currentTiltCoroutine = StartCoroutine(TiltElement(
+            tableRotation,
+            Vector3.right,  // oś Z
+            1,
+            2f
+        ));
+    }
+
+    // ============================================================
+    // TILT TABLE LEFT/RIGHT
+    // ============================================================
+    public void TiltTableRightStart()
+    {
+        Debug.Log("Przechylam stół w prawo");
+        TiltStart(tableRotation);
+        currentTiltCoroutine = StartCoroutine(TiltElement(
+            tableRotation,
+            Vector3.up,  // oś Y
+            -1,
+            2f
+        ));
+    }
+
+    public void TiltTableLeftStart()
+    {
+        Debug.Log("Przechylam stół w lewo");
+        TiltStart(tableRotation);
+        currentTiltCoroutine = StartCoroutine(TiltElement(
+            tableRotation,
+            Vector3.up,  // oś Y
+            1,
+            2f
+        ));
+    }
+
+    // ============================================================
+    // GŁÓWNA FUNKCJA OBROTU - zatrzymuje się po puszczeniu przycisku
+    // ============================================================
+    private IEnumerator TiltElement(RotationPivot pivot, Vector3 axis, int direction, float step)
+    {
+        if (pivot == null)
+        {
+            Debug.LogError("Pivot jest null!");
+            yield break;
+        }
+
         while (isTilting)
         {
-            // Oblicz nowy kąt
-            float newAngle = currentAngle + (step * direction);
+            // Oblicz deltę obrotu
+            float delta = step * direction;
+
+            // Użyj funkcji RotateWithVector3 - zwraca false gdy osiągnięto limit
+            bool canContinue = pivot.RotateWithVector3(axis, delta);
             
-            // Sprawdź limity
-            if (newAngle > pivot.maxAngle)
+            // Jeśli osiągnięto limit, zatrzymaj
+            if (!canContinue)
             {
-               Debug.Log("Osiągnięto maksymalny kąt");
+                Debug.Log("Osiągnięto limit rotacji - zatrzymuję");
+                isTilting = false;
                 break;
             }
-            if (newAngle < pivot.minAngle)
-            {
-                Debug.Log("Osiągnięto minimalny kąt");
-                break;
-            }
-            
-            // Wykonaj obrót
-            float rotationStep = step * direction;
-            pivot.transform.Rotate(axis, rotationStep, Space.Self);
-            
-            // Zaktualizuj zapisany kąt
-            currentAngle = newAngle;
-            pivot.currentAngle = newAngle;
-            
+
             yield return new WaitForSeconds(0.05f);
         }
-        
+
         currentTiltCoroutine = null;
     }
 
+    // ============================================================
+    // PANEL TOGGLE
+    // ============================================================
     public void ToggleHandControlPanel()
     {
         if (handControlPanel == null) return;
@@ -261,14 +260,12 @@ public class HandControlPanel : MonoBehaviour
 
         if (isOpen && autoSelectFirst && eventSystem != null)
         {
-            // ustaw pierwszy Selectable wewnątrz panelu, aby umożliwić sterowanie klawiaturą
             var firstSelectable = handControlPanel.GetComponentInChildren<Selectable>();
             if (firstSelectable != null)
                 eventSystem.SetSelectedGameObject(firstSelectable.gameObject);
         }
         else if (!isOpen && eventSystem != null)
         {
-            // usuń zaznaczenie gdy zamykamy
             eventSystem.SetSelectedGameObject(null);
         }
     }
