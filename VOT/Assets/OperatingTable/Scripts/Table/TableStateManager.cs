@@ -6,8 +6,8 @@ using UnityEngine;
 public class PartState
 {
     public Transform part;
-    public Vector3 initialLocalPosition;    // ZMIANA: local zamiast world
-    public Quaternion initialLocalRotation; // ZMIANA: local zamiast world
+    public Vector3 initialLocalPosition;   
+    public Quaternion initialLocalRotation;
     public Vector3 initialLocalScale;
 }
 
@@ -80,8 +80,8 @@ public class TableStateManager : MonoBehaviour
         PartState state = new PartState
         {
             part = t,
-            initialLocalPosition = t.localPosition,    // ZMIANA: local
-            initialLocalRotation = t.localRotation,    // ZMIANA: local
+            initialLocalPosition = t.localPosition,   
+            initialLocalRotation = t.localRotation,  
             initialLocalScale = t.localScale
         };
 

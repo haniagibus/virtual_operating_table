@@ -19,9 +19,6 @@ public class HandControlPanel : MonoBehaviour
 
     private bool isOpen = false;
 
-    // ============================================================
-    // UNITY LIFECYCLE
-    // ============================================================
     void Awake()
     {
         if (handControlPanel == null)
@@ -71,29 +68,10 @@ public class HandControlPanel : MonoBehaviour
     // }
 
     // ============================================================
-    // TABLE HEIGHT (teleskopowe podnoszenie)
+    // ROTATION 
     // ============================================================
-    public void OnRaiseTableButtonDown()
-    {
-        if (handControl != null)
-        {
-            handControl.RaiseTable();
-        }
-    }
 
-
-
-    public void OnLowerTableButtonDown()
-    {
-        if (handControl != null)
-        {
-            handControl.LowerTable();
-        }
-    }
-
-    // ============================================================
     // BACK TILT
-    // ============================================================
     public void OnTiltBackUpButtonDown()
     {
         if (handControl != null)
@@ -110,9 +88,7 @@ public class HandControlPanel : MonoBehaviour
         }
     }
 
-    // ============================================================
     // LEGS TILT
-    // ============================================================
     public void OnTiltLegsUpButtonDown()
     {
         if (handControl != null)
@@ -129,9 +105,7 @@ public class HandControlPanel : MonoBehaviour
         }
     }
 
-    // ============================================================
-    // TRENDELENBURG
-    // ============================================================
+    // TRENDELENBURG POSITION
     public void OnTrendelenburgButtonDown()
     {
         if (handControl != null)
@@ -148,9 +122,7 @@ public class HandControlPanel : MonoBehaviour
         }
     }
 
-    // ============================================================
     // LATERAL TILT
-    // ============================================================
     public void OnTiltTableRightButtonDown()
     {
         if (handControl != null)
@@ -166,6 +138,44 @@ public class HandControlPanel : MonoBehaviour
             handControl.TiltTableLeft();
         }
     }
+
+    // ============================================================
+    // MOVEMENT
+    // ============================================================
+
+    // HEIGHT
+    public void OnRaiseTableButtonDown()
+    {
+        if (handControl != null)
+        {
+            handControl.RaiseTable();
+        }
+    }
+
+    public void OnLowerTableButtonDown()
+    {
+        if (handControl != null)
+        {
+            handControl.LowerTable();
+        }
+    }
+
+    // LONGITUDINAL
+    public void OnSlideForwardButtonDown()
+    {
+        if (handControl != null)
+        {
+            handControl.MoveTableForward();
+        }
+    }
+
+    public void OnSlideBackwardButtonDown()
+    {
+        if (handControl != null)
+        {
+            handControl.MoveTableBackward();
+        }
+    }    
 
     // ============================================================
     // STOP ALL MOVEMENT

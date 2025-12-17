@@ -4120,7 +4120,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1154427276596336}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.000000002407469, y: 0.00038368587, z: 0.0017836962}
+  m_LocalPosition: {x: 0.000000002407469, y: 0.00068, z: 0.0017836962}
   m_LocalScale: {x: 0.17778511, y: 0.17778511, z: 0.17778511}
   m_Children: []
   m_Father: {fileID: 4307129692854954}
@@ -4353,7 +4353,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1886121331652254}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.000000002407469, y: -0.001277228, z: 0.0013332162}
+  m_LocalPosition: {x: 0.000000002407469, y: -0.0009809141, z: 0.0013332162}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4805545342429994}
@@ -4771,7 +4771,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1652610943071326}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.000000002407469, y: 0.0031212221, z: 0.0012814061}
+  m_LocalPosition: {x: 0.000000002407469, y: 0.0034175362, z: 0.0012814061}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4594404862438384}
@@ -5023,7 +5023,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1030960050099154}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.000000002407469, y: -0.0029852178, z: 0.0013332162}
+  m_LocalPosition: {x: 0.000000002407469, y: -0.0026889038, z: 0.0013332162}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4233506867696504}
@@ -12491,12 +12491,12 @@ MonoBehaviour:
   allowX: 1
   allowY: 0
   allowZ: 0
-  minAngleX: -180
-  maxAngleX: 180
-  minAngleY: -180
-  maxAngleY: 180
-  minAngleZ: -180
-  maxAngleZ: 180
+  minAngleX: -80
+  maxAngleX: 90
+  minAngleY: 0
+  maxAngleY: 0
+  minAngleZ: 0
+  maxAngleZ: 0
   currentAngleX: 0
   currentAngleY: 0
   currentAngleZ: 0
@@ -12556,8 +12556,8 @@ MonoBehaviour:
   maxAngleX: 10
   minAngleY: -30
   maxAngleY: 30
-  minAngleZ: -180
-  maxAngleZ: 180
+  minAngleZ: -0
+  maxAngleZ: 60
   currentAngleX: 0
   currentAngleY: 0
   currentAngleZ: 0
@@ -12617,15 +12617,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   axisName: table_top
-  allowX: 0
+  allowX: 1
   allowY: 0
   allowZ: 1
-  minDistanceX: 0
-  maxDistanceX: 0
+  minDistanceX: -0.04
+  maxDistanceX: 0.008
   minDistanceY: 0
   maxDistanceY: 0
   minDistanceZ: 0
-  maxDistanceZ: 0.0015
+  maxDistanceZ: 0
   currentPositionX: 0
   currentPositionY: 0
   currentPositionZ: 0
@@ -12682,12 +12682,12 @@ MonoBehaviour:
   allowX: 1
   allowY: 0
   allowZ: 0
-  minAngleX: -180
-  maxAngleX: 180
-  minAngleY: -180
-  maxAngleY: 180
-  minAngleZ: -180
-  maxAngleZ: 180
+  minAngleX: -45
+  maxAngleX: 90
+  minAngleY: 0
+  maxAngleY: 0
+  minAngleZ: 0
+  maxAngleZ: 0
   currentAngleX: 0
   currentAngleY: 0
   currentAngleZ: 0
@@ -12817,12 +12817,12 @@ MonoBehaviour:
   allowX: 1
   allowY: 0
   allowZ: 0
-  minAngleX: -180
-  maxAngleX: 180
-  minAngleY: -180
-  maxAngleY: 180
-  minAngleZ: -180
-  maxAngleZ: 180
+  minAngleX: -60
+  maxAngleX: 60
+  minAngleY: 0
+  maxAngleY: 0
+  minAngleZ: 0
+  maxAngleZ: 0
   currentAngleX: 0
   currentAngleY: 0
   currentAngleZ: 0
@@ -12840,13 +12840,13 @@ MonoBehaviour:
   pivotName: table_rotate
   allowX: 1
   allowY: 1
-  allowZ: 1
-  minAngleX: -180
-  maxAngleX: 180
-  minAngleY: -180
-  maxAngleY: 180
-  minAngleZ: -180
-  maxAngleZ: 180
+  allowZ: 0
+  minAngleX: -36
+  maxAngleX: 36
+  minAngleY: -26
+  maxAngleY: 26
+  minAngleZ: 0
+  maxAngleZ: 0
   currentAngleX: 0
   currentAngleY: 0
   currentAngleZ: 0
@@ -12924,15 +12924,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed20f136693bb1b4dbbde448cc2eb2a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tableStateManager: {fileID: 114831907113871244}
   tableBackPartUpperRotate: {fileID: 114393099053776332}
   tableBackPartLowerRotate: {fileID: 114002588644963730}
   tableRotation: {fileID: 114817446514624518}
   tableHeightControl: {fileID: 114281491053397190}
-  tableStateManager: {fileID: 114831907113871244}
+  tableLongitudinalControl: {fileID: 114284356133589698}
   rotationStep: 2
   rotationTickInterval: 0.05
   heightStep: 0.00005
   heightTickInterval: 0.05
+  longitudinalStep: 0.00005
+  longitudinalTickInterval: 0.05
 --- !u!114 &114857224320904696
 MonoBehaviour:
   m_ObjectHideFlags: 1

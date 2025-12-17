@@ -10,16 +10,16 @@ public class MovementAxis : MonoBehaviour
     public bool allowZ = false;
 
     [Header("X Axis Movement Limits (in Unity units)")]
-    public float minDistanceX = 0f;
-    public float maxDistanceX = 0f;
+    public float minDistanceX = -1f;
+    public float maxDistanceX = 1f;
 
     [Header("Y Axis Movement Limits")]
-    public float minDistanceY = 0f;
-    public float maxDistanceY = 0f;
+    public float minDistanceY = -1f;
+    public float maxDistanceY = 1f;
 
     [Header("Z Axis Movement Limits")]
-    public float minDistanceZ = 0f;
-    public float maxDistanceZ = 0f;
+    public float minDistanceZ = -1f;
+    public float maxDistanceZ = 1f;
 
     [Header("Current Position (Read Only)")]
     [HideInInspector]
@@ -28,6 +28,9 @@ public class MovementAxis : MonoBehaviour
     public float currentPositionY = 0f;
     [HideInInspector]
     public float currentPositionZ = 0f;
+
+    [Header("Movement Settings")]
+    public float stepSize = 0.000001f;
 
     private Vector3 initialPosition;
 
@@ -39,13 +42,10 @@ public class MovementAxis : MonoBehaviour
         currentPositionZ = 0f;
     }
 
-    /// <summary>
-    /// Przesuwa element wzdłuż osi. Zwraca false jeśli osiągnięto limit.
-    /// </summary>
     public bool MoveWithVector3(Vector3 axis, float delta)
     {
         char detectedAxis = DetectAxis(axis);
-        
+
         if (detectedAxis == '?')
         {
             Debug.LogWarning("Nieznana oś: " + axis);
@@ -103,7 +103,7 @@ public class MovementAxis : MonoBehaviour
             hitLimit = true;
         }
 
-        if (Mathf.Abs(delta) > 0.000001f)
+        if (Mathf.Abs(delta) > stepSize)
         {
             Vector3 movement = axis.normalized * delta;
             transform.localPosition += movement;
@@ -138,7 +138,7 @@ public class MovementAxis : MonoBehaviour
             return 'Y';
         else if (absZ > absX && absZ > absY)
             return 'Z';
-        
+
         return '?';
     }
 
