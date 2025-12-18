@@ -25,6 +25,12 @@ public class HandControl : MonoBehaviour
     [Tooltip("Element który będzie odłączany/przyłączany podczas ruchu")]
     public Transform tableRotateElement;
 
+    [Header("Blend Shapes")]
+    [Tooltip("SkinnedMeshRenderer z blend shapes dla plecków")]
+    public SkinnedMeshRenderer tableBackPad;
+    [Tooltip("Szybkość zmiany blend shape - współczynnik względem rotacji")]
+    public float blendShapeMultiplier = 5f;
+
 
     [Header("Rotation Settings")]
     public float rotationStep = 2f;
@@ -48,27 +54,35 @@ public class HandControl : MonoBehaviour
     private Coroutine currentLongitudinalCoroutine = null;
     private bool isMovingLongitudinal = false;
 
-    // // ============================================================
-    // // TABLE RESET
-    // // ============================================================
+    // Indeksy blend shapes - znajdowane automatycznie
+    private int blendShapeBackPadUpperUp = -1;
+    private int blendShapeBackPadUpperDown = -1;
+    private int blendShapeBackPadLowerUp = -1;
+    private int blendShapeBackPadLowerDown = -1;
 
-    // public void StartReset()
-    // {
-    //     if (tableStateManager != null)
-    //     {
-    //         Debug.Log("[HandControl] Rozpoczynam reset stołu");
-    //         tableStateManager.isResetting = true;
-    //     }
-    // }
+    private void Start()
+    {
+        // Znajdź indeksy blend shapes
+        if (tableBackPad != null)
+        {
+            Mesh mesh = tableBackPad.sharedMesh;
+            for (int i = 0; i < mesh.blendShapeCount; i++)
+            {
+                string shapeName = mesh.GetBlendShapeName(i);
+                
+                if (shapeName == "back_pad_upper_up")
+                    blendShapeBackPadUpperUp = i;
+                else if (shapeName == "back_pad_upper_down")
+                    blendShapeBackPadUpperDown = i;
+                else if (shapeName == "back_pad_lower_up")
+                    blendShapeBackPadLowerUp = i;
+                else if (shapeName == "back_pad_lower_down")
+                    blendShapeBackPadLowerDown = i;
+            }
 
-    // public void StopReset()
-    // {
-    //     if (tableStateManager != null)
-    //     {
-    //         Debug.Log("[HandControl] Zatrzymuję reset stołu");
-    //         tableStateManager.isResetting = false;
-    //     }
-    // }
+            Debug.Log("[HandControl] Blend shapes: upper_up=" + blendShapeBackPadUpperUp + ", upper_down=" + blendShapeBackPadUpperDown + ", lower_up=" + blendShapeBackPadLowerUp + ", lower_down=" + blendShapeBackPadLowerDown);
+        }
+    }
 
     // ============================================================
     // ROTATION
@@ -78,52 +92,52 @@ public class HandControl : MonoBehaviour
     public void TiltBackUp()
     {
         Debug.Log("[HandControl] Podnoszę górną część stołu");
-        StartTiltElement(tableBackPartUpperRotate, Vector3.right, 1);
+        StartTiltElement(tableBackPartUpperRotate, Vector3.right, 1, blendShapeBackPadUpperUp, blendShapeBackPadUpperDown);
     }
 
     public void TiltBackDown()
     {
         Debug.Log("[HandControl] Opuszczam górną część stołu");
-        StartTiltElement(tableBackPartUpperRotate, Vector3.right, -1);
+        StartTiltElement(tableBackPartUpperRotate, Vector3.right, -1, blendShapeBackPadUpperDown, blendShapeBackPadUpperUp);
     }
 
     // LEGS TILT
     public void TiltLegsUp()
     {
         Debug.Log("[HandControl] Podnoszę dolną część stołu");
-        StartTiltElement(tableBackPartLowerRotate, Vector3.right, -1);
+        StartTiltElement(tableBackPartLowerRotate, Vector3.right, -1, blendShapeBackPadLowerUp, blendShapeBackPadLowerDown);
     }
 
     public void TiltLegsDown()
     {
         Debug.Log("[HandControl] Opuszczam dolną część stołu");
-        StartTiltElement(tableBackPartLowerRotate, Vector3.right, 1);
+        StartTiltElement(tableBackPartLowerRotate, Vector3.right, 1, blendShapeBackPadLowerDown, blendShapeBackPadLowerUp);
     }
 
     // TRENDELENBURG POSITION 
     public void TiltTrendelenburg()
     {
         Debug.Log("[HandControl] Pozycja Trendelenburga");
-        StartTiltElement(tableRotation, Vector3.right, -1);
+        StartTiltElement(tableRotation, Vector3.right, -1, -1, -1);
     }
 
     public void TiltReverseTrendelenburg()
     {
         Debug.Log("[HandControl] Odwrócona pozycja Trendelenburga");
-        StartTiltElement(tableRotation, Vector3.right, 1);
+        StartTiltElement(tableRotation, Vector3.right, 1, -1, -1);
     }
 
     // LATERAL TILT
     public void TiltTableRight()
     {
         Debug.Log("[HandControl] Przechylam stół w prawo");
-        StartTiltElement(tableRotation, Vector3.up, -1);
+        StartTiltElement(tableRotation, Vector3.up, -1, -1, -1);
     }
 
     public void TiltTableLeft()
     {
         Debug.Log("[HandControl] Przechylam stół w lewo");
-        StartTiltElement(tableRotation, Vector3.up, 1);
+        StartTiltElement(tableRotation, Vector3.up, 1, -1, -1);
     }
 
 
@@ -148,13 +162,13 @@ public class HandControl : MonoBehaviour
     public void MoveTableForward()
     {
         Debug.Log("[HandControl] Przesuwam stół do przodu");
-        StartLongitudinalMovement(Vector3.up, 1);
+        StartLongitudinalMovement(Vector3.right, 1);
     }
 
     public void MoveTableBackward()
     {
         Debug.Log("[HandControl] Przesuwam stół do tyłu");
-        StartLongitudinalMovement(Vector3.up, -1);
+        StartLongitudinalMovement(Vector3.right, -1);
     }
 
     // ============================================================
@@ -192,7 +206,7 @@ public class HandControl : MonoBehaviour
     // ============================================================
 
     // ROTATION
-    private void StartTiltElement(RotationPivot pivot, Vector3 axis, int direction)
+    private void StartTiltElement(RotationPivot pivot, Vector3 axis, int direction, int blendShapeIndexIncrease, int blendShapeIndexDecrease)
     {
         if (pivot == null)
         {
@@ -206,10 +220,10 @@ public class HandControl : MonoBehaviour
         }
 
         isTilting = true;
-        currentTiltCoroutine = StartCoroutine(TiltElementCoroutine(pivot, axis, direction));
+        currentTiltCoroutine = StartCoroutine(TiltElementCoroutine(pivot, axis, direction, blendShapeIndexIncrease, blendShapeIndexDecrease));
     }
 
-    private IEnumerator TiltElementCoroutine(RotationPivot pivot, Vector3 axis, int direction)
+    private IEnumerator TiltElementCoroutine(RotationPivot pivot, Vector3 axis, int direction, int blendShapeIndexIncrease, int blendShapeIndexDecrease)
     {
         if (pivot == null)
         {
@@ -221,6 +235,30 @@ public class HandControl : MonoBehaviour
         {
             float delta = rotationStep * direction;
             bool canContinue = pivot.RotateWithVector3(axis, delta);
+
+            // // Zaktualizuj blend shapes
+            // if (tableBackPad != null)
+            // {
+            //     float blendShapeDelta = Mathf.Abs(delta) * blendShapeMultiplier;
+
+
+            //     // Zmniejsz blend shape w przeciwnym kierunku
+            //     if (blendShapeIndexDecrease >= 0 && blendShapeIndexIncrease <= 0)
+            //     {
+            //         float currentWeight = tableBackPad.GetBlendShapeWeight(blendShapeIndexDecrease);
+            //         float newWeight = Mathf.Clamp(currentWeight - blendShapeDelta, 0f, 100f);
+            //         tableBackPad.SetBlendShapeWeight(blendShapeIndexDecrease, newWeight);
+            //     }
+
+                
+            //     // Zwiększ blend shape w kierunku ruchu
+            //     if (blendShapeIndexIncrease >= 0)
+            //     {
+            //         float currentWeight = tableBackPad.GetBlendShapeWeight(blendShapeIndexIncrease);
+            //         float newWeight = Mathf.Clamp(currentWeight + blendShapeDelta, 0f, 100f);
+            //         tableBackPad.SetBlendShapeWeight(blendShapeIndexIncrease, newWeight);
+            //     }
+            // }
 
             if (!canContinue)
             {
@@ -382,9 +420,4 @@ public class HandControl : MonoBehaviour
     {
         get { return isMovingLongitudinal; }
     }
-
-    // public bool IsResetting
-    // {
-    //     get { return tableStateManager != null && tableStateManager.isResetting; }
-    // }
 }
