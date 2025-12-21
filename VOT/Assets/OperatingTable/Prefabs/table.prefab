@@ -722,7 +722,6 @@ GameObject:
   - component: {fileID: 4448983166242188}
   - component: {fileID: 33191732255928576}
   - component: {fileID: 23544435840408786}
-  - component: {fileID: 114554918997378386}
   m_Layer: 0
   m_Name: leg_plate_underside_upper_R
   m_TagString: Untagged
@@ -757,7 +756,6 @@ GameObject:
   - component: {fileID: 4878290423811966}
   - component: {fileID: 33273802847122190}
   - component: {fileID: 23561696153048576}
-  - component: {fileID: 114919995684826218}
   m_Layer: 0
   m_Name: leg_plate_underside_upper_L
   m_TagString: Untagged
@@ -1872,7 +1870,6 @@ GameObject:
   - component: {fileID: 4307129692854954}
   - component: {fileID: 114817446514624518}
   - component: {fileID: 114284356133589698}
-  - component: {fileID: 7973541676318977438}
   m_Layer: 0
   m_Name: table_rotate
   m_TagString: Untagged
@@ -2402,7 +2399,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4391501527615258}
-  - component: {fileID: 114334688321928118}
   m_Layer: 0
   m_Name: 4-parts_leg_plate_lower_L
   m_TagString: Untagged
@@ -2968,7 +2964,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4829576024448586}
-  - component: {fileID: 114844324725516178}
   m_Layer: 0
   m_Name: 4-parts_leg_plate_lower_R
   m_TagString: Untagged
@@ -4005,7 +4000,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1167757559313740}
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071067, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: 0.001277228, z: -0.0074771945}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -4076,7 +4071,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1555504798733228}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
   m_LocalPosition: {x: -3.6620953e-10, y: 0.001277228, z: -0.0013332188}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -4086,7 +4081,7 @@ Transform:
   - {fileID: 4573115983602228}
   m_Father: {fileID: 4589364923141694}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!4 &4307874372197164
 Transform:
   m_ObjectHideFlags: 1
@@ -4857,7 +4852,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1801699698012904}
-  m_LocalRotation: {x: -0.5, y: 0.5, z: 0.5, w: 0.5}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0.7071068, w: 0}
   m_LocalPosition: {x: 0, y: 0.830462, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children:
@@ -4867,7 +4862,7 @@ Transform:
   - {fileID: 4913523456150662}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -90, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 180, z: 0}
 --- !u!4 &4594404862438384
 Transform:
   m_ObjectHideFlags: 1
@@ -5928,7 +5923,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1170273830024144}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.0003147599, y: -0.0009370857, z: 0.00017524324}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -12549,13 +12544,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pivotName: 4-parts_leg_plate_L_rotate
-  allowX: 1
-  allowY: 1
+  allowX: 0
+  allowY: 0
   allowZ: 1
-  minAngleX: -10
-  maxAngleX: 10
-  minAngleY: -30
-  maxAngleY: 30
+  minAngleX: 0
+  maxAngleX: 0
+  minAngleY: 0
+  maxAngleY: 0
   minAngleZ: -0
   maxAngleZ: 60
   currentAngleX: 0
@@ -12585,6 +12580,7 @@ MonoBehaviour:
   currentPositionX: 0
   currentPositionY: 0
   currentPositionZ: 0
+  stepSize: 0.000001
 --- !u!114 &114281491053397190
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12620,8 +12616,8 @@ MonoBehaviour:
   allowX: 1
   allowY: 0
   allowZ: 1
-  minDistanceX: -0.04
-  maxDistanceX: 0.008
+  minDistanceX: -0.0008
+  maxDistanceX: 0.002
   minDistanceY: 0
   maxDistanceY: 0
   minDistanceZ: 0
@@ -12629,6 +12625,7 @@ MonoBehaviour:
   currentPositionX: 0
   currentPositionY: 0
   currentPositionZ: 0
+  stepSize: 0.000001
 --- !u!114 &114307513955631298
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12643,30 +12640,6 @@ MonoBehaviour:
   pivots:
   - {fileID: 114683757240652772}
   - {fileID: 114857224320904696}
---- !u!114 &114334688321928118
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1752860813680136}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88af6a1e8345c6546b8f10a10ddc31f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pivotName: plate_lower
-  allowX: 1
-  allowY: 1
-  allowZ: 1
-  minAngleX: -180
-  maxAngleX: 180
-  minAngleY: -180
-  maxAngleY: 180
-  minAngleZ: -180
-  maxAngleZ: 180
-  currentAngleX: 0
-  currentAngleY: 0
-  currentAngleZ: 0
 --- !u!114 &114393099053776332
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12718,30 +12691,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pivots:
   - {fileID: 114729946950509070}
---- !u!114 &114554918997378386
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1233044900627518}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88af6a1e8345c6546b8f10a10ddc31f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pivotName: Default Pivot
-  allowX: 0
-  allowY: 1
-  allowZ: 0
-  minAngleX: -180
-  maxAngleX: 180
-  minAngleY: -180
-  maxAngleY: 180
-  minAngleZ: -180
-  maxAngleZ: 180
-  currentAngleX: 0
-  currentAngleY: 0
-  currentAngleZ: 0
 --- !u!114 &114621739334113330
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12766,15 +12715,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pivotName: 4-parts_leg_plate_R_rotate
-  allowX: 1
-  allowY: 1
+  allowX: 0
+  allowY: 0
   allowZ: 1
-  minAngleX: -180
-  maxAngleX: 180
-  minAngleY: -180
-  maxAngleY: 180
-  minAngleZ: -180
-  maxAngleZ: 180
+  minAngleX: 0
+  maxAngleX: 0
+  minAngleY: 0
+  maxAngleY: 0
+  minAngleZ: -60
+  maxAngleZ: 0
   currentAngleX: 0
   currentAngleY: 0
   currentAngleZ: 0
@@ -12802,6 +12751,7 @@ MonoBehaviour:
   currentPositionX: 0
   currentPositionY: 0
   currentPositionZ: 0
+  stepSize: 0.000001
 --- !u!114 &114729946950509070
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12889,30 +12839,6 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   isResetting: 0
---- !u!114 &114844324725516178
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1910596874678986}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88af6a1e8345c6546b8f10a10ddc31f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pivotName: Default Pivot
-  allowX: 0
-  allowY: 1
-  allowZ: 0
-  minAngleX: -180
-  maxAngleX: 180
-  minAngleY: -180
-  maxAngleY: 180
-  minAngleZ: -180
-  maxAngleZ: 180
-  currentAngleX: 0
-  currentAngleY: 0
-  currentAngleZ: 0
 --- !u!114 &114852916760916366
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12930,6 +12856,9 @@ MonoBehaviour:
   tableRotation: {fileID: 114817446514624518}
   tableHeightControl: {fileID: 114281491053397190}
   tableLongitudinalControl: {fileID: 114284356133589698}
+  tableRotateElement: {fileID: 4307129692854954}
+  tableBackPad: {fileID: 0}
+  blendShapeMultiplier: 5
   rotationStep: 2
   rotationTickInterval: 0.05
   heightStep: 0.00005
@@ -12949,14 +12878,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pivotName: 4-parts_leg_plate_lower_R_rotate
   allowX: 1
-  allowY: 1
+  allowY: 0
   allowZ: 1
-  minAngleX: -180
-  maxAngleX: 180
-  minAngleY: -180
-  maxAngleY: 180
-  minAngleZ: -180
-  maxAngleZ: 180
+  minAngleX: 0
+  maxAngleX: 90
+  minAngleY: 0
+  maxAngleY: 0
+  minAngleZ: -90
+  maxAngleZ: 0
   currentAngleX: 0
   currentAngleY: 0
   currentAngleZ: 0
@@ -12997,38 +12926,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pivotName: 4-parts_leg_plate_lower_L_rotate
   allowX: 1
-  allowY: 1
+  allowY: 0
   allowZ: 1
-  minAngleX: -180
-  maxAngleX: 180
-  minAngleY: -180
-  maxAngleY: 180
-  minAngleZ: -180
-  maxAngleZ: 180
-  currentAngleX: 0
-  currentAngleY: 0
-  currentAngleZ: 0
---- !u!114 &114919995684826218
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1243953283877526}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88af6a1e8345c6546b8f10a10ddc31f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pivotName: upper_plate
-  allowX: 1
-  allowY: 1
-  allowZ: 1
-  minAngleX: -180
-  maxAngleX: 180
-  minAngleY: -180
-  maxAngleY: 180
-  minAngleZ: -180
-  maxAngleZ: 180
+  minAngleX: -90
+  maxAngleX: 0
+  minAngleY: 0
+  maxAngleY: 0
+  minAngleZ: 0
+  maxAngleZ: 90
   currentAngleX: 0
   currentAngleY: 0
   currentAngleZ: 0
@@ -13056,6 +12961,7 @@ MonoBehaviour:
   currentPositionX: 0
   currentPositionY: 0
   currentPositionZ: 0
+  stepSize: 0.000001
 --- !u!114 &114968452260772088
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -13225,28 +13131,3 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.0049999994, y: -0.004040756, z: 0.00014905637}
     m_Extent: {x: 0.0050000004, y: 0.005959244, z: 0.0019123638}
   m_DirtyAABB: 0
---- !u!1773428102 &7973541676318977438
-ParentConstraint:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1555504798733228}
-  m_Enabled: 1
-  m_Weight: 1
-  m_TranslationAtRest: {x: 0, y: 0.001277228, z: -0.0013332176}
-  m_RotationAtRest: {x: 0, y: 0, z: 0}
-  m_TranslationOffsets:
-  - {x: 0, y: 0, z: 0.61439764}
-  m_RotationOffsets:
-  - {x: 0, y: 0, z: -90.00002}
-  m_AffectTranslationX: 1
-  m_AffectTranslationY: 1
-  m_AffectTranslationZ: 1
-  m_AffectRotationX: 0
-  m_AffectRotationY: 0
-  m_AffectRotationZ: 0
-  m_IsContraintActive: 1
-  m_IsLocked: 1
-  m_Sources:
-  - sourceTransform: {fileID: 4729763568466920}
-    weight: 1
