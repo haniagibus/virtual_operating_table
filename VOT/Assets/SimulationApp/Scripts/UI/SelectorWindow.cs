@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using OperatingTable;
 
 public class SelectorWindow : MonoBehaviour
 {
@@ -10,13 +11,13 @@ public class SelectorWindow : MonoBehaviour
     public Toggle visibilityToggle;
 
     [Header("Elementy stołu")]
-    public List<Transform> tableParts = new List<Transform>();
+    public List<TableElement> tableElements = new List<TableElement>();
 
     [Header("Pivot System")]
     public Transform pivotListContainer;
     public GameObject pivotEntryPrefab;
 
-    private Transform currentSelectedElement = null;
+    private TableElement currentSelectedElement = null;
     private RotationPivot currentPivot = null;
     private List<RotationPivot> currentPivots = new List<RotationPivot>();
 
@@ -25,14 +26,16 @@ public class SelectorWindow : MonoBehaviour
     void Start()
     {
         panel.SetActive(false);
-        UpdateDropdown();
+
+        // automatyczne znalezienie elementów
+        AutoFindTableElements();
 
         dropdown.onValueChanged.AddListener(OnDropdownChange);
         visibilityToggle.onValueChanged.AddListener(OnVisibilityToggleChanged);
 
-        if (tableParts.Count > 0)
+        if (tableElements.Count > 0)
         {
-            dropdown.value = Mathf.Clamp(dropdown.value, 0, tableParts.Count - 1);
+            dropdown.value = Mathf.Clamp(dropdown.value, 0, tableElements.Count - 1);
             OnDropdownChange(dropdown.value);
         }
         else
@@ -43,6 +46,7 @@ public class SelectorWindow : MonoBehaviour
             visibilityToggle.interactable = false;
         }
     }
+
 
     void Update()
     {
@@ -63,27 +67,39 @@ public class SelectorWindow : MonoBehaviour
         }
     }
 
+    public void AutoFindTableElements()
+    {
+        tableElements.Clear();
+
+        TableElement[] foundElements = GetComponentsInChildren<TableElement>(true);
+        tableElements.AddRange(foundElements);
+
+        Debug.Log("Znaleziono " + tableElements.Count + " elementów stołu.");
+
+        UpdateDropdown();
+    }
+
     void UpdateDropdown()
     {
         dropdown.ClearOptions();
         List<string> names = new List<string>();
 
-        foreach (var part in tableParts)
-            names.Add(part != null ? part.name : "<null>");
+        foreach (var element in tableElements)
+            names.Add(element != null ? element.displayName : "<null>");
 
         dropdown.AddOptions(names);
     }
 
     void OnDropdownChange(int index)
     {
-        if (index < 0 || index >= tableParts.Count)
+        if (index < 0 || index >= tableElements.Count)
         {
             currentSelectedElement = null;
             visibilityToggle.interactable = false;
             return;
         }
 
-        currentSelectedElement = tableParts[index];
+        currentSelectedElement = tableElements[index];
 
         if (currentSelectedElement == null)
         {
@@ -92,7 +108,7 @@ public class SelectorWindow : MonoBehaviour
         }
 
         visibilityToggle.interactable = true;
-        Debug.Log("Wybrano element: " + currentSelectedElement.name);
+        Debug.Log("Wybrano element: " + currentSelectedElement.displayName);
 
         LoadPivotsForSelected();
         UpdateToggleState();
@@ -103,10 +119,9 @@ public class SelectorWindow : MonoBehaviour
     {
         currentPivots.Clear();
 
-        RotationConfig cfg = currentSelectedElement.GetComponent<RotationConfig>();
-        if (cfg != null && cfg.pivots.Count > 0)
+        if (currentSelectedElement.rotationPivots.Count > 0)
         {
-            currentPivots.AddRange(cfg.pivots);
+            currentPivots.AddRange(currentSelectedElement.rotationPivots);
 
         }
         else
@@ -117,7 +132,7 @@ public class SelectorWindow : MonoBehaviour
 
     void UpdateToggleState()
     {
-        bool isActive = currentSelectedElement.gameObject.activeSelf;
+        bool isActive = currentSelectedElement.isAttached;
 
         suppressToggleCallback = true;
         visibilityToggle.isOn = isActive;
@@ -133,7 +148,7 @@ public class SelectorWindow : MonoBehaviour
         if (suppressToggleCallback) return;
         if (currentSelectedElement == null) return;
 
-        currentSelectedElement.gameObject.SetActive(isOn);
+        currentSelectedElement.AttachDetach(isOn);
     }
 
     // ----------------------------------------------------
@@ -163,12 +178,12 @@ public class SelectorWindow : MonoBehaviour
                 entry.sliderX.gameObject.SetActive(true);
                 entry.sliderX.minValue = pivot.minAngleX;
                 entry.sliderX.maxValue = pivot.maxAngleX;
-                
+
                 float angleX = pivot.currentAngleX;
                 entry.sliderX.value = angleX;
                 entry.lastX = angleX;
-                
-                Debug.Log(pivot.pivotName + " - Slider X: min=" + pivot.minAngleX + 
+
+                Debug.Log(pivot.pivotName + " - Slider X: min=" + pivot.minAngleX +
                          ", max=" + pivot.maxAngleX + ", value=" + angleX);
             }
             else
@@ -182,12 +197,12 @@ public class SelectorWindow : MonoBehaviour
                 entry.sliderY.gameObject.SetActive(true);
                 entry.sliderY.minValue = pivot.minAngleY;
                 entry.sliderY.maxValue = pivot.maxAngleY;
-                
+
                 float angleY = pivot.currentAngleY;
                 entry.sliderY.value = angleY;
                 entry.lastY = angleY;
-                
-                Debug.Log(pivot.pivotName + " - Slider Y: min=" + pivot.minAngleY + 
+
+                Debug.Log(pivot.pivotName + " - Slider Y: min=" + pivot.minAngleY +
                          ", max=" + pivot.maxAngleY + ", value=" + angleY);
             }
             else
@@ -201,12 +216,12 @@ public class SelectorWindow : MonoBehaviour
                 entry.sliderZ.gameObject.SetActive(true);
                 entry.sliderZ.minValue = pivot.minAngleZ;
                 entry.sliderZ.maxValue = pivot.maxAngleZ;
-                
+
                 float angleZ = pivot.currentAngleZ;
                 entry.sliderZ.value = angleZ;
                 entry.lastZ = angleZ;
-                
-                Debug.Log(pivot.pivotName + " - Slider Z: min=" + pivot.minAngleZ + 
+
+                Debug.Log(pivot.pivotName + " - Slider Z: min=" + pivot.minAngleZ +
                          ", max=" + pivot.maxAngleZ + ", value=" + angleZ);
             }
             else
@@ -216,5 +231,5 @@ public class SelectorWindow : MonoBehaviour
         }
     }
 
-    
+
 }
