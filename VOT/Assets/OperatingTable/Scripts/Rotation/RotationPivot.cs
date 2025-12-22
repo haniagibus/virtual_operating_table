@@ -4,7 +4,7 @@ namespace OperatingTable
 {
     public class RotationPivot : MonoBehaviour
     {
-        public string pivotName = "Default Pivot";
+        public string pivotName;
 
         [Header("Allowed Axes")]
         public bool allowX = false;
@@ -33,6 +33,11 @@ namespace OperatingTable
 
         void Start()
         {
+            if (string.IsNullOrEmpty(pivotName))
+            {
+                pivotName = gameObject.name.Replace("_", " ");
+            }
+
             // Inicjalizuj kąty z aktualnej rotacji obiektu
             Vector3 euler = transform.localEulerAngles;
 

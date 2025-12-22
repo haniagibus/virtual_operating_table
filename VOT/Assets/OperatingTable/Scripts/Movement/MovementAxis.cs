@@ -4,7 +4,7 @@ namespace OperatingTable
 {
     public class MovementAxis : MonoBehaviour
     {
-        public string axisName = "Default Movement";
+        public string axisName;
 
         [Header("Allowed Axes")]
         public bool allowX = false;
@@ -38,6 +38,12 @@ namespace OperatingTable
 
         void Start()
         {
+            if (string.IsNullOrEmpty(axisName))
+            {
+                axisName = gameObject.name.Replace("_", " ");
+            }
+
+
             initialPosition = transform.localPosition;
             currentPositionX = 0f;
             currentPositionY = 0f;
