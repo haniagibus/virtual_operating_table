@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using OperatingTable;
 
 public class SelectorWindow : MonoBehaviour
 {
@@ -10,16 +11,17 @@ public class SelectorWindow : MonoBehaviour
     public Toggle visibilityToggle;
 
     [Header("Elementy stołu")]
-    public List<Transform> tableParts = new List<Transform>();
+    public List<TableElement> tableElements = new List<TableElement>();
 
     [Header("Pivot System")]
     public Transform pivotListContainer;
     public GameObject pivotEntryPrefab;
 
-    private Transform currentSelectedElement = null;
-    private RotationPivot currentPivot = null;
-    private List<RotationPivot> currentPivots = new List<RotationPivot>();
+    // [Header("Movement System")]
+    // public Transform movementListContainer;
+    // public GameObject movementEntryPrefab;
 
+    private TableElement currentSelectedElement = null;
     private bool suppressToggleCallback = false;
 
     void Start()
@@ -30,9 +32,9 @@ public class SelectorWindow : MonoBehaviour
         dropdown.onValueChanged.AddListener(OnDropdownChange);
         visibilityToggle.onValueChanged.AddListener(OnVisibilityToggleChanged);
 
-        if (tableParts.Count > 0)
+        if (tableElements.Count > 0)
         {
-            dropdown.value = Mathf.Clamp(dropdown.value, 0, tableParts.Count - 1);
+            dropdown.value = Mathf.Clamp(dropdown.value, 0, tableElements.Count - 1);
             OnDropdownChange(dropdown.value);
         }
         else
@@ -68,59 +70,52 @@ public class SelectorWindow : MonoBehaviour
         dropdown.ClearOptions();
         List<string> names = new List<string>();
 
-        foreach (var part in tableParts)
-            names.Add(part != null ? part.name : "<null>");
+        foreach (var element in tableElements)
+        {
+            if (element != null)
+                names.Add(element.elementName);
+            else
+                names.Add("<null>");
+        }
 
         dropdown.AddOptions(names);
     }
 
     void OnDropdownChange(int index)
     {
-        if (index < 0 || index >= tableParts.Count)
+        if (index < 0 || index >= tableElements.Count)
         {
             currentSelectedElement = null;
             visibilityToggle.interactable = false;
+            ClearPivotUI();
+            // ClearMovementUI();
             return;
         }
 
-        currentSelectedElement = tableParts[index];
+        currentSelectedElement = tableElements[index];
 
         if (currentSelectedElement == null)
         {
             visibilityToggle.interactable = false;
+            ClearPivotUI();
+            // ClearMovementUI();
             return;
         }
 
         visibilityToggle.interactable = true;
-        Debug.Log("Wybrano element: " + currentSelectedElement.name);
+        Debug.Log("Wybrano element: " + currentSelectedElement.elementName);
 
-        LoadPivotsForSelected();
         UpdateToggleState();
         BuildPivotUI();
-    }
-
-    void LoadPivotsForSelected()
-    {
-        currentPivots.Clear();
-
-        RotationConfig cfg = currentSelectedElement.GetComponent<RotationConfig>();
-        if (cfg != null && cfg.pivots.Count > 0)
-        {
-            currentPivots.AddRange(cfg.pivots);
-
-        }
-        else
-        {
-            Debug.LogWarning(currentSelectedElement.name + " nie ma zdefiniowanych pivotów!");
-        }
+        // BuildMovementUI();
     }
 
     void UpdateToggleState()
     {
-        bool isActive = currentSelectedElement.gameObject.activeSelf;
+        bool isAttached = currentSelectedElement.isAttached;
 
         suppressToggleCallback = true;
-        visibilityToggle.isOn = isActive;
+        visibilityToggle.isOn = isAttached;
         suppressToggleCallback = false;
     }
 
@@ -133,7 +128,7 @@ public class SelectorWindow : MonoBehaviour
         if (suppressToggleCallback) return;
         if (currentSelectedElement == null) return;
 
-        currentSelectedElement.gameObject.SetActive(isOn);
+        currentSelectedElement.SetAttached(isOn);
     }
 
     // ----------------------------------------------------
@@ -142,16 +137,21 @@ public class SelectorWindow : MonoBehaviour
 
     void BuildPivotUI()
     {
-        foreach (Transform child in pivotListContainer)
-            Destroy(child.gameObject);
+        ClearPivotUI();
 
-        if (currentPivots.Count == 0)
-            return;
-
-        foreach (var pivot in currentPivots)
+        if (currentSelectedElement == null || !currentSelectedElement.HasRotationPivots())
         {
-            var entryObj = Instantiate(pivotEntryPrefab, pivotListContainer);
-            var entry = entryObj.GetComponent<PivotEntryUI>();
+            string elementName = currentSelectedElement != null ? currentSelectedElement.elementName : "null";
+            Debug.LogWarning(elementName + " nie ma zdefiniowanych pivotów!");
+            return;
+        }
+
+        foreach (var pivot in currentSelectedElement.rotationPivots)
+        {
+            if (pivot == null) continue;
+
+            GameObject entryObj = Instantiate(pivotEntryPrefab, pivotListContainer);
+            PivotEntryUI entry = entryObj.GetComponent<PivotEntryUI>();
 
             entry.pivot = pivot;
             entry.selector = this;
@@ -163,15 +163,15 @@ public class SelectorWindow : MonoBehaviour
                 entry.sliderX.gameObject.SetActive(true);
                 entry.sliderX.minValue = pivot.minAngleX;
                 entry.sliderX.maxValue = pivot.maxAngleX;
-                
+
                 float angleX = pivot.currentAngleX;
                 entry.sliderX.value = angleX;
                 entry.lastX = angleX;
-                
-                Debug.Log(pivot.pivotName + " - Slider X: min=" + pivot.minAngleX + 
+
+                Debug.Log(pivot.pivotName + " - Slider X: min=" + pivot.minAngleX +
                          ", max=" + pivot.maxAngleX + ", value=" + angleX);
             }
-            else
+            else if (entry.sliderX != null)
             {
                 entry.sliderX.gameObject.SetActive(false);
             }
@@ -182,15 +182,15 @@ public class SelectorWindow : MonoBehaviour
                 entry.sliderY.gameObject.SetActive(true);
                 entry.sliderY.minValue = pivot.minAngleY;
                 entry.sliderY.maxValue = pivot.maxAngleY;
-                
+
                 float angleY = pivot.currentAngleY;
                 entry.sliderY.value = angleY;
                 entry.lastY = angleY;
-                
-                Debug.Log(pivot.pivotName + " - Slider Y: min=" + pivot.minAngleY + 
+
+                Debug.Log(pivot.pivotName + " - Slider Y: min=" + pivot.minAngleY +
                          ", max=" + pivot.maxAngleY + ", value=" + angleY);
             }
-            else
+            else if (entry.sliderY != null)
             {
                 entry.sliderY.gameObject.SetActive(false);
             }
@@ -201,20 +201,72 @@ public class SelectorWindow : MonoBehaviour
                 entry.sliderZ.gameObject.SetActive(true);
                 entry.sliderZ.minValue = pivot.minAngleZ;
                 entry.sliderZ.maxValue = pivot.maxAngleZ;
-                
+
                 float angleZ = pivot.currentAngleZ;
                 entry.sliderZ.value = angleZ;
                 entry.lastZ = angleZ;
-                
-                Debug.Log(pivot.pivotName + " - Slider Z: min=" + pivot.minAngleZ + 
+
+                Debug.Log(pivot.pivotName + " - Slider Z: min=" + pivot.minAngleZ +
                          ", max=" + pivot.maxAngleZ + ", value=" + angleZ);
             }
-            else
+            else if (entry.sliderZ != null)
             {
                 entry.sliderZ.gameObject.SetActive(false);
             }
         }
     }
 
-    
+    void ClearPivotUI()
+    {
+        foreach (Transform child in pivotListContainer)
+            Destroy(child.gameObject);
+    }
+
+    // // ----------------------------------------------------
+    // // MOVEMENT UI SYSTEM
+    // // ----------------------------------------------------
+
+    // void BuildMovementUI()
+    // {
+    //     ClearMovementUI();
+
+    //     if (currentSelectedElement == null || !currentSelectedElement.HasMovementAxes())
+    //     {
+    //         string elementName = currentSelectedElement != null ? currentSelectedElement.elementName : "null";
+    //         Debug.LogWarning(elementName + " nie ma zdefiniowanych osi ruchu!");
+    //         return;
+    //     }
+
+    //     foreach (var axis in currentSelectedElement.movementAxes)
+    //     {
+    //         if (axis == null) continue;
+
+    //         var entryObj = Instantiate(movementEntryPrefab, movementListContainer);
+    //         var entry = entryObj.GetComponent<MovementEntryUI>();
+
+    //         entry.axis = axis;
+    //         entry.selector = this;
+    //         entry.nameText.text = axis.axisName;
+
+    //         // Konfiguruj slider
+    //         if (entry.slider != null)
+    //         {
+    //             entry.slider.minValue = axis.minPosition;
+    //             entry.slider.maxValue = axis.maxPosition;
+    //             entry.slider.value = axis.currentPosition;
+    //             entry.lastPosition = axis.currentPosition;
+
+    //             Debug.Log(axis.axisName + " - Slider: min=" + axis.minPosition +
+    //                      ", max=" + axis.maxPosition + ", value=" + axis.currentPosition);
+    //         }
+    //     }
+    // }
+
+    // void ClearMovementUI()
+    // {
+    //     if (movementListContainer == null) return;
+
+    //     foreach (Transform child in movementListContainer)
+    //         Destroy(child.gameObject);
+    // }
 }
