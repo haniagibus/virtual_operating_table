@@ -17,9 +17,9 @@ public class SelectorWindow : MonoBehaviour
     public Transform pivotListContainer;
     public GameObject pivotEntryPrefab;
 
-    [Header("Movement System")]
-    public Transform movementListContainer;
-    public GameObject movementEntryPrefab;
+    // [Header("Movement System")]
+    // public Transform movementListContainer;
+    // public GameObject movementEntryPrefab;
 
     private TableElement currentSelectedElement = null;
     private bool suppressToggleCallback = false;

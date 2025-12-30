@@ -9,7 +9,7 @@ public class MouseLook : MonoBehaviour
     private bool isCursorLocked = true;
 
     private bool menuActive = false;
-    private bool HandPanelActive = false;
+    private bool handControlPanelActive = false;
 
     void Start()
     {
@@ -26,7 +26,7 @@ public class MouseLook : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.P))
         {
-            HandPanelActive = !HandPanelActive;
+            handControlPanelActive = !handControlPanelActive;
             UpdateCursorState();
         }
         
@@ -45,10 +45,10 @@ public class MouseLook : MonoBehaviour
     
     void UpdateCursorState()
     {
-        if (menuActive || HandPanelActive)
+        if (menuActive || handControlPanelActive)
         {
             isCursorLocked = false;
-            UnlockCursorButKeepInvisible(); 
+            UnlockCursor(); 
         }
         else
         {
@@ -63,9 +63,9 @@ public class MouseLook : MonoBehaviour
         Cursor.visible = false;
     }
     
-    void UnlockCursorButKeepInvisible()
+    void UnlockCursor()
     {
-        Cursor.lockState = CursorLockMode.Confined;  
-        Cursor.visible = false;                       
+        Cursor.lockState = CursorLockMode.None;  
+        Cursor.visible = true;                       
     }
 }

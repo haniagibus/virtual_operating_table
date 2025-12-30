@@ -95,52 +95,52 @@ namespace OperatingTable
         public void TiltBackUp()
         {
             Debug.Log("[HandControl] Podnoszę górną część stołu");
-            StartTiltElement(tableBackPartUpperRotate, Vector3.right, 1);
+            StartTiltElement(tableBackPartUpperRotate, Vector3.up, 1);
         }
 
         public void TiltBackDown()
         {
             Debug.Log("[HandControl] Opuszczam górną część stołu");
-            StartTiltElement(tableBackPartUpperRotate, Vector3.right, -1);
+            StartTiltElement(tableBackPartUpperRotate, Vector3.up, -1);
         }
 
         // LEGS TILT
         public void TiltLegsUp()
         {
             Debug.Log("[HandControl] Podnoszę dolną część stołu");
-            StartTiltElement(tableBackPartLowerRotate, Vector3.right, -1);
+            StartTiltElement(tableBackPartLowerRotate, Vector3.up, -1);
         }
 
         public void TiltLegsDown()
         {
             Debug.Log("[HandControl] Opuszczam dolną część stołu");
-            StartTiltElement(tableBackPartLowerRotate, Vector3.right, 1);
+            StartTiltElement(tableBackPartLowerRotate, Vector3.up, 1);
         }
 
         // TRENDELENBURG POSITION 
         public void TiltTrendelenburg()
         {
             Debug.Log("[HandControl] Pozycja Trendelenburga");
-            StartTiltElement(tableRotation, Vector3.right, -1);
+            StartTiltElement(tableRotation, Vector3.forward, 1);
         }
 
         public void TiltReverseTrendelenburg()
         {
             Debug.Log("[HandControl] Odwrócona pozycja Trendelenburga");
-            StartTiltElement(tableRotation, Vector3.right, 1);
+            StartTiltElement(tableRotation, Vector3.forward, -1);
         }
 
         // LATERAL TILT
         public void TiltTableRight()
         {
             Debug.Log("[HandControl] Przechylam stół w prawo");
-            StartTiltElement(tableRotation, Vector3.up, -1);
+            StartTiltElement(tableRotation, Vector3.right, 1);
         }
 
         public void TiltTableLeft()
         {
             Debug.Log("[HandControl] Przechylam stół w lewo");
-            StartTiltElement(tableRotation, Vector3.up, 1);
+            StartTiltElement(tableRotation, Vector3.right, -1);
         }
 
 
@@ -165,13 +165,13 @@ namespace OperatingTable
         public void MoveTableForward()
         {
             Debug.Log("[HandControl] Przesuwam stół do przodu");
-            StartLongitudinalMovement(Vector3.right, 1);
+            StartLongitudinalMovement(Vector3.right, -1);
         }
 
         public void MoveTableBackward()
         {
             Debug.Log("[HandControl] Przesuwam stół do tyłu");
-            StartLongitudinalMovement(Vector3.right, -1);
+            StartLongitudinalMovement(Vector3.right, 1);
         }
         
 
@@ -291,8 +291,8 @@ namespace OperatingTable
                 StopCoroutine(currentHeightCoroutine);
             }
 
-            DetachFromParent(tableRotateElement);
-            AttachToParent(tableRotateElement, "table_leg_column_segment_4_move");
+            // DetachFromParent(tableRotateElement);
+            // AttachToParent(tableRotateElement, "table_leg_column_segment_4_move");
 
             isMovingHeight = true;
             currentHeightCoroutine = StartCoroutine(HeightMovementCoroutine(direction));
@@ -315,8 +315,8 @@ namespace OperatingTable
                 yield return new WaitForSeconds(heightTickInterval);
             }
 
-            DetachFromParent(tableRotateElement);
-            AttachToParent(tableRotateElement, "table");
+            // DetachFromParent(tableRotateElement);
+            // AttachToParent(tableRotateElement, "table");
 
             currentHeightCoroutine = null;
         }

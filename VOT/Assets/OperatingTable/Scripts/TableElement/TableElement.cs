@@ -19,13 +19,11 @@ namespace OperatingTable
 
         void Awake()
         {
-            // Jeśli nazwa nie jest ustawiona, użyj nazwy GameObject
             if (string.IsNullOrEmpty(elementName))
             {
                 elementName = gameObject.name.Replace("_", " ");
             }
 
-            // Synchronizuj stan widoczności z isAttached
             UpdateVisibility();
         }
 
