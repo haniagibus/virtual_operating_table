@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+//using System.Diagnostics;
 
 
 namespace OperatingTable
@@ -13,7 +14,11 @@ namespace OperatingTable
         [Header("Table Components - Rotation")]
         public RotationPivot tableBackPartUpperRotate;
         public RotationPivot tableBackPartLowerRotate;
+        public RotationPivot tableBackPartLowerLeftRotate;
+        public RotationPivot tableBackPartLowerRightRotate;
+
         public RotationPivot tableRotation;
+        
 
         [Header("Table Telescopic Movement")]
         [Tooltip("Teleskopowy mechanizm podnoszenia stołu")]
@@ -56,6 +61,10 @@ namespace OperatingTable
         private Coroutine currentLongitudinalCoroutine = null;
         private bool isMovingLongitudinal = false;
 
+        public bool isLocked = false;
+        public LegSelection currentLeg = LegSelection.Both;
+
+
         // // Indeksy blend shapes - znajdowane automatycznie
         // private int blendShapeBackPadUpperUp = -1;
         // private int blendShapeBackPadUpperDown = -1;
@@ -94,38 +103,143 @@ namespace OperatingTable
         // BACK TILT
         public void TiltBackUp()
         {
+            if (isLocked == true)
+            {
+                Debug.Log("[HandControl] Stół wyłączony ");
+                return;
+            }
+            
             Debug.Log("[HandControl] Podnoszę górną część stołu");
             StartTiltElement(tableBackPartUpperRotate, Vector3.up, 1);
         }
 
         public void TiltBackDown()
         {
+            if (isLocked == true)
+            {
+                Debug.Log("[HandControl] Stół wyłączony ");
+                return;
+            }
+
             Debug.Log("[HandControl] Opuszczam górną część stołu");
             StartTiltElement(tableBackPartUpperRotate, Vector3.up, -1);
+            
         }
 
         // LEGS TILT
         public void TiltLegsUp()
         {
+            if (isLocked == true)
+            {
+                Debug.Log("[HandControl] Stół wyłączony ");
+                return;
+            }
+
             Debug.Log("[HandControl] Podnoszę dolną część stołu");
-            StartTiltElement(tableBackPartLowerRotate, Vector3.up, -1);
+            if(currentLeg == LegSelection.Both)
+            {
+                StartTiltElement(tableBackPartLowerRotate, Vector3.up, -1);
+            } 
+            else if (currentLeg == LegSelection.Left)
+            {
+                StartTiltElement(tableBackPartLowerLeftRotate, Vector3.up, -1);
+
+            }
+            else if(currentLeg == LegSelection.Right)
+            {
+                StartTiltElement(tableBackPartLowerRightRotate, Vector3.up, -1);
+
+            }   
+            
         }
 
         public void TiltLegsDown()
         {
+            if (isLocked == true)
+            {
+                Debug.Log("[HandControl] Stół wyłączony ");
+                return;
+            }
+
             Debug.Log("[HandControl] Opuszczam dolną część stołu");
-            StartTiltElement(tableBackPartLowerRotate, Vector3.up, 1);
+            if(currentLeg == LegSelection.Both)
+            {
+                StartTiltElement(tableBackPartLowerRotate, Vector3.up, 1);
+            }
+            else if (currentLeg == LegSelection.Left)
+            {
+                StartTiltElement(tableBackPartLowerLeftRotate, Vector3.up, 1);
+
+            }
+            else if(currentLeg == LegSelection.Right)
+            {
+                StartTiltElement(tableBackPartLowerRightRotate, Vector3.up, 1);
+
+            }    
+
         }
 
+        public void LeftLegSelected()
+        {
+            if (isLocked == true)
+            {
+                Debug.Log("[HandControl] Stół wyłączony");
+                return;
+            }
+
+            if (currentLeg != LegSelection.Left)
+            {
+                currentLeg = LegSelection.Left;
+                Debug.Log("[HandControl] Sterowanie: lewa noga");
+            }
+            else
+            {
+                currentLeg = LegSelection.Both;
+                Debug.Log("[HandControl] Sterowanie: obie nogi");
+            }
+            
+        }
+
+        public void RightLegSelected()
+        {
+            if (isLocked == true)
+            {
+                Debug.Log("[HandControl] Stół wyłączony ");
+                return;
+            }
+
+            if (currentLeg != LegSelection.Right)
+            {
+                currentLeg = LegSelection.Right;
+                Debug.Log("[HandControl] Sterowanie: prawa noga");
+            }
+            else
+            {
+                currentLeg = LegSelection.Both;
+                Debug.Log("[HandControl] Sterowanie: obie nogi");
+            }
+        }
         // TRENDELENBURG POSITION 
         public void TiltTrendelenburg()
         {
+            if (isLocked == true)
+            {
+                Debug.Log("[HandControl] Stół wyłączony ");
+                return;
+            }
+
             Debug.Log("[HandControl] Pozycja Trendelenburga");
             StartTiltElement(tableRotation, Vector3.forward, 1);
         }
 
         public void TiltReverseTrendelenburg()
         {
+            if (isLocked == true)
+            {
+                Debug.Log("[HandControl] Stół wyłączony ");
+                return;
+            }
+
             Debug.Log("[HandControl] Odwrócona pozycja Trendelenburga");
             StartTiltElement(tableRotation, Vector3.forward, -1);
         }
@@ -133,12 +247,24 @@ namespace OperatingTable
         // LATERAL TILT
         public void TiltTableRight()
         {
+            if (isLocked == true)
+            {
+                Debug.Log("[HandControl] Stół wyłączony ");
+                return;
+            }
+
             Debug.Log("[HandControl] Przechylam stół w prawo");
             StartTiltElement(tableRotation, Vector3.right, 1);
         }
 
         public void TiltTableLeft()
         {
+            if (isLocked == true)
+            {
+                Debug.Log("[HandControl] Stół wyłączony ");
+                return;
+            }
+
             Debug.Log("[HandControl] Przechylam stół w lewo");
             StartTiltElement(tableRotation, Vector3.right, -1);
         }
@@ -151,12 +277,24 @@ namespace OperatingTable
         // HEIGHT
         public void RaiseTable()
         {
+            if (isLocked == true)
+            {
+                Debug.Log("[HandControl] Stół wyłączony ");
+                return;
+            }
+
             Debug.Log("[HandControl] Podnoszę stół");
             StartHeightMovement(1);
         }
 
         public void LowerTable()
         {
+            if (isLocked == true)
+            {
+                Debug.Log("[HandControl] Stół wyłączony ");
+                return;
+            }
+
             Debug.Log("[HandControl] Opuszczam stół");
             StartHeightMovement(-1);
         }
@@ -164,12 +302,24 @@ namespace OperatingTable
         // LONGITUDINAL
         public void MoveTableForward()
         {
+            if (isLocked == true)
+            {
+                Debug.Log("[HandControl] Stół wyłączony ");
+                return;
+            }
+
             Debug.Log("[HandControl] Przesuwam stół do przodu");
             StartLongitudinalMovement(Vector3.right, -1);
         }
 
         public void MoveTableBackward()
         {
+            if (isLocked == true)
+            {
+                Debug.Log("[HandControl] Stół wyłączony ");
+                return;
+            }
+
             Debug.Log("[HandControl] Przesuwam stół do tyłu");
             StartLongitudinalMovement(Vector3.right, 1);
         }
@@ -180,6 +330,8 @@ namespace OperatingTable
         // ============================================================
         public void StopAllMovement()
         {
+            
+
             isTilting = false;
             if (currentTiltCoroutine != null)
             {
@@ -202,6 +354,30 @@ namespace OperatingTable
             }
 
             Debug.Log("[HandControl] Zatrzymuję ruch stołu");
+        }
+
+        // ============================================================
+        // LOCK / UNLOCK
+        // =======================================
+        public void PowerOnOff()
+        {
+           
+            isLocked = !isLocked;
+        }
+
+        // ============================================================
+        // LEVEL ZERO
+        // ============================================================
+        public void LevelZero()
+        {
+            if (isLocked == true)
+            {
+                Debug.Log("[HandControl] Stół wyłączony ");
+                return;
+            }
+
+            Debug.Log("[HandControl] Resetuję stół do pozycji zerowej");
+            StartCoroutine(LevelZeroCoroutine());
         }
 
 
@@ -359,6 +535,118 @@ namespace OperatingTable
             currentLongitudinalCoroutine = null;
         }
 
+
+        private IEnumerator LevelZeroCoroutine()
+        {
+            if (tableBackPartUpperRotate != null)
+            {
+                yield return ResetPivotToZeroCoroutine(tableBackPartUpperRotate);
+            }
+
+            if (tableBackPartLowerRotate != null)
+            {
+                yield return ResetPivotToZeroCoroutine(tableBackPartLowerRotate);
+            }
+
+            if (tableBackPartLowerLeftRotate != null)
+            {
+                yield return ResetPivotToZeroCoroutine(tableBackPartLowerLeftRotate);
+            }
+
+            if (tableBackPartLowerRightRotate != null)
+            {
+                yield return ResetPivotToZeroCoroutine(tableBackPartLowerRightRotate);
+            }
+
+            if (tableRotation != null)
+            {
+                yield return ResetPivotToZeroCoroutine(tableRotation);
+            }
+
+            if (tableLongitudinalControl != null)
+            {
+                yield return ResetLongitudinalToZeroCoroutine();
+            }
+
+            Debug.Log("[HandControl] Pozycja zerowa - stół wypoziomowany i wycentrowany");
+        }
+                
+        private IEnumerator ResetPivotToZeroCoroutine(RotationPivot pivot)
+        {
+            if (pivot == null)
+            {
+                yield break;
+            }
+
+            if (pivot.allowX && Mathf.Abs(pivot.currentAngleX) > 0.01f)
+            {
+                yield return ResetAxisToZeroCoroutine(pivot, Vector3.right, pivot.currentAngleX);
+            }
+
+            if (pivot.allowY && Mathf.Abs(pivot.currentAngleY) > 0.01f)
+            {
+                yield return ResetAxisToZeroCoroutine(pivot, Vector3.up, pivot.currentAngleY);
+            }
+
+            if (pivot.allowZ && Mathf.Abs(pivot.currentAngleZ) > 0.01f)
+            {
+                yield return ResetAxisToZeroCoroutine(pivot, Vector3.forward, pivot.currentAngleZ);
+            }
+        }
+
+        private IEnumerator ResetAxisToZeroCoroutine(RotationPivot pivot, Vector3 axis, float currentAngle)
+        {
+            while (Mathf.Abs(currentAngle) > 0.01f)
+            {
+                int direction = currentAngle > 0 ? -1 : 1;
+                float delta = rotationStep * direction;
+                
+                if (Mathf.Abs(delta) > Mathf.Abs(currentAngle))
+                {
+                    delta = -currentAngle;
+                }
+
+                pivot.RotateWithVector3(axis, delta);
+
+                char detectedAxis = DetectAxisFromVector(axis);
+                currentAngle = pivot.GetCurrentAngle(detectedAxis);
+
+                yield return new WaitForSeconds(rotationTickInterval);
+            }
+        }
+        private IEnumerator ResetLongitudinalToZeroCoroutine()
+        {
+            float currentPos = GetLongitudinalCurrentPosition();
+            
+            if (Mathf.Abs(currentPos) < 0.0001f)
+            {
+                yield break;
+            }
+
+            while (Mathf.Abs(currentPos) > 0.0001f)
+            {
+                int direction = currentPos > 0 ? -1 : 1;
+                float delta = longitudinalStep * direction;
+
+                if (Mathf.Abs(delta) > Mathf.Abs(currentPos))
+                {
+                    delta = -currentPos;
+                }
+
+                bool canContinue = tableLongitudinalControl.MoveWithVector3(Vector3.right, delta);
+
+                if (!canContinue)
+                {
+                    break;
+                }
+
+                currentPos = GetLongitudinalCurrentPosition();
+                yield return new WaitForSeconds(longitudinalTickInterval);
+            }
+
+            Debug.Log("[HandControl] Pozycja wzdłużna zresetowana do zera");
+        }
+
         // HELPERS
         private void DetachFromParent(Transform element)
         {
@@ -409,6 +697,31 @@ namespace OperatingTable
             Debug.Log("[HandControl] Element " + element.name + " przypięty do " + parentName);
         }
 
+         private char DetectAxisFromVector(Vector3 axis)
+        {
+            axis = axis.normalized;
+            float absX = Mathf.Abs(axis.x);
+            float absY = Mathf.Abs(axis.y);
+            float absZ = Mathf.Abs(axis.z);
+
+            if (absX > absY && absX > absZ)
+                return 'X';
+            else if (absY > absX && absY > absZ)
+                return 'Y';
+            else if (absZ > absX && absZ > absY)
+                return 'Z';
+
+            return '?';
+        }
+
+        private float GetLongitudinalCurrentPosition()
+        {
+            if (tableLongitudinalControl == null)
+                return 0f;
+
+            return tableLongitudinalControl.currentPositionX;
+        }
+
         // GETTERS
         public bool IsTilting
         {
@@ -424,5 +737,6 @@ namespace OperatingTable
         {
             get { return isMovingLongitudinal; }
         }
+
     }
 }

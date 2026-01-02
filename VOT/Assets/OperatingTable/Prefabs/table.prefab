@@ -12969,6 +12969,8 @@ MonoBehaviour:
   tableStateManager: {fileID: 0}
   tableBackPartUpperRotate: {fileID: 114677948208012692}
   tableBackPartLowerRotate: {fileID: 114471588593855074}
+  tableBackPartLowerLeftRotate: {fileID: 114773119303546236}
+  tableBackPartLowerRightRotate: {fileID: 114203466560136834}
   tableRotation: {fileID: 114464301215637722}
   tableHeightControl: {fileID: 114371258985767528}
   tableLongitudinalControl: {fileID: 114778175502014112}
@@ -12979,6 +12981,8 @@ MonoBehaviour:
   heightTickInterval: 0.05
   longitudinalStep: 0.01
   longitudinalTickInterval: 0.05
+  isLocked: 0
+  currentLeg: 2
 --- !u!114 &114663291464964198
 MonoBehaviour:
   m_ObjectHideFlags: 1
