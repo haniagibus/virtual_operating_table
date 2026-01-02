@@ -215,5 +215,37 @@ namespace OperatingTable
                     return false;
             }
         }
+
+        // public void ResetToZero()
+        // {
+        //     // Resetuj transform do rotacji zerowej (lokalnej)
+        //     transform.localRotation = Quaternion.identity;
+
+        //     // Zresetuj zapisane kąty
+        //     currentAngleX = 0f;
+        //     currentAngleY = 0f;
+        //     currentAngleZ = 0f;
+
+        //     Debug.Log(pivotName + " - Zresetowano do pozycji zerowej");
+        // }
+
+        public float GetCurrentAngle(char axis)
+        {
+            switch (axis)
+            {
+                case 'X':
+                case 'x':
+                    return currentAngleX;
+                case 'Y':
+                case 'y':
+                    return currentAngleY;
+                case 'Z':
+                case 'z':
+                    return currentAngleZ;
+                default:
+                    return 0f;
+            }
+        }
+
     }
 }

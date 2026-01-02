@@ -55,18 +55,6 @@ public class HandControlPanel : MonoBehaviour
         }
     }
 
-    // // ============================================================
-    // // TABLE RESET
-    // // ============================================================
-
-    // public void OnResetButtonDown()
-    // {
-    //     if (handControl != null)
-    //     {
-    //         handControl.StartReset();
-    //     }
-    // }
-
     // ============================================================
     // ROTATION 
     // ============================================================
@@ -102,6 +90,21 @@ public class HandControlPanel : MonoBehaviour
         if (handControl != null)
         {
             handControl.TiltLegsDown();
+        }
+    }
+
+    public void OnRightLegSelectedButtonDown()
+    {
+       if (handControl != null)
+        {
+            handControl.RightLegSelected();
+        }
+    }
+    public void OnLeftLegSelectedButtonDown()
+    {
+       if (handControl != null)
+        {
+            handControl.LeftLegSelected();
         }
     }
 
@@ -185,6 +188,28 @@ public class HandControlPanel : MonoBehaviour
         if (handControl != null)
         {
             handControl.StopAllMovement();
+        }
+    }
+
+    // ============================================================
+    // ON/OFF
+    // ============================================================
+    public void OnPowerButtonDown()
+    {
+        if (handControl != null)
+        {
+            handControl.PowerOnOff();
+        }
+    }
+
+    // ============================================================
+    // ZERO POSITION
+    // ============================================================
+    public void OnLevelZeroButtonDown()
+    {
+        if (handControl != null)
+        {
+            handControl.LevelZero();
         }
     }
 
