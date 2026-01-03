@@ -12972,6 +12972,7 @@ MonoBehaviour:
   tableBackPartLowerLeftRotate: {fileID: 114773119303546236}
   tableBackPartLowerRightRotate: {fileID: 114203466560136834}
   tableRotation: {fileID: 114464301215637722}
+  tableTop: {fileID: 4991878454215016}
   tableHeightControl: {fileID: 114371258985767528}
   tableLongitudinalControl: {fileID: 114778175502014112}
   tableRotateElement: {fileID: 4991878454215016}

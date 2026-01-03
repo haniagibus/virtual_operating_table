@@ -157,5 +157,7 @@ namespace OperatingTable
             currentPositionY = 0f;
             currentPositionZ = 0f;
         }
+
+        
     }
 }

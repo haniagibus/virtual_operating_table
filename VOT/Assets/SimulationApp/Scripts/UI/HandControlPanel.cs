@@ -214,6 +214,25 @@ public class HandControlPanel : MonoBehaviour
     }
 
     // ============================================================
+    // NORMAL / REVERSE
+    // ============================================================
+    public void OnNormalPositionButtonDown()
+    {
+        if (handControl != null)
+        {
+            handControl.NormalPosition();
+        }
+    }
+
+    public void OnReversePositionButtonDown()
+    {
+        if (handControl != null)
+        {
+            handControl.ReversePosition();
+        }
+    }
+
+    // ============================================================
     // PANEL TOGGLE
     // ============================================================
     public void ToggleHandControlPanel()
