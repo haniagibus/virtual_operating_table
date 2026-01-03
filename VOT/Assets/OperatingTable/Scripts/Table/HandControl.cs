@@ -414,56 +414,6 @@ namespace OperatingTable
             reverseCoroutine = StartCoroutine(RotateToReverseCoroutine(isReversed));
         }
 
-        private IEnumerator RotateToReverseCoroutine(bool reverse)
-        {
-            if (tableTop == null)
-            {
-                Debug.LogError("[HandControl] TableTop nie jest przypisany!");
-                yield break;
-            }
-
-
-            float targetAngle = reverse ? 180f : 0f;
-            float currentAngle = tableTop.localEulerAngles.y;
-            
-            // Normalizuj kąt do zakresu -180 do 180
-            if (currentAngle > 180f) currentAngle -= 360f;
-
-            Debug.Log("[HandControl] " + (reverse ? "Przełączam na pozycję REVERSE" : "Przełączam na pozycję NORMAL"));
-
-            // Obracaj stopniowo
-            while (Mathf.Abs(targetAngle - currentAngle) > 0.1f)
-            {
-                int direction = (targetAngle - currentAngle) > 0 ? 1 : -1;
-                float delta = rotationStep * direction * 2f; // 2x szybciej dla reverse
-
-                // Nie przekraczaj celu
-                if (Mathf.Abs(delta) > Mathf.Abs(targetAngle - currentAngle))
-                {
-                    delta = targetAngle - currentAngle;
-                }
-
-                tableTop.Rotate(Vector3.up, delta, Space.Self);
-                currentAngle += delta;
-
-                yield return new WaitForSeconds(rotationTickInterval);
-            }
-
-            // Ustaw dokładnie na docelowy kąt
-            Vector3 euler = tableTop.localEulerAngles;
-            euler.y = targetAngle;
-            tableTop.localEulerAngles = euler;
-
-            Debug.Log("[HandControl] Pozycja " + (reverse ? "REVERSE" : "NORMAL") + " ustawiona");
-            reverseCoroutine = null;
-        }
-
-        // Getter do sprawdzania stanu
-        public bool IsReversed
-        {
-            get { return isReversed; }
-        }
-
         // ============================================================
         // INTERNAL LOGIC
         // ============================================================
@@ -730,6 +680,42 @@ namespace OperatingTable
             Debug.Log("[HandControl] Pozycja wzdłużna zresetowana do zera");
         }
 
+        private IEnumerator RotateToReverseCoroutine(bool reverse)
+        {
+            if (tableTop == null)
+            {
+                Debug.LogError("[HandControl] TableTop nie jest przypisany!");
+                yield break;
+            }
+
+            float targetAngle = reverse ? 180f : 0f;
+            float currentAngle = tableTop.localEulerAngles.y;
+            
+            if (currentAngle > 180f) currentAngle -= 360f;
+
+            while (Mathf.Abs(targetAngle - currentAngle) > 0.1f)
+            {
+                int direction = (targetAngle - currentAngle) > 0 ? 1 : -1;
+                float delta = rotationStep * direction * 2f; 
+
+                if (Mathf.Abs(delta) > Mathf.Abs(targetAngle - currentAngle))
+                {
+                    delta = targetAngle - currentAngle;
+                }
+
+                tableTop.Rotate(Vector3.up, delta, Space.Self);
+                currentAngle += delta;
+
+                yield return new WaitForSeconds(rotationTickInterval);
+            }
+
+            Vector3 euler = tableTop.localEulerAngles;
+            euler.y = targetAngle;
+            tableTop.localEulerAngles = euler;
+
+            reverseCoroutine = null;
+        }
+
         // HELPERS
         private void DetachFromParent(Transform element)
         {
@@ -819,6 +805,10 @@ namespace OperatingTable
         public bool IsMovingLongitudinal
         {
             get { return isMovingLongitudinal; }
+        }
+        public bool IsReversed
+        {
+            get { return isReversed; }
         }
 
     }
