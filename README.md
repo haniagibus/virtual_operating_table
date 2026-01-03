@@ -10,7 +10,6 @@ Engineering thesis project _Virtual operating table with simulation of its funct
 
 ## Project structure
 ```
-├───models    # Blender projects and exports for created models (.blend and .fbx files)
-├───photos    # Photographed 3D models
+├───models    # Blender projects and exports for created models (.fbx files)
 └───VOT       # Unity project root folder
 ```
