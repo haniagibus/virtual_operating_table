@@ -17,9 +17,9 @@ public class SelectorWindow : MonoBehaviour
     public Transform pivotListContainer;
     public GameObject pivotEntryPrefab;
 
-    // [Header("Movement System")]
-    // public Transform movementListContainer;
-    // public GameObject movementEntryPrefab;
+    [Header("Movement System")]
+    public Transform movementListContainer;
+    public GameObject movementEntryPrefab;
 
     private TableElement currentSelectedElement = null;
     private bool suppressToggleCallback = false;
@@ -88,7 +88,7 @@ public class SelectorWindow : MonoBehaviour
             currentSelectedElement = null;
             visibilityToggle.interactable = false;
             ClearPivotUI();
-            // ClearMovementUI();
+            ClearMovementUI();
             return;
         }
 
@@ -98,7 +98,7 @@ public class SelectorWindow : MonoBehaviour
         {
             visibilityToggle.interactable = false;
             ClearPivotUI();
-            // ClearMovementUI();
+            ClearMovementUI();
             return;
         }
 
@@ -107,7 +107,7 @@ public class SelectorWindow : MonoBehaviour
 
         UpdateToggleState();
         BuildPivotUI();
-        // BuildMovementUI();
+        BuildMovementUI();
     }
 
     void UpdateToggleState()
@@ -216,11 +216,97 @@ public class SelectorWindow : MonoBehaviour
         }
     }
 
+    void BuildMovementUI()
+    {
+        ClearMovementUI();
+
+        if (currentSelectedElement == null || !currentSelectedElement.HasMovementAxes())
+        {
+            string elementName = currentSelectedElement != null ? currentSelectedElement.elementName : "null";
+            Debug.LogWarning(elementName + " nie ma zdefiniowanych osi ruchu!");
+            return;
+        }
+
+        foreach (var axis in currentSelectedElement.movementAxes)
+        {
+            if (axis == null) continue;
+
+            GameObject entryObj = Instantiate(movementEntryPrefab, movementListContainer);
+            MovementEntryUI entry = entryObj.GetComponent<MovementEntryUI>();
+
+            entry.axis = axis;
+            entry.selector = this;
+            entry.nameText.text = axis.axisName;
+
+            // ---------- X ----------
+            if (axis.allowX && entry.sliderX != null)
+            {
+                entry.sliderX.gameObject.SetActive(true);
+                entry.sliderX.minValue = axis.minDistanceX;
+                entry.sliderX.maxValue = axis.maxDistanceX;
+
+                float posX = axis.currentPositionX;
+                entry.sliderX.value = posX;
+                entry.lastX = posX;
+
+                Debug.Log(axis.axisName + " - Slider x: min=" + axis.minDistanceX +
+                     ", max=" + axis.maxDistanceX + ", value=" + posX);
+            }
+            else if (entry.sliderX != null)
+            {
+                entry.sliderX.gameObject.SetActive(false);
+            }
+
+            // ---------- Y ----------
+            if (axis.allowY && entry.sliderY != null)
+            {
+                entry.sliderY.gameObject.SetActive(true);
+                entry.sliderY.minValue = axis.minDistanceY;
+                entry.sliderY.maxValue = axis.maxDistanceY;
+
+                float posY = axis.currentPositionY;
+                entry.sliderY.value = posY;
+                entry.lastY = posY;
+
+                Debug.Log(axis.axisName + " - Slider y: min=" + axis.minDistanceY +
+                                 ", max=" + axis.maxDistanceY + ", value=" + posY);
+            }
+            else if (entry.sliderY != null)
+            {
+                entry.sliderY.gameObject.SetActive(false);
+            }
+
+            // ---------- Z ----------
+            if (axis.allowZ && entry.sliderZ != null)
+            {
+                entry.sliderZ.gameObject.SetActive(true);
+                entry.sliderZ.minValue = axis.minDistanceZ;
+                entry.sliderZ.maxValue = axis.maxDistanceZ;
+
+                float posZ = axis.currentPositionZ;
+                entry.sliderZ.value = posZ;
+                entry.lastZ = posZ;
+            }
+            else if (entry.sliderZ != null)
+            {
+                entry.sliderZ.gameObject.SetActive(false);
+            }
+        }
+    }
+
+
     void ClearPivotUI()
     {
         foreach (Transform child in pivotListContainer)
             Destroy(child.gameObject);
     }
+
+    void ClearMovementUI()
+    {
+        foreach (Transform child in movementListContainer)
+            Destroy(child.gameObject);
+    }
+
 
     // // ----------------------------------------------------
     // // MOVEMENT UI SYSTEM

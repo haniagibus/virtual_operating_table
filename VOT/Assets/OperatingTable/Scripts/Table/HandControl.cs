@@ -569,40 +569,46 @@ namespace OperatingTable
         }
 
 
-        private IEnumerator LevelZeroCoroutine()
+        
+        void StartTracked(IEnumerator coroutine, int running)
         {
-            if (tableBackPartUpperRotate != null)
-            {
-                yield return ResetPivotToZeroCoroutine(tableBackPartUpperRotate);
-            }
-
-            if (tableBackPartLowerRotate != null)
-            {
-                yield return ResetPivotToZeroCoroutine(tableBackPartLowerRotate);
-            }
-
-            if (tableBackPartLowerLeftRotate != null)
-            {
-                yield return ResetPivotToZeroCoroutine(tableBackPartLowerLeftRotate);
-            }
-
-            if (tableBackPartLowerRightRotate != null)
-            {
-                yield return ResetPivotToZeroCoroutine(tableBackPartLowerRightRotate);
-            }
-
-            if (tableRotation != null)
-            {
-                yield return ResetPivotToZeroCoroutine(tableRotation);
-            }
-
-            if (tableLongitudinalControl != null)
-            {
-                yield return ResetLongitudinalToZeroCoroutine();
-            }
-
-            Debug.Log("[HandControl] Pozycja zerowa - stół wypoziomowany i wycentrowany");
+            running++;
+            StartCoroutine(TrackCoroutine(coroutine,running));
         }
+
+        IEnumerator TrackCoroutine(IEnumerator coroutine, int running)
+        {
+            yield return StartCoroutine(coroutine);
+            running--;
+        }
+
+
+      private IEnumerator LevelZeroCoroutine()
+    {
+        int running = 0;
+
+        if (tableBackPartUpperRotate != null)
+            StartTracked(ResetPivotToZeroCoroutine(tableBackPartUpperRotate),running);
+
+        if (tableBackPartLowerRotate != null)
+            StartTracked(ResetPivotToZeroCoroutine(tableBackPartLowerRotate),running);
+
+        if (tableBackPartLowerLeftRotate != null)
+            StartTracked(ResetPivotToZeroCoroutine(tableBackPartLowerLeftRotate),running);
+
+        if (tableBackPartLowerRightRotate != null)
+            StartTracked(ResetPivotToZeroCoroutine(tableBackPartLowerRightRotate),running);
+
+        if (tableRotation != null)
+            StartTracked(ResetPivotToZeroCoroutine(tableRotation),running);
+
+        if (tableLongitudinalControl != null)
+            StartTracked(ResetLongitudinalToZeroCoroutine(),running);
+
+        yield return new WaitUntil(() => running == 0);
+
+        Debug.Log("[HandControl] Pozycja zerowa - stół wypoziomowany i wycentrowany");
+    }
                 
         private IEnumerator ResetPivotToZeroCoroutine(RotationPivot pivot)
         {
@@ -692,23 +698,7 @@ namespace OperatingTable
             float currentAngle = tableTop.localEulerAngles.y;
             
             if (currentAngle > 180f) currentAngle -= 360f;
-
-            while (Mathf.Abs(targetAngle - currentAngle) > 0.1f)
-            {
-                int direction = (targetAngle - currentAngle) > 0 ? 1 : -1;
-                float delta = rotationStep * direction * 2f; 
-
-                if (Mathf.Abs(delta) > Mathf.Abs(targetAngle - currentAngle))
-                {
-                    delta = targetAngle - currentAngle;
-                }
-
-                tableTop.Rotate(Vector3.up, delta, Space.Self);
-                currentAngle += delta;
-
-                yield return new WaitForSeconds(rotationTickInterval);
-            }
-
+            tableTop.Rotate(Vector3.up, targetAngle, Space.Self);
             Vector3 euler = tableTop.localEulerAngles;
             euler.y = targetAngle;
             tableTop.localEulerAngles = euler;

@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33824388070959774}
   - component: {fileID: 23297792828322138}
   m_Layer: 0
-  m_Name: leg_plate_rail_connector_lower_2_L
+  m_Name: leg_plate_rail_connector_lower_2_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 33087595089392666}
   - component: {fileID: 23957547758844304}
   m_Layer: 0
-  m_Name: leg_plate_rail_connector_lower_1_L
+  m_Name: leg_plate_rail_connector_lower_1_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -256,7 +256,7 @@ GameObject:
   - component: {fileID: 33170347071505846}
   - component: {fileID: 23636999993686164}
   m_Layer: 0
-  m_Name: leg_plate_handle_lever_2_L
+  m_Name: leg_plate_handle_lever_2_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -273,7 +273,7 @@ GameObject:
   - component: {fileID: 33336784052114138}
   - component: {fileID: 23391527077535224}
   m_Layer: 0
-  m_Name: leg_plate_screw_cover_L
+  m_Name: leg_plate_screw_cover_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -289,7 +289,7 @@ GameObject:
   - component: {fileID: 4300402508221744}
   - component: {fileID: 114937987921720314}
   m_Layer: 0
-  m_Name: 4-parts_leg_plate_L
+  m_Name: 4-parts_leg_plate_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -323,7 +323,7 @@ GameObject:
   - component: {fileID: 33515443574483286}
   - component: {fileID: 23007562191507744}
   m_Layer: 0
-  m_Name: leg_plate_beetwen_legs_hook_back_L
+  m_Name: leg_plate_beetwen_legs_hook_back_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -527,7 +527,7 @@ GameObject:
   - component: {fileID: 4196874170233304}
   - component: {fileID: 114773119303546236}
   m_Layer: 0
-  m_Name: table_back_part_lower_L_rotate
+  m_Name: table_back_part_lower_R_rotate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -911,7 +911,7 @@ GameObject:
   - component: {fileID: 33412951059908166}
   - component: {fileID: 23301629033584118}
   m_Layer: 0
-  m_Name: leg_plate_pad_lower_L
+  m_Name: leg_plate_pad_lower_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1012,7 +1012,7 @@ GameObject:
   - component: {fileID: 4706182158744650}
   - component: {fileID: 114203466560136834}
   m_Layer: 0
-  m_Name: table_back_part_lower_R_rotate
+  m_Name: table_back_part_lower_L_rotate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1383,7 +1383,7 @@ GameObject:
   - component: {fileID: 33036392145889274}
   - component: {fileID: 23864893070369570}
   m_Layer: 0
-  m_Name: leg_plate_handle_connector_small_2_L
+  m_Name: leg_plate_handle_connector_small_2_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1482,7 +1482,7 @@ GameObject:
   - component: {fileID: 33826102517429200}
   - component: {fileID: 23324651419017128}
   m_Layer: 0
-  m_Name: leg_plate_handle_bolt_2_L
+  m_Name: leg_plate_handle_bolt_2_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1583,7 +1583,7 @@ GameObject:
   - component: {fileID: 33511048795753078}
   - component: {fileID: 23503049753961018}
   m_Layer: 0
-  m_Name: leg_plate_inner_rail_L
+  m_Name: leg_plate_inner_rail_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1679,7 +1679,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4406765583361662}
   m_Layer: 0
-  m_Name: 4-parts_leg_plate_lower_L
+  m_Name: 4-parts_leg_plate_lower_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1712,7 +1712,7 @@ GameObject:
   - component: {fileID: 4255043387610984}
   - component: {fileID: 114959182875527006}
   m_Layer: 0
-  m_Name: 4-parts_leg_plate_R
+  m_Name: 4-parts_leg_plate_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2026,7 +2026,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4887283294867710}
   m_Layer: 0
-  m_Name: leg_plate_tightening_knob_L
+  m_Name: leg_plate_tightening_knob_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2107,7 +2107,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4503173147938180}
   m_Layer: 0
-  m_Name: leg_plate_tightening_knob_L_anim
+  m_Name: leg_plate_tightening_knob_R_anim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2159,7 +2159,7 @@ GameObject:
   - component: {fileID: 23488575384223834}
   - component: {fileID: 114967005977075720}
   m_Layer: 0
-  m_Name: leg_plate_outer_rail_L
+  m_Name: leg_plate_outer_rail_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2209,7 +2209,7 @@ GameObject:
   - component: {fileID: 4197226301450452}
   - component: {fileID: 114960474900311706}
   m_Layer: 0
-  m_Name: 4-parts_leg_plate_L_rotate
+  m_Name: 4-parts_leg_plate_R_rotate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2275,7 +2275,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4321067738004422}
   m_Layer: 0
-  m_Name: leg_plate_handle_2_L
+  m_Name: leg_plate_handle_2_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2292,7 +2292,7 @@ GameObject:
   - component: {fileID: 33557505206522372}
   - component: {fileID: 23292766897626618}
   m_Layer: 0
-  m_Name: leg_plate_handle_hinge_2_L
+  m_Name: leg_plate_handle_hinge_2_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2309,7 +2309,7 @@ GameObject:
   - component: {fileID: 33101869073761410}
   - component: {fileID: 23951929544872290}
   m_Layer: 0
-  m_Name: leg_plate_rail_lower_L
+  m_Name: leg_plate_rail_lower_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2493,7 +2493,7 @@ GameObject:
   - component: {fileID: 33641611856773912}
   - component: {fileID: 23607329374998334}
   m_Layer: 0
-  m_Name: leg_plate_knob_L
+  m_Name: leg_plate_knob_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2810,7 +2810,7 @@ GameObject:
   - component: {fileID: 33845487440987548}
   - component: {fileID: 23642950302840202}
   m_Layer: 0
-  m_Name: leg_plate_lower_L
+  m_Name: leg_plate_lower_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2859,7 +2859,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4479283634880662}
   m_Layer: 0
-  m_Name: leg_plate_handle_2_L_anim
+  m_Name: leg_plate_handle_2_R_anim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3076,7 +3076,7 @@ GameObject:
   - component: {fileID: 33929372255759388}
   - component: {fileID: 23559498303582634}
   m_Layer: 0
-  m_Name: leg_plate_screw_L
+  m_Name: leg_plate_screw_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3126,7 +3126,7 @@ GameObject:
   - component: {fileID: 4531187438125290}
   - component: {fileID: 114411821534932868}
   m_Layer: 0
-  m_Name: 4-parts_leg_plate_lower_L_rotate
+  m_Name: 4-parts_leg_plate_lower_R_rotate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3194,7 +3194,7 @@ GameObject:
   - component: {fileID: 33358501379483352}
   - component: {fileID: 23849375640105204}
   m_Layer: 0
-  m_Name: leg_plate_connector_L
+  m_Name: leg_plate_connector_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3245,7 +3245,7 @@ GameObject:
   - component: {fileID: 33743884130521080}
   - component: {fileID: 23660514766569876}
   m_Layer: 0
-  m_Name: leg_plate_handle_connector_big_2_L
+  m_Name: leg_plate_handle_connector_big_2_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12708,7 +12708,7 @@ MonoBehaviour:
   currentPositionX: 0
   currentPositionY: 0
   currentPositionZ: 0
-  stepSize: 0.00001
+  stepSize: 0.0001
 --- !u!114 &114152612691195246
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12733,7 +12733,7 @@ MonoBehaviour:
   currentPositionX: 0
   currentPositionY: 0
   currentPositionZ: 0
-  stepSize: 0.00001
+  stepSize: 0.0001
 --- !u!114 &114203466560136834
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12799,7 +12799,7 @@ MonoBehaviour:
   currentPositionX: 0
   currentPositionY: 0
   currentPositionZ: 0
-  stepSize: 0.00001
+  stepSize: 0.0001
 --- !u!114 &114327304258457444
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12843,7 +12843,7 @@ MonoBehaviour:
   - movementAxis: {fileID: 114145496448358452}
     sectionName: 
   movementAxis: {x: 0, y: 1, z: 0}
-  stepSize: 0.00001
+  stepSize: 0.01
 --- !u!114 &114411821534932868
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12969,8 +12969,8 @@ MonoBehaviour:
   tableStateManager: {fileID: 0}
   tableBackPartUpperRotate: {fileID: 114677948208012692}
   tableBackPartLowerRotate: {fileID: 114471588593855074}
-  tableBackPartLowerLeftRotate: {fileID: 114773119303546236}
-  tableBackPartLowerRightRotate: {fileID: 114203466560136834}
+  tableBackPartLowerLeftRotate: {fileID: 114203466560136834}
+  tableBackPartLowerRightRotate: {fileID: 114773119303546236}
   tableRotation: {fileID: 114464301215637722}
   tableTop: {fileID: 4991878454215016}
   tableHeightControl: {fileID: 114371258985767528}
@@ -12996,12 +12996,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   axisName: Default Movement
-  allowX: 0
-  allowY: 1
+  allowX: 1
+  allowY: 0
   allowZ: 0
   minDistanceX: 0
-  maxDistanceX: 0
-  minDistanceY: -0.003
+  maxDistanceX: 0.2
+  minDistanceY: 0
   maxDistanceY: 0
   minDistanceZ: 0
   maxDistanceZ: 0
@@ -13178,12 +13178,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   axisName: Default Movement
-  allowX: 0
-  allowY: 1
+  allowX: 1
+  allowY: 0
   allowZ: 0
   minDistanceX: 0
-  maxDistanceX: 0
-  minDistanceY: -0.003
+  maxDistanceX: 0.2
+  minDistanceY: 0
   maxDistanceY: 0
   minDistanceZ: 0
   maxDistanceZ: 0
