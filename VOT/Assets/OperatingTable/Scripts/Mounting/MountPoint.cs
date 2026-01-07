@@ -1,81 +1,95 @@
-﻿// using UnityEngine;
+﻿using UnityEngine;
 
-// namespace OperatingTable
-// {
-//     public class MountPoint : MonoBehaviour
-//     {
-//         [Header("Mount Point Info")]
-//         public string mountPointId = "mount_1";
-//         public string displayName = "Punkt montażowy";
+namespace OperatingTable
+{
+    public class MountPoint : MonoBehaviour
+    {
+        [Header("Info")]
+        public string displayName;
 
-//         [Header("Compatibility")]
-//         public string[] compatibleAccessoryTypes = new string[] { "armSupport", "legHolder" };
+        [Header("Status")]
+        [Tooltip("Aktualnie podłączone akcesorium")]
+        public GameObject attachedAccessory;
 
-//         [Header("Status")]
-//         [Tooltip("Aktualne akcesoria podłączone")]
-//         public GameObject attachedAccessory = null;
+        void Start()
+        {
+            if (string.IsNullOrEmpty(displayName))
+            {
+                displayName = gameObject.name.Replace("_", " ");
+            }
+        }
 
-//         public bool IsOccupied
-//         {
-//             get { return attachedAccessory != null; }
-//         }
+        public bool IsOccupied
+        {
+            get { return attachedAccessory != null; }
+        }
 
-//         /// <summary>
-//         /// Sprawdza czy dane akcesorium może być podłączone
-//         /// </summary>
-//         public bool CanAttach(GameObject accessory)
-//         {
-//             if (IsOccupied) return false;
+        /// <summary>
+        /// Sprawdza czy obiekt może być podłączony jako akcesorium
+        /// </summary>
+        public bool CanAttach(GameObject accessory)
+        {
+            if (IsOccupied)
+                return false;
 
-//             TableElement element = accessory.GetComponent<TableElement>();
-//             if (element == null) return false;
-//             if (element.type != ElementType.Accessory) return false;
+            if (accessory == null)
+                return false;
 
-//             // Sprawdź kompatybilność typów (opcjonalne)
-//             if (compatibleAccessoryTypes.Length == 0) return true;
+            TableElement element = accessory.GetComponent<TableElement>();
+            if (element == null)
+                return false;
 
-//             foreach (string compatibleType in compatibleAccessoryTypes)
-//             {
-//                 if (element.elementId.Contains(compatibleType))
-//                 {
-//                     return true;
-//                 }
-//             }
+            if (element.type != ElementType.Accessory)
+                return false;
 
-//             return false;
-//         }
+            return true;
+        }
 
-//         /// <summary>
-//         /// Podłącza akcesorium
-//         /// </summary>
-//         public bool Attach(GameObject accessory)
-//         {
-//             if (!CanAttach(accessory))
-//             {
-//                 Debug.LogWarning("[MountPoint] Nie można podłączyć akcesoria");
-//                 return false;
-//             }
+        public bool Attach(GameObject accessory)
+        {
+            if (!CanAttach(accessory))
+                return false;
 
-//             attachedAccessory = accessory;
-//             accessory.transform.SetParent(transform);
-//             accessory.transform.localPosition = Vector3.zero;
-//             accessory.transform.localRotation = Quaternion.identity;
+            TableElement element = accessory.GetComponent<TableElement>();
 
-//             Debug.Log("[MountPoint] Podłączono: " + accessory.name);
-//             return true;
-//         }
+            // jeśli było gdzieś indziej – odłącz
+            if (element.currentMountPoint != null)
+            {
+                element.currentMountPoint.Detach();
+            }
 
-//         /// <summary>
-//         /// Odłącza akcesorium
-//         /// </summary>
-//         public void Detach()
-//         {
-//             if (attachedAccessory != null)
-//             {
-//                 Debug.Log("[MountPoint] Odłączono: " + attachedAccessory.name);
-//                 attachedAccessory.transform.SetParent(null);
-//                 attachedAccessory = null;
-//             }
-//         }
-//     }
-// }
+            attachedAccessory = accessory;
+            element.currentMountPoint = this;
+
+            // 🔥 KLUCZOWA LINIA
+            accessory.transform.SetParent(transform);
+
+            accessory.transform.localPosition = Vector3.zero;
+            // accessory.transform.localRotation = Quaternion.identity;
+            // accessory.transform.localScale = Vector3.one;
+
+            element.SetAttached(true);
+
+            Debug.Log("Mounted " + accessory.name + " to " + displayName);
+            return true;
+        }
+
+
+        public void Detach()
+        {
+            if (!IsOccupied)
+                return;
+
+            TableElement element = attachedAccessory.GetComponent<TableElement>();
+            element.currentMountPoint = null;
+
+            attachedAccessory.transform.SetParent(null);
+            attachedAccessory = null;
+        }
+
+        public bool HasAccessory(GameObject accessory)
+        {
+            return attachedAccessory == accessory;
+        }
+    }
+}

@@ -8,6 +8,9 @@ namespace OperatingTable
         [Header("Element Info")]
         public string elementName;
 
+        [Header("Element Type")]
+        public ElementType type = ElementType.Component;
+
         [Header("Attachment State")]
         public bool isAttached = true;
 
@@ -17,6 +20,12 @@ namespace OperatingTable
         [Header("Movement System")]
         public List<MovementAxis> movementAxes = new List<MovementAxis>();
 
+        [Header("Visibility")]
+        [SerializeField] private bool isVisible = true;
+
+        [HideInInspector]
+        public MountPoint currentMountPoint;
+
         void Awake()
         {
             if (string.IsNullOrEmpty(elementName))
@@ -24,24 +33,35 @@ namespace OperatingTable
                 elementName = gameObject.name.Replace("_", " ");
             }
 
-            UpdateVisibility();
+            // UpdateVisibility();
         }
 
         /// <summary>
         /// Aktualizuje widoczność obiektu na podstawie stanu isAttached
         /// </summary>
-        public void UpdateVisibility()
-        {
-            gameObject.SetActive(isAttached);
-        }
+        // public void UpdateVisibility()
+        // {
+        //     gameObject.SetActive(isAttached);
+        // }
 
         /// <summary>
         /// Ustawia stan załączenia i aktualizuje widoczność
         /// </summary>
+        // public void SetAttached(bool attached)
+        // {
+        //     isAttached = attached;
+        //     UpdateVisibility();
+        // }
+
         public void SetAttached(bool attached)
         {
             isAttached = attached;
-            UpdateVisibility();
+        }
+
+        public void SetVisible(bool visible)
+        {
+            isVisible = visible;
+            gameObject.SetActive(visible);
         }
 
         /// <summary>
