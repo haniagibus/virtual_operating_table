@@ -20,8 +20,8 @@ namespace OperatingTable
         [Header("Movement System")]
         public List<MovementAxis> movementAxes = new List<MovementAxis>();
 
-        [Header("Visibility")]
-        [SerializeField] private bool isVisible = true;
+        // [Header("Visibility")]
+        // [SerializeField] private bool isVisible = true;
 
         [HideInInspector]
         public MountPoint currentMountPoint;
@@ -36,33 +36,27 @@ namespace OperatingTable
             // UpdateVisibility();
         }
 
-        /// <summary>
-        /// Aktualizuje widoczność obiektu na podstawie stanu isAttached
-        /// </summary>
-        // public void UpdateVisibility()
-        // {
-        //     gameObject.SetActive(isAttached);
-        // }
-
-        /// <summary>
-        /// Ustawia stan załączenia i aktualizuje widoczność
-        /// </summary>
-        // public void SetAttached(bool attached)
-        // {
-        //     isAttached = attached;
-        //     UpdateVisibility();
-        // }
+        public void UpdateVisibility()
+        {
+            gameObject.SetActive(isAttached);
+        }
 
         public void SetAttached(bool attached)
         {
             isAttached = attached;
+            UpdateVisibility();
         }
 
-        public void SetVisible(bool visible)
-        {
-            isVisible = visible;
-            gameObject.SetActive(visible);
-        }
+        // public void SetAttached(bool attached)
+        // {
+        //     isAttached = attached;
+        // }
+
+        // public void SetVisible(bool visible)
+        // {
+        //     isVisible = visible;
+        //     gameObject.SetActive(visible);
+        // }
 
         /// <summary>
         /// Zwraca pivot o podanej nazwie

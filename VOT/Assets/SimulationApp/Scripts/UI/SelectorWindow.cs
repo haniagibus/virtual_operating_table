@@ -33,12 +33,16 @@ public class SelectorWindow : MonoBehaviour
     [Tooltip("Rodzic zawierający wszystkie elementy (opcjonalny)")]
     public Transform elementsContainer;
 
-    [Header("Pivot System")]
-    public Transform pivotListContainer;
-    public GameObject pivotEntryPrefab;
+    [Header("Component Pivot & Movement Containers")]
+    public Transform componentPivotListContainer;
+    public Transform componentMovementListContainer;
 
-    [Header("Movement System")]
-    public Transform movementListContainer;
+    [Header("Accessory Pivot & Movement Containers")]
+    public Transform accessoryPivotListContainer;
+    public Transform accessoryMovementListContainer;
+
+    [Header("Prefabs (Shared)")]
+    public GameObject pivotEntryPrefab;
     public GameObject movementEntryPrefab;
 
     private TableElement currentSelectedElement = null;
@@ -331,7 +335,7 @@ public class SelectorWindow : MonoBehaviour
         if (suppressToggleCallback) return;
         if (currentSelectedElement == null) return;
 
-        currentSelectedElement.SetVisible(isOn);
+        currentSelectedElement.SetAttached(isOn);
     }
 
     // ----------------------------------------------------
@@ -359,7 +363,7 @@ public class SelectorWindow : MonoBehaviour
             return;
 
         target.Attach(element.gameObject);
-        element.SetVisible(true);
+        element.SetAttached(true);
 
         // odśwież dropdown (stan zajętości)
         BuildMountPointDropdown();
@@ -411,11 +415,16 @@ public class SelectorWindow : MonoBehaviour
             return;
         }
 
+        // Wybierz odpowiedni kontener w zależności od trybu
+        Transform targetContainer = (currentMode == PanelMode.Component) 
+            ? componentPivotListContainer 
+            : accessoryPivotListContainer;
+
         foreach (var pivot in currentSelectedElement.rotationPivots)
         {
             if (pivot == null) continue;
 
-            GameObject entryObj = Instantiate(pivotEntryPrefab, pivotListContainer);
+            GameObject entryObj = Instantiate(pivotEntryPrefab, targetContainer);
             PivotEntryUI entry = entryObj.GetComponent<PivotEntryUI>();
 
             entry.pivot = pivot;
@@ -430,8 +439,8 @@ public class SelectorWindow : MonoBehaviour
                 entry.sliderX.maxValue = pivot.maxAngleX;
 
                 float angleX = pivot.currentAngleX;
-                entry.sliderX.value = angleX;
                 entry.lastX = angleX;
+                entry.sliderX.value = angleX;
             }
             else if (entry.sliderX != null)
             {
@@ -446,8 +455,8 @@ public class SelectorWindow : MonoBehaviour
                 entry.sliderY.maxValue = pivot.maxAngleY;
 
                 float angleY = pivot.currentAngleY;
-                entry.sliderY.value = angleY;
                 entry.lastY = angleY;
+                entry.sliderY.value = angleY;
             }
             else if (entry.sliderY != null)
             {
@@ -462,8 +471,8 @@ public class SelectorWindow : MonoBehaviour
                 entry.sliderZ.maxValue = pivot.maxAngleZ;
 
                 float angleZ = pivot.currentAngleZ;
-                entry.sliderZ.value = angleZ;
                 entry.lastZ = angleZ;
+                entry.sliderZ.value = angleZ;
             }
             else if (entry.sliderZ != null)
             {
@@ -481,11 +490,16 @@ public class SelectorWindow : MonoBehaviour
             return;
         }
 
+        // Wybierz odpowiedni kontener w zależności od trybu
+        Transform targetContainer = (currentMode == PanelMode.Component) 
+            ? componentMovementListContainer 
+            : accessoryMovementListContainer;
+
         foreach (var axis in currentSelectedElement.movementAxes)
         {
             if (axis == null) continue;
 
-            GameObject entryObj = Instantiate(movementEntryPrefab, movementListContainer);
+            GameObject entryObj = Instantiate(movementEntryPrefab, targetContainer);
             MovementEntryUI entry = entryObj.GetComponent<MovementEntryUI>();
 
             entry.axis = axis;
@@ -500,8 +514,8 @@ public class SelectorWindow : MonoBehaviour
                 entry.sliderX.maxValue = axis.maxDistanceX;
 
                 float posX = axis.currentPositionX;
-                entry.sliderX.value = posX;
                 entry.lastX = posX;
+                entry.sliderX.value = posX;
             }
             else if (entry.sliderX != null)
             {
@@ -516,8 +530,8 @@ public class SelectorWindow : MonoBehaviour
                 entry.sliderY.maxValue = axis.maxDistanceY;
 
                 float posY = axis.currentPositionY;
-                entry.sliderY.value = posY;
                 entry.lastY = posY;
+                entry.sliderY.value = posY;
             }
             else if (entry.sliderY != null)
             {
@@ -532,8 +546,8 @@ public class SelectorWindow : MonoBehaviour
                 entry.sliderZ.maxValue = axis.maxDistanceZ;
 
                 float posZ = axis.currentPositionZ;
-                entry.sliderZ.value = posZ;
                 entry.lastZ = posZ;
+                entry.sliderZ.value = posZ;
             }
             else if (entry.sliderZ != null)
             {
@@ -544,13 +558,21 @@ public class SelectorWindow : MonoBehaviour
 
     void ClearPivotUI()
     {
-        foreach (Transform child in pivotListContainer)
+        // Wyczyść oba kontenery
+        foreach (Transform child in componentPivotListContainer)
+            Destroy(child.gameObject);
+        
+        foreach (Transform child in accessoryPivotListContainer)
             Destroy(child.gameObject);
     }
 
     void ClearMovementUI()
     {
-        foreach (Transform child in movementListContainer)
+        // Wyczyść oba kontenery
+        foreach (Transform child in componentMovementListContainer)
+            Destroy(child.gameObject);
+        
+        foreach (Transform child in accessoryMovementListContainer)
             Destroy(child.gameObject);
     }
 }

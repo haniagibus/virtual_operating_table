@@ -160,79 +160,79 @@ namespace OperatingTable
             return '?';
         }
 
-        public bool IsFullyExtended()
-        {
-            foreach (TelescopicSection section in sections)
-            {
-                if (section.movementAxis == null)
-                    continue;
+        // public bool IsFullyExtended()
+        // {
+        //     foreach (TelescopicSection section in sections)
+        //     {
+        //         if (section.movementAxis == null)
+        //             continue;
 
-                float current = GetCurrentPosition(section.movementAxis);
-                float max = GetMaxPosition(section.movementAxis);
+        //         float current = GetCurrentPosition(section.movementAxis);
+        //         float max = GetMaxPosition(section.movementAxis);
 
-                if (current < max - stepSize)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        //         if (current < max - stepSize)
+        //         {
+        //             return false;
+        //         }
+        //     }
+        //     return true;
+        // }
 
-        public bool IsFullyRetracted()
-        {
-            foreach (TelescopicSection section in sections)
-            {
-                if (section.movementAxis == null)
-                    continue;
+        // public bool IsFullyRetracted()
+        // {
+        //     foreach (TelescopicSection section in sections)
+        //     {
+        //         if (section.movementAxis == null)
+        //             continue;
 
-                float current = GetCurrentPosition(section.movementAxis);
-                float min = GetMinPosition(section.movementAxis);
+        //         float current = GetCurrentPosition(section.movementAxis);
+        //         float min = GetMinPosition(section.movementAxis);
 
-                if (current > min + stepSize)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        //         if (current > min + stepSize)
+        //         {
+        //             return false;
+        //         }
+        //     }
+        //     return true;
+        // }
 
-        public void Reset()
-        {
-            foreach (TelescopicSection section in sections)
-            {
-                if (section.movementAxis != null)
-                {
-                    section.movementAxis.ResetPosition();
-                }
-            }
+        // public void Reset()
+        // {
+        //     foreach (TelescopicSection section in sections)
+        //     {
+        //         if (section.movementAxis != null)
+        //         {
+        //             section.movementAxis.ResetPosition();
+        //         }
+        //     }
 
-            Debug.Log("[TelescopicMovement] Zresetowano teleskop");
-        }
+        //     Debug.Log("[TelescopicMovement] Zresetowano teleskop");
+        // }
 
-        public float GetTotalHeight()
-        {
-            float total = 0f;
-            foreach (TelescopicSection section in sections)
-            {
-                if (section.movementAxis != null)
-                {
-                    total += GetCurrentPosition(section.movementAxis);
-                }
-            }
-            return total;
-        }
+        // public float GetTotalHeight()
+        // {
+        //     float total = 0f;
+        //     foreach (TelescopicSection section in sections)
+        //     {
+        //         if (section.movementAxis != null)
+        //         {
+        //             total += GetCurrentPosition(section.movementAxis);
+        //         }
+        //     }
+        //     return total;
+        // }
 
-        public float GetMaxHeight()
-        {
-            float total = 0f;
-            foreach (TelescopicSection section in sections)
-            {
-                if (section.movementAxis != null)
-                {
-                    total += GetMaxPosition(section.movementAxis);
-                }
-            }
-            return total;
-        }
+        // public float GetMaxHeight()
+        // {
+        //     float total = 0f;
+        //     foreach (TelescopicSection section in sections)
+        //     {
+        //         if (section.movementAxis != null)
+        //         {
+        //             total += GetMaxPosition(section.movementAxis);
+        //         }
+        //     }
+        //     return total;
+        // }
     }
 }

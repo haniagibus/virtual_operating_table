@@ -156,8 +156,6 @@ namespace OperatingTable
             currentPositionX = 0f;
             currentPositionY = 0f;
             currentPositionZ = 0f;
-        }
-
-        
+        }        
     }
 }
