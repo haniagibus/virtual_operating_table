@@ -19,6 +19,9 @@ public class HandControlPanel : MonoBehaviour
 
     private bool isOpen = false;
 
+    // [Header("Menu")]
+    // public MenuController menuController;
+
     void Awake()
     {
         if (handControlPanel == null)
@@ -54,6 +57,61 @@ public class HandControlPanel : MonoBehaviour
             ToggleHandControlPanel();
         }
     }
+
+    // // ============================================================
+    // // MENU 
+    // // ============================================================
+
+    // public void OnMenuMiddleButtonDown()
+    // {
+    //     switch (menuController.currentState)
+    //     {
+    //         case MenuState.Closed:
+    //             menuController.EnterMenu();
+    //             break;
+
+    //         case MenuState.Menu:
+    //             menuController.EnterPositions();
+    //             break;
+
+    //         case MenuState.Positions:
+    //             ConfirmPosition();
+    //             break;
+    //     }
+    // }
+
+    // private void ConfirmPosition()
+    // {
+    //     int index = menuController.currentIndex;
+
+    //     if (index < 0) return;
+
+    //     // TU mapujesz index → akcja
+    //     Debug.Log("Zatwierdzono pozycję: " + index);
+    // }
+
+    // public void OnMenuLeftButtonDown()
+    // {
+    //     if (menuController.currentState == MenuState.Menu ||
+    //         menuController.currentState == MenuState.Positions)
+    //     {
+    //         menuController.Iterate();
+    //     }
+    // }
+
+    // public void OnMenuRightButtonDown()
+    // {
+    //     switch (menuController.currentState)
+    //     {
+    //         case MenuState.Positions:
+    //             menuController.ExitToMenu();
+    //             break;
+
+    //         case MenuState.Menu:
+    //             menuController.ExitAll();
+    //             break;
+    //     }
+    // }
 
     // ============================================================
     // ROTATION 
@@ -93,18 +151,28 @@ public class HandControlPanel : MonoBehaviour
         }
     }
 
-    public void OnRightLegSelectedButtonDown()
+    public void OnRightLegSelectedButtonDown(Button button)
     {
-       if (handControl != null)
+        if (handControl != null)
         {
             handControl.RightLegSelected();
+
+            if (button.image.color == Color.white)
+                button.image.color = Color.red;
+            else
+                button.image.color = Color.white;
         }
     }
-    public void OnLeftLegSelectedButtonDown()
+    public void OnLeftLegSelectedButtonDown(Button button)
     {
-       if (handControl != null)
+        if (handControl != null)
         {
             handControl.LeftLegSelected();
+
+            if (button.image.color == Color.white)
+                button.image.color = Color.red;
+            else
+                button.image.color = Color.white;
         }
     }
 
@@ -178,7 +246,7 @@ public class HandControlPanel : MonoBehaviour
         {
             handControl.MoveTable(1);
         }
-    }    
+    }
 
     // ============================================================
     // STOP ALL MOVEMENT
@@ -194,11 +262,16 @@ public class HandControlPanel : MonoBehaviour
     // ============================================================
     // ON/OFF
     // ============================================================
-    public void OnPowerButtonDown()
+    public void OnPowerButtonDown(Button button)
     {
         if (handControl != null)
         {
             handControl.PowerOnOff();
+
+            if (button.image.color == Color.white)
+                button.image.color = Color.red;
+            else
+                button.image.color = Color.white;
         }
     }
 
