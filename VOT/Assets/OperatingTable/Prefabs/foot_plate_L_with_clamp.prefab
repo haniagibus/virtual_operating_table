@@ -232,6 +232,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4662302734075672}
+  - component: {fileID: 114461859408882370}
   m_Layer: 0
   m_Name: foot_plate_L
   m_TagString: Untagged
@@ -356,7 +357,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1987129518922436}
   m_LocalRotation: {x: -0.000000021855694, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.00013337}
+  m_LocalPosition: {x: 0, y: 0, z: 0.000124}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4120370340448214}
@@ -789,6 +790,31 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114461859408882370
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1987129518922436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 721736a02d60c2d4ead09ee21f55c4b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  axisName: 
+  allowX: 0
+  allowY: 1
+  allowZ: 0
+  minDistanceX: 0
+  maxDistanceX: 0
+  minDistanceY: 0
+  maxDistanceY: 0.0003
+  minDistanceZ: 0
+  maxDistanceZ: 0
+  currentPositionX: 0
+  currentPositionY: 0
+  currentPositionZ: 0
+  stepSize: 0.00001
 --- !u!114 &114536443117236220
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -805,5 +831,5 @@ MonoBehaviour:
   isAttached: 0
   rotationPivots: []
   movementAxes:
-  - {fileID: 0}
+  - {fileID: 114461859408882370}
   currentMountPoint: {fileID: 0}

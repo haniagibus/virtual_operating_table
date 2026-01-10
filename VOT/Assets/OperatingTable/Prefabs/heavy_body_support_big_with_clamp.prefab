@@ -1466,7 +1466,7 @@ MonoBehaviour:
   currentPositionX: 0
   currentPositionY: 0
   currentPositionZ: 0
-  stepSize: 0.000001
+  stepSize: 0.00001
 --- !u!114 &114116338379317272
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1513,7 +1513,7 @@ MonoBehaviour:
   currentPositionX: 0
   currentPositionY: 0
   currentPositionZ: 0
-  stepSize: 0.000001
+  stepSize: 0.00001
 --- !u!114 &114337831226671124
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1586,4 +1586,4 @@ MonoBehaviour:
   currentPositionX: 0
   currentPositionY: 0
   currentPositionZ: 0
-  stepSize: 0.000001
+  stepSize: 0.00001
