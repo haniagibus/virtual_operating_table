@@ -64,7 +64,7 @@ public class HandControlPanel : MonoBehaviour
     {
         if (handControl != null)
         {
-            handControl.TiltBackUp();
+            handControl.TiltBackPlate(1);
         }
     }
 
@@ -72,7 +72,7 @@ public class HandControlPanel : MonoBehaviour
     {
         if (handControl != null)
         {
-            handControl.TiltBackDown();
+            handControl.TiltBackPlate(-1);
         }
     }
 
@@ -81,7 +81,7 @@ public class HandControlPanel : MonoBehaviour
     {
         if (handControl != null)
         {
-            handControl.TiltLegsUp();
+            handControl.TiltLegsPlate(-1);
         }
     }
 
@@ -89,7 +89,7 @@ public class HandControlPanel : MonoBehaviour
     {
         if (handControl != null)
         {
-            handControl.TiltLegsDown();
+            handControl.TiltLegsPlate(1);
         }
     }
 
@@ -113,7 +113,7 @@ public class HandControlPanel : MonoBehaviour
     {
         if (handControl != null)
         {
-            handControl.TiltTrendelenburg();
+            handControl.TiltTrendelenburg(1);
         }
     }
 
@@ -121,7 +121,7 @@ public class HandControlPanel : MonoBehaviour
     {
         if (handControl != null)
         {
-            handControl.TiltReverseTrendelenburg();
+            handControl.TiltTrendelenburg(-1);
         }
     }
 
@@ -130,7 +130,7 @@ public class HandControlPanel : MonoBehaviour
     {
         if (handControl != null)
         {
-            handControl.TiltTableRight();
+            handControl.TiltTable(-1);
         }
     }
 
@@ -138,7 +138,7 @@ public class HandControlPanel : MonoBehaviour
     {
         if (handControl != null)
         {
-            handControl.TiltTableLeft();
+            handControl.TiltTable(1);
         }
     }
 
@@ -151,7 +151,7 @@ public class HandControlPanel : MonoBehaviour
     {
         if (handControl != null)
         {
-            handControl.RaiseTable();
+            handControl.ChangeTableHeight(1);
         }
     }
 
@@ -159,7 +159,7 @@ public class HandControlPanel : MonoBehaviour
     {
         if (handControl != null)
         {
-            handControl.LowerTable();
+            handControl.ChangeTableHeight(-1);
         }
     }
 
@@ -168,7 +168,7 @@ public class HandControlPanel : MonoBehaviour
     {
         if (handControl != null)
         {
-            handControl.MoveTableForward();
+            handControl.MoveTable(-1);
         }
     }
 
@@ -176,7 +176,7 @@ public class HandControlPanel : MonoBehaviour
     {
         if (handControl != null)
         {
-            handControl.MoveTableBackward();
+            handControl.MoveTable(1);
         }
     }    
 

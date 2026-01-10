@@ -198,23 +198,23 @@ namespace OperatingTable
             return currentAngleZ <= minAngleZ || currentAngleZ >= maxAngleZ;
         }
 
-        public bool IsAtLimit(char axis)
-        {
-            switch (axis)
-            {
-                case 'X':
-                case 'x':
-                    return IsAtLimitX();
-                case 'Y':
-                case 'y':
-                    return IsAtLimitY();
-                case 'Z':
-                case 'z':
-                    return IsAtLimitZ();
-                default:
-                    return false;
-            }
-        }
+        // public bool IsAtLimit(char axis)
+        // {
+        //     switch (axis)
+        //     {
+        //         case 'X':
+        //         case 'x':
+        //             return IsAtLimitX();
+        //         case 'Y':
+        //         case 'y':
+        //             return IsAtLimitY();
+        //         case 'Z':
+        //         case 'z':
+        //             return IsAtLimitZ();
+        //         default:
+        //             return false;
+        //     }
+        // }
 
         // public void ResetToZero()
         // {
