@@ -1,6 +1,9 @@
-public enum LegSelection
+namespace OperatingTable
 {
-    Left,
-    Right,
-    Both
+    public enum LegSelection
+    {
+        Left,
+        Right,
+        Both
+    }
 }

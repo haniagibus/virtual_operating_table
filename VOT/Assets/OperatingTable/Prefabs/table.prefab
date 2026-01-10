@@ -811,6 +811,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1235971769901694
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4156035280982268}
+  - component: {fileID: 114577458474708176}
+  m_Layer: 0
+  m_Name: TablePositionManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1236407498286122
 GameObject:
   m_ObjectHideFlags: 1
@@ -3832,6 +3848,19 @@ Transform:
   m_Father: {fileID: 4778954686488782}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4156035280982268
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1235971769901694}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4589364923141694}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4158029935239952
 Transform:
   m_ObjectHideFlags: 1
@@ -4961,6 +4990,7 @@ Transform:
   - {fileID: 4278164723431558}
   - {fileID: 4913523456150662}
   - {fileID: 4284512505138286}
+  - {fileID: 4156035280982268}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -13490,6 +13520,27 @@ MonoBehaviour:
   currentAngleX: 0
   currentAngleY: 0
   currentAngleZ: 0
+--- !u!114 &114577458474708176
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1235971769901694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8eba548177580594080cf46a490a2423, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handControl: {fileID: 114852916760916366}
+  maxPositions: 10
+  restoreRotationStep: 2
+  restoreRotationTickInterval: 0.05
+  restoreHeightStep: 0.01
+  restoreHeightTickInterval: 0.05
+  restoreLongitudinalStep: 0.01
+  restoreLongitudinalTickInterval: 0.05
+  lockFirstPosition: 1
+  ignoreHeight: 0
 --- !u!114 &114631276662947704
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -13629,7 +13680,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed20f136693bb1b4dbbde448cc2eb2a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tableStateManager: {fileID: 0}
+  tablePositionManager: {fileID: 114577458474708176}
   tableBackPartUpperRotate: {fileID: 114393099053776332}
   tableBackPartLowerRotate: {fileID: 114002588644963730}
   tableBackPartLowerLeftRotate: {fileID: 114358396205517674}
@@ -13638,7 +13689,6 @@ MonoBehaviour:
   tableTop: {fileID: 4307129692854954}
   tableHeightControl: {fileID: 114281491053397190}
   tableLongitudinalControl: {fileID: 114284356133589698}
-  tableRotateElement: {fileID: 4307129692854954}
   rotationStep: 2
   rotationTickInterval: 0.05
   heightStep: 0.01

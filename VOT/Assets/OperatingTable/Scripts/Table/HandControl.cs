@@ -7,9 +7,8 @@ namespace OperatingTable
 {
     public class HandControl : MonoBehaviour
     {
-        // [Header("Table State")]
-        // public TableStateManager tableStateManager;
-
+        [Header("Table Position Manager")]
+        public TablePositionManager tablePositionManager;
 
         [Header("Table Components - Rotation")]
         public RotationPivot tableBackPartUpperRotate;
@@ -373,14 +372,19 @@ namespace OperatingTable
         // ============================================================
         public void LevelZero()
         {
-            if (isLocked == true)
+            if (isLocked)
             {
-                Debug.Log("[HandControl] Stół wyłączony ");
+                Debug.Log("[HandControl] Stół wyłączony - nie można ustawić Level Zero");
                 return;
             }
 
-            Debug.Log("[HandControl] Resetuję stół do pozycji zerowej");
-            StartCoroutine(LevelZeroCoroutine());
+            if (tablePositionManager == null)
+            {
+                Debug.LogError("[HandControl] TablePositionManager nie jest przypisany!");
+                return;
+            }
+
+            tablePositionManager.RestorePredefinedPosition(PredefinedPositionType.Level0);
         }
 
         // ============================================================
@@ -565,120 +569,120 @@ namespace OperatingTable
             currentLongitudinalCoroutine = null;
         }
 
-        void StartTracked(IEnumerator coroutine, int running)
-        {
-            running++;
-            StartCoroutine(TrackCoroutine(coroutine, running));
-        }
+        // void StartTracked(IEnumerator coroutine, int running)
+        // {
+        //     running++;
+        //     StartCoroutine(TrackCoroutine(coroutine, running));
+        // }
 
-        IEnumerator TrackCoroutine(IEnumerator coroutine, int running)
-        {
-            yield return StartCoroutine(coroutine);
-            running--;
-        }
+        // IEnumerator TrackCoroutine(IEnumerator coroutine, int running)
+        // {
+        //     yield return StartCoroutine(coroutine);
+        //     running--;
+        // }
 
-        private IEnumerator LevelZeroCoroutine()
-        {
-            int running = 0;
+        // private IEnumerator LevelZeroCoroutine()
+        // {
+        //     int running = 0;
 
-            if (tableBackPartUpperRotate != null)
-                StartTracked(ResetPivotToZeroCoroutine(tableBackPartUpperRotate), running);
+        //     if (tableBackPartUpperRotate != null)
+        //         StartTracked(ResetPivotToZeroCoroutine(tableBackPartUpperRotate), running);
 
-            if (tableBackPartLowerRotate != null)
-                StartTracked(ResetPivotToZeroCoroutine(tableBackPartLowerRotate), running);
+        //     if (tableBackPartLowerRotate != null)
+        //         StartTracked(ResetPivotToZeroCoroutine(tableBackPartLowerRotate), running);
 
-            if (tableBackPartLowerLeftRotate != null)
-                StartTracked(ResetPivotToZeroCoroutine(tableBackPartLowerLeftRotate), running);
+        //     if (tableBackPartLowerLeftRotate != null)
+        //         StartTracked(ResetPivotToZeroCoroutine(tableBackPartLowerLeftRotate), running);
 
-            if (tableBackPartLowerRightRotate != null)
-                StartTracked(ResetPivotToZeroCoroutine(tableBackPartLowerRightRotate), running);
+        //     if (tableBackPartLowerRightRotate != null)
+        //         StartTracked(ResetPivotToZeroCoroutine(tableBackPartLowerRightRotate), running);
 
-            if (tableRotation != null)
-                StartTracked(ResetPivotToZeroCoroutine(tableRotation), running);
+        //     if (tableRotation != null)
+        //         StartTracked(ResetPivotToZeroCoroutine(tableRotation), running);
 
-            if (tableLongitudinalControl != null)
-                StartTracked(ResetLongitudinalToZeroCoroutine(), running);
+        //     if (tableLongitudinalControl != null)
+        //         StartTracked(ResetLongitudinalToZeroCoroutine(), running);
 
-            yield return new WaitUntil(() => running == 0);
+        //     yield return new WaitUntil(() => running == 0);
 
-            Debug.Log("[HandControl] Pozycja zerowa - stół wypoziomowany i wycentrowany");
-        }
+        //     Debug.Log("[HandControl] Pozycja zerowa - stół wypoziomowany i wycentrowany");
+        // }
 
-        private IEnumerator ResetPivotToZeroCoroutine(RotationPivot pivot)
-        {
-            if (pivot == null)
-            {
-                yield break;
-            }
+        // private IEnumerator ResetPivotToZeroCoroutine(RotationPivot pivot)
+        // {
+        //     if (pivot == null)
+        //     {
+        //         yield break;
+        //     }
 
-            if (pivot.allowX && Mathf.Abs(pivot.currentAngleX) > 0.01f)
-            {
-                yield return ResetAxisToZeroCoroutine(pivot, Vector3.right, pivot.currentAngleX);
-            }
+        //     if (pivot.allowX && Mathf.Abs(pivot.currentAngleX) > 0.01f)
+        //     {
+        //         yield return ResetAxisToZeroCoroutine(pivot, Vector3.right, pivot.currentAngleX);
+        //     }
 
-            if (pivot.allowY && Mathf.Abs(pivot.currentAngleY) > 0.01f)
-            {
-                yield return ResetAxisToZeroCoroutine(pivot, Vector3.up, pivot.currentAngleY);
-            }
+        //     if (pivot.allowY && Mathf.Abs(pivot.currentAngleY) > 0.01f)
+        //     {
+        //         yield return ResetAxisToZeroCoroutine(pivot, Vector3.up, pivot.currentAngleY);
+        //     }
 
-            if (pivot.allowZ && Mathf.Abs(pivot.currentAngleZ) > 0.01f)
-            {
-                yield return ResetAxisToZeroCoroutine(pivot, Vector3.forward, pivot.currentAngleZ);
-            }
-        }
+        //     if (pivot.allowZ && Mathf.Abs(pivot.currentAngleZ) > 0.01f)
+        //     {
+        //         yield return ResetAxisToZeroCoroutine(pivot, Vector3.forward, pivot.currentAngleZ);
+        //     }
+        // }
 
-        private IEnumerator ResetAxisToZeroCoroutine(RotationPivot pivot, Vector3 axis, float currentAngle)
-        {
-            while (Mathf.Abs(currentAngle) > 0.01f)
-            {
-                int direction = currentAngle > 0 ? -1 : 1;
-                float delta = rotationStep * direction;
+        // private IEnumerator ResetAxisToZeroCoroutine(RotationPivot pivot, Vector3 axis, float currentAngle)
+        // {
+        //     while (Mathf.Abs(currentAngle) > 0.01f)
+        //     {
+        //         int direction = currentAngle > 0 ? -1 : 1;
+        //         float delta = rotationStep * direction;
 
-                if (Mathf.Abs(delta) > Mathf.Abs(currentAngle))
-                {
-                    delta = -currentAngle;
-                }
+        //         if (Mathf.Abs(delta) > Mathf.Abs(currentAngle))
+        //         {
+        //             delta = -currentAngle;
+        //         }
 
-                pivot.RotateWithVector3(axis, delta);
+        //         pivot.RotateWithVector3(axis, delta);
 
-                char detectedAxis = DetectAxisFromVector(axis);
-                currentAngle = pivot.GetCurrentAngle(detectedAxis);
+        //         char detectedAxis = DetectAxisFromVector(axis);
+        //         currentAngle = pivot.GetCurrentAngle(detectedAxis);
 
-                yield return new WaitForSeconds(rotationTickInterval);
-            }
-        }
-        private IEnumerator ResetLongitudinalToZeroCoroutine()
-        {
-            float currentPos = GetLongitudinalCurrentPosition();
+        //         yield return new WaitForSeconds(rotationTickInterval);
+        //     }
+        // }
+        // private IEnumerator ResetLongitudinalToZeroCoroutine()
+        // {
+        //     float currentPos = GetLongitudinalCurrentPosition();
 
-            if (Mathf.Abs(currentPos) < 0.0001f)
-            {
-                yield break;
-            }
+        //     if (Mathf.Abs(currentPos) < 0.0001f)
+        //     {
+        //         yield break;
+        //     }
 
-            while (Mathf.Abs(currentPos) > 0.0001f)
-            {
-                int direction = currentPos > 0 ? -1 : 1;
-                float delta = longitudinalStep * direction;
+        //     while (Mathf.Abs(currentPos) > 0.0001f)
+        //     {
+        //         int direction = currentPos > 0 ? -1 : 1;
+        //         float delta = longitudinalStep * direction;
 
-                if (Mathf.Abs(delta) > Mathf.Abs(currentPos))
-                {
-                    delta = -currentPos;
-                }
+        //         if (Mathf.Abs(delta) > Mathf.Abs(currentPos))
+        //         {
+        //             delta = -currentPos;
+        //         }
 
-                bool canContinue = tableLongitudinalControl.MoveWithVector3(Vector3.right, delta);
+        //         bool canContinue = tableLongitudinalControl.MoveWithVector3(Vector3.right, delta);
 
-                if (!canContinue)
-                {
-                    break;
-                }
+        //         if (!canContinue)
+        //         {
+        //             break;
+        //         }
 
-                currentPos = GetLongitudinalCurrentPosition();
-                yield return new WaitForSeconds(longitudinalTickInterval);
-            }
+        //         currentPos = GetLongitudinalCurrentPosition();
+        //         yield return new WaitForSeconds(longitudinalTickInterval);
+        //     }
 
-            Debug.Log("[HandControl] Pozycja wzdłużna zresetowana do zera");
-        }
+        //     Debug.Log("[HandControl] Pozycja wzdłużna zresetowana do zera");
+        // }
 
         private IEnumerator RotateToReverseCoroutine(bool reverse)
         {
