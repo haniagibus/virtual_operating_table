@@ -827,6 +827,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elementName: 
   type: 1
+  defaultMountSide: 1
   isAttached: 0
   rotationPivots: []
   movementAxes:

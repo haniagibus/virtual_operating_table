@@ -36,7 +36,7 @@ namespace OperatingTable
 
         private Vector3 initialPosition;
 
-        void Start()
+        void Awake()
         {
             if (string.IsNullOrEmpty(axisName))
             {

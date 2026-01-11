@@ -11,17 +11,22 @@ namespace OperatingTable
         [Header("Element Type")]
         public ElementType type = ElementType.Component;
 
+        [Header("Default Mount Side")]
+        [Tooltip("Domyślna strona montażu (lewa/prawa)")]
+        public MountSide defaultMountSide = MountSide.Right;
+
+        [Header("Flip State")]
+        [HideInInspector]
+        public bool isFlipped = false;
+
         [Header("Attachment State")]
-        public bool isAttached = true;
+        public bool isAttached = false;
 
         [Header("Rotation System")]
         public List<RotationPivot> rotationPivots = new List<RotationPivot>();
 
         [Header("Movement System")]
         public List<MovementAxis> movementAxes = new List<MovementAxis>();
-
-        // [Header("Visibility")]
-        // [SerializeField] private bool isVisible = true;
 
         [HideInInspector]
         public MountPoint currentMountPoint;
@@ -33,7 +38,10 @@ namespace OperatingTable
                 elementName = gameObject.name.Replace("_", " ");
             }
 
-            // UpdateVisibility();
+            // Ustaw początkowy stan obrotu na false (domyślnie element jest po prawej)
+            isFlipped = false;
+
+            UpdateVisibility();
         }
 
         public void UpdateVisibility()
@@ -47,16 +55,16 @@ namespace OperatingTable
             UpdateVisibility();
         }
 
-        // public void SetAttached(bool attached)
-        // {
-        //     isAttached = attached;
-        // }
+        /// <summary>
+        /// Sprawdza czy element jest zamontowany po przeciwnej stronie niż domyślna
+        /// </summary>
+        public bool IsMountedOnOppositeSide()
+        {
+            if (currentMountPoint == null)
+                return false;
 
-        // public void SetVisible(bool visible)
-        // {
-        //     isVisible = visible;
-        //     gameObject.SetActive(visible);
-        // }
+            return currentMountPoint.side != defaultMountSide;
+        }
 
         /// <summary>
         /// Zwraca pivot o podanej nazwie

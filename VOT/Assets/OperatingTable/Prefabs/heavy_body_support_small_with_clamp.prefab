@@ -1455,6 +1455,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elementName: 
   type: 1
+  defaultMountSide: 1
+  isFlipped: 0
   isAttached: 0
   rotationPivots:
   - {fileID: 114257258153533300}

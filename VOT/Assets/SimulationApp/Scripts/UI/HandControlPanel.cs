@@ -19,9 +19,6 @@ public class HandControlPanel : MonoBehaviour
 
     private bool isOpen = false;
 
-    // [Header("Menu")]
-    // public MenuController menuController;
-
     void Awake()
     {
         if (handControlPanel == null)

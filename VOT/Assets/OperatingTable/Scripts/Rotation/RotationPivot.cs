@@ -31,7 +31,7 @@ namespace OperatingTable
         [HideInInspector]
         public float currentAngleZ = 0f;
 
-        void Start()
+        void Awake()
         {
             if (string.IsNullOrEmpty(pivotName))
             {

@@ -101,9 +101,20 @@ public class SelectorWindow : MonoBehaviour
         }
         else
         {
-            // Unity 2018 - FindObjectsOfType nie ma parametru includeInactive
-            // Znajdź tylko aktywne obiekty
+            // Unity 2018 - FindObjectsOfType nie znajduje nieaktywnych obiektów
+            // Musisz ustawić elementsContainer w inspektorze aby znaleźć wszystkie elementy
             allElements = FindObjectsOfType<TableElement>();
+            
+            // Alternatywnie: znajdź wszystkie obiekty w scenie włącznie z nieaktywnymi
+            // poprzez przeszukanie wszystkich root objects
+            List<TableElement> elementsList = new List<TableElement>();
+            GameObject[] rootObjects = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
+            foreach (GameObject root in rootObjects)
+            {
+                TableElement[] elements = root.GetComponentsInChildren<TableElement>(true);
+                elementsList.AddRange(elements);
+            }
+            allElements = elementsList.ToArray();
         }
 
         Debug.Log("Znaleziono " + allElements.Length + " elementów TableElement");
@@ -269,8 +280,18 @@ public class SelectorWindow : MonoBehaviour
         Debug.Log("Wybrano komponent: " + currentSelectedElement.elementName);
 
         UpdateComponentToggleState();
-        BuildPivotUI();
-        BuildMovementUI();
+        
+        // Ładuj UI tylko jeśli element jest attached
+        if (currentSelectedElement.isAttached)
+        {
+            BuildPivotUI();
+            BuildMovementUI();
+        }
+        else
+        {
+            ClearPivotUI();
+            ClearMovementUI();
+        }
     }
 
     void UpdateComponentToggleState()
@@ -321,8 +342,18 @@ public class SelectorWindow : MonoBehaviour
         
         Debug.Log("Wybrano akcesorium: " + currentSelectedElement.elementName);
 
-        BuildPivotUI();
-        BuildMovementUI();
+        // Ładuj UI tylko jeśli element jest attached
+        if (currentSelectedElement.isAttached)
+        {
+            BuildPivotUI();
+            BuildMovementUI();
+        }
+        else
+        {
+            ClearPivotUI();
+            ClearMovementUI();
+        }
+        
         BuildMountPointDropdown();
     }
 
@@ -336,6 +367,18 @@ public class SelectorWindow : MonoBehaviour
         if (currentSelectedElement == null) return;
 
         currentSelectedElement.SetAttached(isOn);
+        
+        // Odśwież UI po zmianie stanu attached
+        if (isOn)
+        {
+            BuildPivotUI();
+            BuildMovementUI();
+        }
+        else
+        {
+            ClearPivotUI();
+            ClearMovementUI();
+        }
     }
 
     // ----------------------------------------------------
@@ -353,10 +396,29 @@ public class SelectorWindow : MonoBehaviour
         if (currentSelectedElement.type != ElementType.Accessory)
             return;
 
-        if (index < 0 || index >= mountPoints.Count)
+        // Index 0 = "Not Attached" (odłączenie)
+        if (index == 0)
+        {
+            // Jeśli element jest aktualnie podłączony, odłącz go
+            if (currentSelectedElement.currentMountPoint != null)
+            {
+                currentSelectedElement.currentMountPoint.Detach();
+                Debug.Log("Odłączono akcesorium: " + currentSelectedElement.elementName);
+                
+                // Wyczyść UI po odłączeniu
+                ClearPivotUI();
+                ClearMovementUI();
+            }
+            return;
+        }
+
+        // Index > 0 = faktyczne mount pointy (indeks-1 w liście mountPoints)
+        int mountPointIndex = index - 1;
+        
+        if (mountPointIndex < 0 || mountPointIndex >= mountPoints.Count)
             return;
 
-        MountPoint target = mountPoints[index];
+        MountPoint target = mountPoints[mountPointIndex];
         TableElement element = currentSelectedElement;
 
         if (element.currentMountPoint == target)
@@ -364,6 +426,10 @@ public class SelectorWindow : MonoBehaviour
 
         target.Attach(element.gameObject);
         element.SetAttached(true);
+
+        // Odśwież UI po podłączeniu
+        BuildPivotUI();
+        BuildMovementUI();
 
         // odśwież dropdown (stan zajętości)
         BuildMountPointDropdown();
@@ -377,7 +443,9 @@ public class SelectorWindow : MonoBehaviour
         MountPoint[] points = FindObjectsOfType<MountPoint>();
         List<string> names = new List<string>();
 
-        int selectedIndex = 0;
+        // ZAWSZE dodaj "Not Attached" jako pierwszą opcję
+        names.Add("Not Attached");
+        int selectedIndex = 0; // Domyślnie "Not Attached"
 
         for (int i = 0; i < points.Length; i++)
         {
@@ -388,12 +456,22 @@ public class SelectorWindow : MonoBehaviour
             // - wolne mountpointy
             if (!mp.IsOccupied || mp.HasAccessory(currentSelectedElement.gameObject))
             {
+                // Jeśli to aktualny mount point tego akcesorium
                 if (mp.HasAccessory(currentSelectedElement.gameObject))
-                    selectedIndex = mountPoints.Count;
+                {
+                    // +1 bo "Not Attached" jest na indeksie 0
+                    selectedIndex = mountPoints.Count + 1;
+                }
 
                 mountPoints.Add(mp);
                 names.Add(mp.displayName);
             }
+        }
+
+        // Jeśli element nie jest nigdzie podłączony, wybierz "Not Attached"
+        if (currentSelectedElement.currentMountPoint == null)
+        {
+            selectedIndex = 0;
         }
 
         suppressMountPointCallback = true;
