@@ -92,7 +92,7 @@ namespace OperatingTable
         private TablePosition SetupLevel0Position()
         {
             TablePosition pos = new TablePosition("Level Zero");
-            
+
             // Wszystkie kąty na zero
             pos.backUpperAngleX = 0f;
             pos.backUpperAngleY = 0f;
@@ -120,10 +120,10 @@ namespace OperatingTable
         private TablePosition SetupFlexPosition()
         {
             TablePosition pos = new TablePosition("Flex");
-            
+
             pos.backUpperAngleX = 0f;
-            pos.backUpperAngleY = -40f;
-            pos.backUpperAngleZ = 0f;
+            pos.backUpperAngleY = 0f;
+            pos.backUpperAngleZ = 40f;
             pos.backLowerAngleX = 0f;
             pos.backLowerAngleY = 0f;
             pos.backLowerAngleZ = 0f;
@@ -147,10 +147,10 @@ namespace OperatingTable
         private TablePosition SetupReflexPosition()
         {
             TablePosition pos = new TablePosition("Reflex");
-            
+
             pos.backUpperAngleX = 0f;
-            pos.backUpperAngleY = 70f;
-            pos.backUpperAngleZ = 0f;
+            pos.backUpperAngleY = 0f;
+            pos.backUpperAngleZ = -70f;
             pos.backLowerAngleX = 0f;
             pos.backLowerAngleY = 0f;
             pos.backLowerAngleZ = 0f;
@@ -174,13 +174,13 @@ namespace OperatingTable
         private void SetupPredefinedPosition1()
         {
             TablePosition pos = new TablePosition("Beach Chair");
-            
+
             pos.backUpperAngleX = 0f;
-            pos.backUpperAngleY = 80f;
-            pos.backUpperAngleZ = 0f;
+            pos.backUpperAngleY = 0f;
+            pos.backUpperAngleZ = -80f;
             pos.backLowerAngleX = 0f;
-            pos.backLowerAngleY = 70f;
-            pos.backLowerAngleZ = 0f;
+            pos.backLowerAngleY = 0f;
+            pos.backLowerAngleZ = -70f;
             pos.backLowerLeftAngleX = 0f;
             pos.backLowerLeftAngleY = 0f;
             pos.backLowerLeftAngleZ = 0f;
@@ -609,24 +609,52 @@ namespace OperatingTable
         private IEnumerator RestoreAxisCoroutine(RotationPivot pivot, Vector3 axis, float targetAngle)
         {
             char detectedAxis = DetectAxisFromVector(axis);
-            float currentAngle = pivot.GetCurrentAngle(detectedAxis);
 
-            while (Mathf.Abs(currentAngle - targetAngle) > 0.01f)
+            Debug.Log("[TablePositionManager] " + pivot.pivotName + " oś " + detectedAxis +
+                      " - Cel: " + targetAngle.ToString("F1") + "°");
+
+            int iterations = 0;
+            int maxIterations = 1000;
+
+            // Pętla aż osiągniemy cel
+            while (iterations < maxIterations)
             {
+                float currentAngle = pivot.GetCurrentAngle(detectedAxis); // To już jest zsynchronizowane
                 float diff = targetAngle - currentAngle;
+
+                if (Mathf.Abs(diff) < 0.1f)
+                    break; // Osiągnięto cel
+
                 int direction = diff > 0 ? 1 : -1;
                 float delta = restoreRotationStep * direction;
 
                 if (Mathf.Abs(delta) > Mathf.Abs(diff))
                 {
-                    delta = diff;
+                    delta = diff; // Nie przekraczaj celu
                 }
 
-                pivot.RotateWithVector3(axis, delta);
-                currentAngle = pivot.GetCurrentAngle(detectedAxis);
+                bool success = pivot.RotateWithVector3(axis, delta);
 
+                if (!success)
+                {
+                    Debug.LogWarning("[TablePositionManager] " + pivot.pivotName +
+                                   " nie może kontynuować ruchu na osi " + detectedAxis);
+                    break;
+                }
+
+                iterations++;
                 yield return new WaitForSeconds(restoreRotationTickInterval);
             }
+
+            if (iterations >= maxIterations)
+            {
+                Debug.LogWarning("[TablePositionManager] " + pivot.pivotName +
+                                " osiągnięto max iteracji na osi " + detectedAxis);
+            }
+
+            float finalAngle = pivot.GetCurrentAngle(detectedAxis);
+            Debug.Log("[TablePositionManager] " + pivot.pivotName + " oś " + detectedAxis +
+                      " zakończono na: " + finalAngle.ToString("F1") + "°");
         }
 
         private IEnumerator RestoreHeightCoroutine(float targetHeight)

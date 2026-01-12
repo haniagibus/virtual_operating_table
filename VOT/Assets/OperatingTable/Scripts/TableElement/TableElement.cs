@@ -3,6 +3,17 @@ using UnityEngine;
 
 namespace OperatingTable
 {
+    [System.Serializable]
+    public class ElementAnimation
+    {
+        public RotationPivot pivot;        // opcjonalnie
+        public MovementAxis axis;          // opcjonalnie
+        public string axisName;            // nazwa osi pivotu/axis dla której animacja ma działać
+        public AnimationClip clip;         // animacja do odtwarzania
+        public float speed = 1f;           // prędkość odtwarzania
+    }
+
+
     public class TableElement : MonoBehaviour
     {
         [Header("Element Info")]
@@ -31,6 +42,11 @@ namespace OperatingTable
         [HideInInspector]
         public MountPoint currentMountPoint;
 
+        [Header("Element Animations")]
+        public List<ElementAnimation> elementAnimations = new List<ElementAnimation>();
+
+        private Animator animator; // Animator powiązany z tym elementem
+
         void Awake()
         {
             if (string.IsNullOrEmpty(elementName))
@@ -42,6 +58,12 @@ namespace OperatingTable
             isFlipped = false;
 
             UpdateVisibility();
+
+            animator = GetComponent<Animator>();
+            if (animator == null && elementAnimations.Count > 0)
+            {
+                Debug.LogWarning("[TableElement] Animator wymagany do obsługi elementAnimations!");
+            }
         }
 
         public void UpdateVisibility()
@@ -54,6 +76,34 @@ namespace OperatingTable
             isAttached = attached;
             UpdateVisibility();
         }
+
+
+        // ====================== ANIMACJE PIVOTA ======================
+
+        public void PlayAnimationForPivot(RotationPivot pivot, string axis, bool forward = true)
+        {
+            if (animator == null) return;
+
+            var anim = elementAnimations.Find(x => x.pivot == pivot && x.axisName == axis);
+            if (anim == null) return;
+
+            animator.speed = forward ? Mathf.Abs(anim.speed) : -Mathf.Abs(anim.speed);
+            animator.Play(anim.clip.name, 0, forward ? 0f : 1f);
+        }
+
+        public void PlayAnimationForAxis(MovementAxis axisObj, string axis, bool forward = true)
+        {
+            if (animator == null) return;
+
+            var anim = elementAnimations.Find(x => x.axis == axisObj && x.axisName == axis);
+            if (anim == null) return;
+
+            animator.speed = forward ? Mathf.Abs(anim.speed) : -Mathf.Abs(anim.speed);
+            animator.Play(anim.clip.name, 0, forward ? 0f : 1f);
+        }
+
+
+
 
         /// <summary>
         /// Sprawdza czy element jest zamontowany po przeciwnej stronie niż domyślna

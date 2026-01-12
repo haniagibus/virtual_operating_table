@@ -119,7 +119,7 @@ public class HandControlPanel : MonoBehaviour
     {
         if (handControl != null)
         {
-            handControl.TiltBackPlate(1);
+            handControl.TiltBackPlate(-1);
         }
     }
 
@@ -127,7 +127,7 @@ public class HandControlPanel : MonoBehaviour
     {
         if (handControl != null)
         {
-            handControl.TiltBackPlate(-1);
+            handControl.TiltBackPlate(1);
         }
     }
 
@@ -136,7 +136,7 @@ public class HandControlPanel : MonoBehaviour
     {
         if (handControl != null)
         {
-            handControl.TiltLegsPlate(-1);
+            handControl.TiltLegsPlate(1);
         }
     }
 
@@ -144,7 +144,7 @@ public class HandControlPanel : MonoBehaviour
     {
         if (handControl != null)
         {
-            handControl.TiltLegsPlate(1);
+            handControl.TiltLegsPlate(-1);
         }
     }
 

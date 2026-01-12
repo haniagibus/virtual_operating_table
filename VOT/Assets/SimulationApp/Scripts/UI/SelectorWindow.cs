@@ -45,7 +45,8 @@ public class SelectorWindow : MonoBehaviour
     public GameObject pivotEntryPrefab;
     public GameObject movementEntryPrefab;
 
-    private TableElement currentSelectedElement = null;
+    public TableElement currentSelectedElement = null;
+
     private bool suppressToggleCallback = false;
     private List<MountPoint> mountPoints = new List<MountPoint>();
     private bool suppressMountPointCallback = false;

@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-//using System.Diagnostics;
-
 
 namespace OperatingTable
 {
@@ -29,20 +27,22 @@ namespace OperatingTable
         [Tooltip("Teleskopowy mechanizm podnoszenia stołu")]
         public TelescopicMovement tableHeightControl;
 
+        [Tooltip("Element blatu do przenoszenia podczas ruchu wysokości")]
+        public Transform tableTopElement;
+
+        [Tooltip("Nazwa obiektu górnej sekcji nogi (do przyłączenia podczas ruchu)")]
+        public string topLegSectionName = "table_leg_column_segment_4_move";
+
+        [Tooltip("Nazwa obiektu głównego stołu (do przyłączenia po zakończeniu ruchu)")]
+        public string mainTableName = "table";
+
         [Header("Table Longitudinal Movement")]
         [Tooltip("Mechanizm przesuwania stołu wzdłużnie")]
         public MovementAxis tableLongitudinalControl;
 
-        // [Header("Table Elements to Move")]
-        // [Tooltip("Element który będzie odłączany/przyłączany podczas ruchu")]
-        // public Transform tableRotateElement;
-
-        // [Header("Blend Shapes")]
-        // [Tooltip("SkinnedMeshRenderer z blend shapes dla plecków")]
-        // public SkinnedMeshRenderer tableBackPad;
-        // [Tooltip("Szybkość zmiany blend shape - współczynnik względem rotacji")]
-        // public float blendShapeMultiplier = 5f;
-
+        [Header("Blend Shapes")]
+        [Tooltip("Kontroler blend shapes (opcjonalny)")]
+        public TableBlendShapeController blendShapeController;
 
         [Header("Rotation Settings")]
         public float rotationStep = 2f;
@@ -56,7 +56,6 @@ namespace OperatingTable
         public float longitudinalStep = 0.00005f;
         public float longitudinalTickInterval = 0.05f;
 
-
         private Coroutine currentTiltCoroutine = null;
         private bool isTilting = false;
 
@@ -69,42 +68,10 @@ namespace OperatingTable
         public bool isLocked = false;
         public LegSelection currentLeg = LegSelection.Both;
 
-
-        // // Indeksy blend shapes - znajdowane automatycznie
-        // private int blendShapeBackPadUpperUp = -1;
-        // private int blendShapeBackPadUpperDown = -1;
-        // private int blendShapeBackPadLowerUp = -1;
-        // private int blendShapeBackPadLowerDown = -1;
-
-        // private void Start()
-        // {
-        //     // Znajdź indeksy blend shapes
-        //     if (tableBackPad != null)
-        //     {
-        //         Mesh mesh = tableBackPad.sharedMesh;
-        //         for (int i = 0; i < mesh.blendShapeCount; i++)
-        //         {
-        //             string shapeName = mesh.GetBlendShapeName(i);
-
-        //             if (shapeName == "back_pad_upper_up")
-        //                 blendShapeBackPadUpperUp = i;
-        //             else if (shapeName == "back_pad_upper_down")
-        //                 blendShapeBackPadUpperDown = i;
-        //             else if (shapeName == "back_pad_lower_up")
-        //                 blendShapeBackPadLowerUp = i;
-        //             else if (shapeName == "back_pad_lower_down")
-        //                 blendShapeBackPadLowerDown = i;
-        //         }
-
-        //         Debug.Log("[HandControl] Blend shapes: upper_up=" + blendShapeBackPadUpperUp + ", upper_down=" + blendShapeBackPadUpperDown + ", lower_up=" + blendShapeBackPadLowerUp + ", lower_down=" + blendShapeBackPadLowerDown);
-        //     }
-        // }
-
         // ============================================================
         // ROTATION
         // ============================================================
 
-        // BACK TILT
         public void TiltBackPlate(int direction)
         {
             if (isLocked == true)
@@ -114,23 +81,9 @@ namespace OperatingTable
             }
 
             Debug.Log("[HandControl] Podnoszę górną część stołu");
-            StartTiltElement(tableBackPartUpperRotate, Vector3.up, direction);
+            StartTiltElement(tableBackPartUpperRotate, Vector3.forward, direction, false);
         }
 
-        // public void TiltBackDown()
-        // {
-        //     if (isLocked == true)
-        //     {
-        //         Debug.Log("[HandControl] Stół wyłączony ");
-        //         return;
-        //     }
-
-        //     Debug.Log("[HandControl] Opuszczam górną część stołu");
-        //     StartTiltElement(tableBackPartUpperRotate, Vector3.up, -1);
-
-        // }
-
-        // LEGS TILT
         public void TiltLegsPlate(int direction)
         {
             if (isLocked == true)
@@ -142,45 +95,17 @@ namespace OperatingTable
             Debug.Log("[HandControl] Podnoszę dolną część stołu");
             if (currentLeg == LegSelection.Both)
             {
-                StartTiltElement(tableBackPartLowerRotate, Vector3.up, direction);
+                StartTiltElement(tableBackPartLowerRotate, Vector3.forward, direction, false);
             }
             else if (currentLeg == LegSelection.Left)
             {
-                StartTiltElement(tableBackPartLowerLeftRotate, Vector3.up, direction);
-
+                StartTiltElement(tableBackPartLowerLeftRotate, Vector3.forward, direction, false);
             }
             else if (currentLeg == LegSelection.Right)
             {
-                StartTiltElement(tableBackPartLowerRightRotate, Vector3.up, direction);
-
+                StartTiltElement(tableBackPartLowerRightRotate, Vector3.forward, direction, false);
             }
         }
-
-        // public void TiltLegsDown()
-        // {
-        //     if (isLocked == true)
-        //     {
-        //         Debug.Log("[HandControl] Stół wyłączony ");
-        //         return;
-        //     }
-
-        //     Debug.Log("[HandControl] Opuszczam dolną część stołu");
-        //     if (currentLeg == LegSelection.Both)
-        //     {
-        //         StartTiltElement(tableBackPartLowerRotate, Vector3.up, 1);
-        //     }
-        //     else if (currentLeg == LegSelection.Left)
-        //     {
-        //         StartTiltElement(tableBackPartLowerLeftRotate, Vector3.up, 1);
-
-        //     }
-        //     else if (currentLeg == LegSelection.Right)
-        //     {
-        //         StartTiltElement(tableBackPartLowerRightRotate, Vector3.up, 1);
-
-        //     }
-
-        // }
 
         public void LeftLegSelected()
         {
@@ -222,7 +147,7 @@ namespace OperatingTable
             }
         }
 
-        // TRENDELENBURG POSITION 
+        // TRENDELENBURG POSITION - Z BLEND SHAPES
         public void TiltTrendelenburg(int direction)
         {
             if (isLocked == true)
@@ -232,22 +157,10 @@ namespace OperatingTable
             }
 
             Debug.Log("[HandControl] Pozycja Trendelenburga");
-            StartTiltElement(tableRotation, Vector3.forward, direction);
+            StartTiltElement(tableRotation, Vector3.forward, direction, direction > 0);
         }
 
-        // public void TiltReverseTrendelenburg()
-        // {
-        //     if (isLocked == true)
-        //     {
-        //         Debug.Log("[HandControl] Stół wyłączony ");
-        //         return;
-        //     }
-
-        //     Debug.Log("[HandControl] Odwrócona pozycja Trendelenburga");
-        //     StartTiltElement(tableRotation, Vector3.forward, -1);
-        // }
-
-        // LATERAL TILT
+        // LATERAL TILT - Z BLEND SHAPES
         public void TiltTable(int direction)
         {
             if (isLocked == true)
@@ -256,28 +169,14 @@ namespace OperatingTable
                 return;
             }
 
-            Debug.Log("[HandControl] Przechylam stół w prawo");
-            StartTiltElement(tableRotation, Vector3.right, direction);
+            Debug.Log("[HandControl] Przechylam stół");
+            StartTiltElement(tableRotation, Vector3.right, direction, direction > 0);
         }
-
-        // public void TiltTableLeft()
-        // {
-        //     if (isLocked == true)
-        //     {
-        //         Debug.Log("[HandControl] Stół wyłączony ");
-        //         return;
-        //     }
-
-        //     Debug.Log("[HandControl] Przechylam stół w lewo");
-        //     StartTiltElement(tableRotation, Vector3.right, -1);
-        // }
-
 
         // ============================================================
         // MOVEMENT
         // ============================================================
 
-        // HEIGHT
         public void ChangeTableHeight(int direction)
         {
             if (isLocked == true)
@@ -286,23 +185,10 @@ namespace OperatingTable
                 return;
             }
 
-            Debug.Log("[HandControl] Podnoszę stół");
+            Debug.Log("[HandControl] Zmieniam wysokość stołu");
             StartHeightMovement(direction);
         }
 
-        // public void LowerTable()
-        // {
-        //     if (isLocked == true)
-        //     {
-        //         Debug.Log("[HandControl] Stół wyłączony ");
-        //         return;
-        //     }
-
-        //     Debug.Log("[HandControl] Opuszczam stół");
-        //     StartHeightMovement(-1);
-        // }
-
-        // LONGITUDINAL
         public void MoveTable(int direction)
         {
             if (isLocked == true)
@@ -311,30 +197,15 @@ namespace OperatingTable
                 return;
             }
 
-            Debug.Log("[HandControl] Przesuwam stół do przodu");
+            Debug.Log("[HandControl] Przesuwam stół");
             StartLongitudinalMovement(Vector3.right, direction);
         }
-
-        // public void MoveTableBackward()
-        // {
-        //     if (isLocked == true)
-        //     {
-        //         Debug.Log("[HandControl] Stół wyłączony ");
-        //         return;
-        //     }
-
-        //     Debug.Log("[HandControl] Przesuwam stół do tyłu");
-        //     StartLongitudinalMovement(Vector3.right, 1);
-        // }
-
 
         // ============================================================
         // STOP ALL MOVEMENT
         // ============================================================
         public void StopAllMovement()
         {
-
-
             isTilting = false;
             if (currentTiltCoroutine != null)
             {
@@ -420,7 +291,7 @@ namespace OperatingTable
         // ============================================================
 
         // ROTATION
-        private void StartTiltElement(RotationPivot pivot, Vector3 axis, int direction)
+        private void StartTiltElement(RotationPivot pivot, Vector3 axis, int direction, bool useBlendShapes)
         {
             if (pivot == null)
             {
@@ -434,10 +305,10 @@ namespace OperatingTable
             }
 
             isTilting = true;
-            currentTiltCoroutine = StartCoroutine(TiltElementCoroutine(pivot, axis, direction));
+            currentTiltCoroutine = StartCoroutine(TiltElementCoroutine(pivot, axis, direction, useBlendShapes));
         }
 
-        private IEnumerator TiltElementCoroutine(RotationPivot pivot, Vector3 axis, int direction)
+        private IEnumerator TiltElementCoroutine(RotationPivot pivot, Vector3 axis, int direction, bool useBlendShapes)
         {
             if (pivot == null)
             {
@@ -450,29 +321,17 @@ namespace OperatingTable
                 float delta = rotationStep * direction;
                 bool canContinue = pivot.RotateWithVector3(axis, delta);
 
-                // // Zaktualizuj blend shapes
-                // if (tableBackPad != null)
-                // {
-                //     float blendShapeDelta = Mathf.Abs(delta) * blendShapeMultiplier;
+                char detectedAxis = DetectAxisFromVector(axis);
 
+                float angle = pivot.GetCurrentAngle(detectedAxis);
 
-                //     // Zmniejsz blend shape w przeciwnym kierunku
-                //     if (blendShapeIndexDecrease >= 0 && blendShapeIndexIncrease <= 0)
-                //     {
-                //         float currentWeight = tableBackPad.GetBlendShapeWeight(blendShapeIndexDecrease);
-                //         float newWeight = Mathf.Clamp(currentWeight - blendShapeDelta, 0f, 100f);
-                //         tableBackPad.SetBlendShapeWeight(blendShapeIndexDecrease, newWeight);
-                //     }
+                Debug.Log("[BlendShape] Axis=" + detectedAxis + " angle=" + angle);
 
-
-                //     // Zwiększ blend shape w kierunku ruchu
-                //     if (blendShapeIndexIncrease >= 0)
-                //     {
-                //         float currentWeight = tableBackPad.GetBlendShapeWeight(blendShapeIndexIncrease);
-                //         float newWeight = Mathf.Clamp(currentWeight + blendShapeDelta, 0f, 100f);
-                //         tableBackPad.SetBlendShapeWeight(blendShapeIndexIncrease, newWeight);
-                //     }
-                // }
+                // Zaktualizuj blend shapes jeśli są włączone
+                if (useBlendShapes && blendShapeController != null)
+                {
+                    UpdateBlendShapes(pivot, axis);
+                }
 
                 if (!canContinue)
                 {
@@ -485,6 +344,27 @@ namespace OperatingTable
             }
 
             currentTiltCoroutine = null;
+        }
+
+        private void UpdateBlendShapes(RotationPivot pivot, Vector3 axis)
+        {
+            if (blendShapeController == null)
+                return;
+
+            char detectedAxis = DetectAxisFromVector(axis);
+
+            float angle = pivot.GetCurrentAngle(detectedAxis);
+
+            Debug.Log("[BlendShape] Axis=" + detectedAxis + " angle=" + angle);
+
+            if (detectedAxis == 'X') // LATERAL (Left / Right)
+            {
+                blendShapeController.UpdateLateral(angle);
+            }
+            else if (detectedAxis == 'Z') // TRENDELENBURG (Forward / Backward)
+            {
+                blendShapeController.UpdateTrendelenburg(angle);
+            }
         }
 
         // TELESCOPIC MOVEMENT
@@ -501,8 +381,12 @@ namespace OperatingTable
                 StopCoroutine(currentHeightCoroutine);
             }
 
-            // DetachFromParent(tableRotateElement);
-            // AttachToParent(tableRotateElement, "table_leg_column_segment_4_move");
+            // Odłącz blat od głównego stołu i przypnij do górnej sekcji nogi
+            if (tableTopElement != null)
+            {
+                DetachFromParent(tableTopElement);
+                AttachToParent(tableTopElement, topLegSectionName);
+            }
 
             isMovingHeight = true;
             currentHeightCoroutine = StartCoroutine(HeightMovementCoroutine(direction));
@@ -525,8 +409,12 @@ namespace OperatingTable
                 yield return new WaitForSeconds(heightTickInterval);
             }
 
-            // DetachFromParent(tableRotateElement);
-            // AttachToParent(tableRotateElement, "table");
+            // Po zakończeniu ruchu, przyłącz blat z powrotem do głównego stołu
+            if (tableTopElement != null)
+            {
+                DetachFromParent(tableTopElement);
+                AttachToParent(tableTopElement, mainTableName);
+            }
 
             currentHeightCoroutine = null;
         }
@@ -569,121 +457,6 @@ namespace OperatingTable
             currentLongitudinalCoroutine = null;
         }
 
-        // void StartTracked(IEnumerator coroutine, int running)
-        // {
-        //     running++;
-        //     StartCoroutine(TrackCoroutine(coroutine, running));
-        // }
-
-        // IEnumerator TrackCoroutine(IEnumerator coroutine, int running)
-        // {
-        //     yield return StartCoroutine(coroutine);
-        //     running--;
-        // }
-
-        // private IEnumerator LevelZeroCoroutine()
-        // {
-        //     int running = 0;
-
-        //     if (tableBackPartUpperRotate != null)
-        //         StartTracked(ResetPivotToZeroCoroutine(tableBackPartUpperRotate), running);
-
-        //     if (tableBackPartLowerRotate != null)
-        //         StartTracked(ResetPivotToZeroCoroutine(tableBackPartLowerRotate), running);
-
-        //     if (tableBackPartLowerLeftRotate != null)
-        //         StartTracked(ResetPivotToZeroCoroutine(tableBackPartLowerLeftRotate), running);
-
-        //     if (tableBackPartLowerRightRotate != null)
-        //         StartTracked(ResetPivotToZeroCoroutine(tableBackPartLowerRightRotate), running);
-
-        //     if (tableRotation != null)
-        //         StartTracked(ResetPivotToZeroCoroutine(tableRotation), running);
-
-        //     if (tableLongitudinalControl != null)
-        //         StartTracked(ResetLongitudinalToZeroCoroutine(), running);
-
-        //     yield return new WaitUntil(() => running == 0);
-
-        //     Debug.Log("[HandControl] Pozycja zerowa - stół wypoziomowany i wycentrowany");
-        // }
-
-        // private IEnumerator ResetPivotToZeroCoroutine(RotationPivot pivot)
-        // {
-        //     if (pivot == null)
-        //     {
-        //         yield break;
-        //     }
-
-        //     if (pivot.allowX && Mathf.Abs(pivot.currentAngleX) > 0.01f)
-        //     {
-        //         yield return ResetAxisToZeroCoroutine(pivot, Vector3.right, pivot.currentAngleX);
-        //     }
-
-        //     if (pivot.allowY && Mathf.Abs(pivot.currentAngleY) > 0.01f)
-        //     {
-        //         yield return ResetAxisToZeroCoroutine(pivot, Vector3.up, pivot.currentAngleY);
-        //     }
-
-        //     if (pivot.allowZ && Mathf.Abs(pivot.currentAngleZ) > 0.01f)
-        //     {
-        //         yield return ResetAxisToZeroCoroutine(pivot, Vector3.forward, pivot.currentAngleZ);
-        //     }
-        // }
-
-        // private IEnumerator ResetAxisToZeroCoroutine(RotationPivot pivot, Vector3 axis, float currentAngle)
-        // {
-        //     while (Mathf.Abs(currentAngle) > 0.01f)
-        //     {
-        //         int direction = currentAngle > 0 ? -1 : 1;
-        //         float delta = rotationStep * direction;
-
-        //         if (Mathf.Abs(delta) > Mathf.Abs(currentAngle))
-        //         {
-        //             delta = -currentAngle;
-        //         }
-
-        //         pivot.RotateWithVector3(axis, delta);
-
-        //         char detectedAxis = DetectAxisFromVector(axis);
-        //         currentAngle = pivot.GetCurrentAngle(detectedAxis);
-
-        //         yield return new WaitForSeconds(rotationTickInterval);
-        //     }
-        // }
-        // private IEnumerator ResetLongitudinalToZeroCoroutine()
-        // {
-        //     float currentPos = GetLongitudinalCurrentPosition();
-
-        //     if (Mathf.Abs(currentPos) < 0.0001f)
-        //     {
-        //         yield break;
-        //     }
-
-        //     while (Mathf.Abs(currentPos) > 0.0001f)
-        //     {
-        //         int direction = currentPos > 0 ? -1 : 1;
-        //         float delta = longitudinalStep * direction;
-
-        //         if (Mathf.Abs(delta) > Mathf.Abs(currentPos))
-        //         {
-        //             delta = -currentPos;
-        //         }
-
-        //         bool canContinue = tableLongitudinalControl.MoveWithVector3(Vector3.right, delta);
-
-        //         if (!canContinue)
-        //         {
-        //             break;
-        //         }
-
-        //         currentPos = GetLongitudinalCurrentPosition();
-        //         yield return new WaitForSeconds(longitudinalTickInterval);
-        //     }
-
-        //     Debug.Log("[HandControl] Pozycja wzdłużna zresetowana do zera");
-        // }
-
         private IEnumerator RotateToReverseCoroutine(bool reverse)
         {
             if (tableTop == null)
@@ -693,10 +466,7 @@ namespace OperatingTable
             }
 
             float targetAngle = reverse ? 180f : 0f;
-            float currentAngle = tableTop.localEulerAngles.y;
 
-            if (currentAngle > 180f) currentAngle -= 360f;
-            tableTop.Rotate(Vector3.up, targetAngle, Space.Self);
             Vector3 euler = tableTop.localEulerAngles;
             euler.y = targetAngle;
             tableTop.localEulerAngles = euler;
@@ -794,10 +564,10 @@ namespace OperatingTable
         {
             get { return isMovingLongitudinal; }
         }
+
         public bool IsReversed
         {
             get { return isReversed; }
         }
-
     }
 }
