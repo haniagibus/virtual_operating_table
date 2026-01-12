@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using OperatingTable;
-using System.Collections;
 
 public class MovementEntryUI : MonoBehaviour
 {
@@ -19,7 +18,6 @@ public class MovementEntryUI : MonoBehaviour
     public float lastZ = 0f;
 
     private bool suppressEvent = false;
-    private bool isAnimating = false; // flaga animacji
 
     public float stepSize = 5f; // krok slidera
 
@@ -46,7 +44,7 @@ public class MovementEntryUI : MonoBehaviour
 
     void OnSliderXChanged(float value)
     {
-        if (suppressEvent || isAnimating) return;
+        if (suppressEvent) return;
 
         float stepped = Mathf.Round(value / stepSize) * stepSize;
 
@@ -59,14 +57,12 @@ public class MovementEntryUI : MonoBehaviour
         axis.MoveWithVector3(Vector3.right, delta);
 
         if (selector.currentSelectedElement != null)
-        {
-            StartCoroutine(PlayAxisAnimation(selector.currentSelectedElement, axis, "X", delta >= 0));
-        }
+            selector.currentSelectedElement.PlayAnimationForAxis(axis, "X", delta >= 0);
     }
 
     void OnSliderYChanged(float value)
     {
-        if (suppressEvent || isAnimating) return;
+        if (suppressEvent) return;
 
         float stepped = Mathf.Round(value / stepSize) * stepSize;
 
@@ -77,17 +73,16 @@ public class MovementEntryUI : MonoBehaviour
         float delta = stepped - lastY;
         lastY = stepped;
 
+
         axis.MoveWithVector3(Vector3.up, delta);
 
         if (selector.currentSelectedElement != null)
-        {
-            StartCoroutine(PlayAxisAnimation(selector.currentSelectedElement, axis, "Y", delta >= 0));
-        }
+            selector.currentSelectedElement.PlayAnimationForAxis(axis, "X", delta >= 0);
     }
 
     void OnSliderZChanged(float value)
     {
-        if (suppressEvent || isAnimating) return;
+        if (suppressEvent) return;
 
         float stepped = Mathf.Round(value / stepSize) * stepSize;
 
@@ -101,32 +96,6 @@ public class MovementEntryUI : MonoBehaviour
         axis.MoveWithVector3(Vector3.forward, delta);
 
         if (selector.currentSelectedElement != null)
-        {
-            StartCoroutine(PlayAxisAnimation(selector.currentSelectedElement, axis, "Z", delta >= 0));
-        }
-    }
-
-    IEnumerator PlayAxisAnimation(TableElement element, MovementAxis axisObj, string axis, bool forward)
-    {
-        if (element == null || element.GetComponent<Animator>() == null) yield break;
-
-        isAnimating = true;
-        sliderX.interactable = false;
-        sliderY.interactable = false;
-        sliderZ.interactable = false;
-
-        element.PlayAnimationForAxis(axisObj, axis, forward);
-
-        var anim = element.elementAnimations.Find(a => a.axis == axisObj && a.axisName == axis);
-        if (anim != null && anim.clip != null)
-        {
-            float duration = anim.clip.length / Mathf.Abs(anim.speed);
-            yield return new WaitForSeconds(duration);
-        }
-
-        isAnimating = false;
-        sliderX.interactable = true;
-        sliderY.interactable = true;
-        sliderZ.interactable = true;
+            selector.currentSelectedElement.PlayAnimationForAxis(axis, "X", delta >= 0);
     }
 }

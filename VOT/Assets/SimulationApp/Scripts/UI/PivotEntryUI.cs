@@ -1,12 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using OperatingTable;
 using System.Collections;
 
-public class PivotEntryUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class PivotEntryUI : MonoBehaviour
 {
     public Text nameText;
+
     public Slider sliderX;
     public Slider sliderY;
     public Slider sliderZ;
@@ -19,44 +19,90 @@ public class PivotEntryUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     public float lastZ = 0f;
 
     private bool suppressEvent = false;
-    private bool isAnimating = false;
+    private bool isAnimating = false; // flaga animacji
 
-    public float stepSize = 50f;
-
-    private bool isDraggingX = false;
-    private bool isDraggingY = false;
-    private bool isDraggingZ = false;
+    public float stepSize = 5f; // krok slidera
 
     void Start()
     {
-        if (sliderX != null) { lastX = sliderX.value; sliderX.onValueChanged.AddListener(OnSliderXChanged); }
-        if (sliderY != null) { lastY = sliderY.value; sliderY.onValueChanged.AddListener(OnSliderYChanged); }
-        if (sliderZ != null) { lastZ = sliderZ.value; sliderZ.onValueChanged.AddListener(OnSliderZChanged); }
-    }
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        // Sprawdzamy który slider został złapany
-        if (eventData.pointerPress == sliderX.gameObject) { isDraggingX = true; TryPlayAnimation("X"); }
-        if (eventData.pointerPress == sliderY.gameObject) { isDraggingY = true; TryPlayAnimation("Y"); }
-        if (eventData.pointerPress == sliderZ.gameObject) { isDraggingZ = true; TryPlayAnimation("Z"); }
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        // Resetujemy flagi po puszczeniu
-        if (eventData.pointerPress == sliderX.gameObject) isDraggingX = false;
-        if (eventData.pointerPress == sliderY.gameObject) isDraggingY = false;
-        if (eventData.pointerPress == sliderZ.gameObject) isDraggingZ = false;
-    }
-
-    void TryPlayAnimation(string axis)
-    {
-        if (!isAnimating && selector.currentSelectedElement != null)
+        if (sliderX != null)
         {
-            RotationPivot pivot = this.pivot;
-            bool forward = true; // można ustalić wg potrzeby
-            StartCoroutine(PlayPivotAnimation(selector.currentSelectedElement, pivot, axis, forward));
+            lastX = sliderX.value;
+            sliderX.onValueChanged.AddListener(OnSliderXChanged);
+        }
+
+        if (sliderY != null)
+        {
+            lastY = sliderY.value;
+            sliderY.onValueChanged.AddListener(OnSliderYChanged);
+        }
+
+        if (sliderZ != null)
+        {
+            lastZ = sliderZ.value;
+            sliderZ.onValueChanged.AddListener(OnSliderZChanged);
+        }
+    }
+
+    void OnSliderXChanged(float value)
+    {
+        if (suppressEvent || isAnimating) return;
+
+        float stepped = Mathf.Round(value / stepSize) * stepSize;
+
+        suppressEvent = true;
+        sliderX.value = stepped;
+        suppressEvent = false;
+
+        float delta = stepped - lastX;
+        lastX = stepped;
+        pivot.RotateWithVector3(Vector3.right, delta);
+
+        if (selector.currentSelectedElement != null)
+        {
+            StartCoroutine(PlayPivotAnimation(selector.currentSelectedElement, pivot, "X", delta >= 0));
+        }
+    }
+
+    void OnSliderYChanged(float value)
+    {
+        if (suppressEvent || isAnimating) return;
+
+        float stepped = Mathf.Round(value / stepSize) * stepSize;
+
+        suppressEvent = true;
+        sliderY.value = stepped;
+        suppressEvent = false;
+
+        float delta = stepped - lastY;
+        lastY = stepped;
+
+        pivot.RotateWithVector3(Vector3.up, delta);
+
+        if (selector.currentSelectedElement != null)
+        {
+            StartCoroutine(PlayPivotAnimation(selector.currentSelectedElement, pivot, "Y", delta >= 0));
+        }
+    }
+
+    void OnSliderZChanged(float value)
+    {
+        if (suppressEvent || isAnimating) return;
+
+        float stepped = Mathf.Round(value / stepSize) * stepSize;
+
+        suppressEvent = true;
+        sliderZ.value = stepped;
+        suppressEvent = false;
+
+        float delta = stepped - lastZ;
+        lastZ = stepped;
+
+        pivot.RotateWithVector3(Vector3.forward, delta);
+
+        if (selector.currentSelectedElement != null)
+        {
+            StartCoroutine(PlayPivotAnimation(selector.currentSelectedElement, pivot, "Z", delta >= 0));
         }
     }
 
@@ -71,6 +117,7 @@ public class PivotEntryUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 
         element.PlayAnimationForPivot(pivot, axis, forward);
 
+        // pobieramy długość klipu animacji
         var anim = element.elementAnimations.Find(a => a.pivot == pivot && a.axisName == axis);
         if (anim != null && anim.clip != null)
         {
@@ -82,32 +129,5 @@ public class PivotEntryUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         sliderX.interactable = true;
         sliderY.interactable = true;
         sliderZ.interactable = true;
-    }
-
-    void OnSliderXChanged(float value)
-    {
-        if (suppressEvent) return;
-        float stepped = Mathf.Round(value / stepSize) * stepSize;
-        suppressEvent = true; sliderX.value = stepped; suppressEvent = false;
-        float delta = stepped - lastX; lastX = stepped;
-        pivot.RotateWithVector3(Vector3.right, delta);
-    }
-
-    void OnSliderYChanged(float value)
-    {
-        if (suppressEvent) return;
-        float stepped = Mathf.Round(value / stepSize) * stepSize;
-        suppressEvent = true; sliderY.value = stepped; suppressEvent = false;
-        float delta = stepped - lastY; lastY = stepped;
-        pivot.RotateWithVector3(Vector3.up, delta);
-    }
-
-    void OnSliderZChanged(float value)
-    {
-        if (suppressEvent) return;
-        float stepped = Mathf.Round(value / stepSize) * stepSize;
-        suppressEvent = true; sliderZ.value = stepped; suppressEvent = false;
-        float delta = stepped - lastZ; lastZ = stepped;
-        pivot.RotateWithVector3(Vector3.forward, delta);
     }
 }
