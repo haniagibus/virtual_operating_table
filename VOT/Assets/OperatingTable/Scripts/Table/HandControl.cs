@@ -157,7 +157,7 @@ namespace OperatingTable
             }
 
             Debug.Log("[HandControl] Pozycja Trendelenburga");
-            StartTiltElement(tableRotation, Vector3.forward, direction, direction > 0);
+            StartTiltElement(tableRotation, Vector3.forward, direction, true);
         }
 
         // LATERAL TILT - Z BLEND SHAPES
@@ -170,7 +170,7 @@ namespace OperatingTable
             }
 
             Debug.Log("[HandControl] Przechylam stół");
-            StartTiltElement(tableRotation, Vector3.right, direction, direction > 0);
+            StartTiltElement(tableRotation, Vector3.right, direction, true);
         }
 
         // ============================================================
