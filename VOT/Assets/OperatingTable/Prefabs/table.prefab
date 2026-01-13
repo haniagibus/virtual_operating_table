@@ -418,7 +418,7 @@ GameObject:
   - component: {fileID: 4071733505138512}
   - component: {fileID: 114567596446151782}
   m_Layer: 0
-  m_Name: 4-parts_leg_plate_lower_R_rotate
+  m_Name: 4-parts_leg_plate_lower_R_rotate_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1868,8 +1868,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4158485769587880}
+  - component: {fileID: 114807592089200110}
   m_Layer: 0
-  m_Name: 4-parts_leg_plate_lower_L
+  m_Name: 4-parts_leg_plate_lower_L_rotate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2461,7 +2462,7 @@ GameObject:
   - component: {fileID: 4088521138037982}
   - component: {fileID: 114798667278495392}
   m_Layer: 0
-  m_Name: 4-parts_leg_plate_lower_L_rotate
+  m_Name: 4-parts_leg_plate_lower_L_rotate_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3314,8 +3315,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4145645319893340}
+  - component: {fileID: 114994616538793794}
   m_Layer: 0
-  m_Name: 4-parts_leg_plate_lower_R
+  m_Name: 4-parts_leg_plate_lower_R_rotate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14883,13 +14885,13 @@ MonoBehaviour:
   pivotName: 
   allowX: 0
   allowY: 1
-  allowZ: 1
+  allowZ: 0
   minAngleX: 0
   maxAngleX: 0
   minAngleY: -90
   maxAngleY: 90
-  minAngleZ: -90
-  maxAngleZ: 90
+  minAngleZ: 0
+  maxAngleZ: 0
   currentAngleX: 0
   currentAngleY: 0
   currentAngleZ: 0
@@ -15023,11 +15025,35 @@ MonoBehaviour:
   pivotName: 
   allowX: 0
   allowY: 1
-  allowZ: 1
+  allowZ: 0
   minAngleX: 0
   maxAngleX: 0
   minAngleY: -90
   maxAngleY: 90
+  minAngleZ: 0
+  maxAngleZ: 0
+  currentAngleX: 0
+  currentAngleY: 0
+  currentAngleZ: 0
+--- !u!114 &114807592089200110
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1513730909426346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88af6a1e8345c6546b8f10a10ddc31f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pivotName: 
+  allowX: 0
+  allowY: 0
+  allowZ: 1
+  minAngleX: 0
+  maxAngleX: 0
+  minAngleY: 0
+  maxAngleY: 0
   minAngleZ: -90
   maxAngleZ: 90
   currentAngleX: 0
@@ -15186,6 +15212,30 @@ MonoBehaviour:
   minRailPosition: -0.5
   maxRailPosition: 0.5
   attachedAccessory: {fileID: 0}
+--- !u!114 &114994616538793794
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1870391744658866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88af6a1e8345c6546b8f10a10ddc31f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pivotName: 
+  allowX: 0
+  allowY: 0
+  allowZ: 1
+  minAngleX: 0
+  maxAngleX: 0
+  minAngleY: 0
+  maxAngleY: 0
+  minAngleZ: -90
+  maxAngleZ: 90
+  currentAngleX: 0
+  currentAngleY: 0
+  currentAngleZ: 0
 --- !u!137 &137336561344264892
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

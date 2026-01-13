@@ -6,13 +6,12 @@ namespace OperatingTable
     [System.Serializable]
     public class ElementAnimation
     {
-        public RotationPivot pivot;        // opcjonalnie
-        public MovementAxis axis;          // opcjonalnie
-        public string axisName;            // nazwa osi pivotu/axis dla której animacja ma działać
-        public AnimationClip clip;         // animacja do odtwarzania
-        public float speed = 1f;           // prędkość odtwarzania
+        public RotationPivot pivot;
+        public MovementAxis axis;
+        public string axisName;
+        public AnimationClip clip;
+        public float speed = 1f;
     }
-
 
     public class TableElement : MonoBehaviour
     {
@@ -45,7 +44,7 @@ namespace OperatingTable
         [Header("Element Animations")]
         public List<ElementAnimation> elementAnimations = new List<ElementAnimation>();
 
-        private Animator animator; // Animator powiązany z tym elementem
+        private Animation animationComponent; // Animation zamiast Animator!
 
         void Awake()
         {
@@ -54,15 +53,27 @@ namespace OperatingTable
                 elementName = gameObject.name.Replace("_", " ");
             }
 
-            // Ustaw początkowy stan obrotu na false (domyślnie element jest po prawej)
             isFlipped = false;
-
             UpdateVisibility();
 
-            animator = GetComponent<Animator>();
-            if (animator == null && elementAnimations.Count > 0)
+            // Użyj Animation component zamiast Animator
+            animationComponent = GetComponent<Animation>();
+            if (animationComponent == null && elementAnimations.Count > 0)
             {
-                Debug.LogWarning("[TableElement] Animator wymagany do obsługi elementAnimations!");
+                animationComponent = gameObject.AddComponent<Animation>();
+                Debug.Log("[TableElement] Dodano Animation component");
+            }
+
+            // Dodaj wszystkie klipy do Animation component
+            if (animationComponent != null)
+            {
+                foreach (var anim in elementAnimations)
+                {
+                    if (anim.clip != null)
+                    {
+                        animationComponent.AddClip(anim.clip, anim.clip.name);
+                    }
+                }
             }
         }
 
@@ -77,37 +88,92 @@ namespace OperatingTable
             UpdateVisibility();
         }
 
-
         // ====================== ANIMACJE PIVOTA ======================
 
         public void PlayAnimationForPivot(RotationPivot pivot, string axis, bool forward = true)
         {
-            if (animator == null) return;
+            if (animationComponent == null)
+            {
+                Debug.LogWarning("[TableElement] Animation component nie istnieje!");
+                return;
+            }
 
             var anim = elementAnimations.Find(x => x.pivot == pivot && x.axisName == axis);
-            if (anim == null) return;
+            if (anim == null)
+            {
+                Debug.LogWarning("[TableElement] Nie znaleziono animacji dla pivot=" + pivot + " axis=" + axis);
+                return;
+            }
 
-            animator.speed = forward ? Mathf.Abs(anim.speed) : -Mathf.Abs(anim.speed);
-            animator.Play(anim.clip.name, 0, forward ? 0f : 1f);
+            AnimationState state = animationComponent[anim.clip.name];
+            if (state == null)
+            {
+                Debug.LogWarning("[TableElement] AnimationState nie istnieje dla " + anim.clip.name);
+                return;
+            }
+
+            // Ustaw prędkość i czas
+            state.speed = forward ? Mathf.Abs(anim.speed) : -Mathf.Abs(anim.speed);
+            state.time = forward ? 0f : anim.clip.length;
+            state.enabled = true;
+            state.weight = 1f;
+
+            // Odtwórz w trybie addytywnym (wiele animacji jednocześnie!)
+            animationComponent.Play(anim.clip.name, PlayMode.StopSameLayer);
+
+            Debug.Log("[TableElement] Odtwarzam animację: " + anim.clip.name + " forward=" + forward);
         }
 
         public void PlayAnimationForAxis(MovementAxis axisObj, string axis, bool forward = true)
         {
-            if (animator == null) return;
+            if (animationComponent == null)
+            {
+                Debug.LogWarning("[TableElement] Animation component nie istnieje!");
+                return;
+            }
 
             var anim = elementAnimations.Find(x => x.axis == axisObj && x.axisName == axis);
-            if (anim == null) return;
+            if (anim == null)
+            {
+                Debug.LogWarning("[TableElement] Nie znaleziono animacji dla axis=" + axisObj + " axisName=" + axis);
+                return;
+            }
 
-            animator.speed = forward ? Mathf.Abs(anim.speed) : -Mathf.Abs(anim.speed);
-            animator.Play(anim.clip.name, 0, forward ? 0f : 1f);
+            AnimationState state = animationComponent[anim.clip.name];
+            if (state == null)
+            {
+                Debug.LogWarning("[TableElement] AnimationState nie istnieje dla " + anim.clip.name);
+                return;
+            }
+
+            // Ustaw prędkość i czas
+            state.speed = forward ? Mathf.Abs(anim.speed) : -Mathf.Abs(anim.speed);
+            state.time = forward ? 0f : anim.clip.length;
+            state.enabled = true;
+            state.weight = 1f;
+
+            // Odtwórz w trybie addytywnym (wiele animacji jednocześnie!)
+            animationComponent.Play(anim.clip.name, PlayMode.StopSameLayer);
+
+            Debug.Log("[TableElement] Odtwarzam animację: " + anim.clip.name + " forward=" + forward);
         }
 
+        public void StopAnimation(string clipName)
+        {
+            if (animationComponent != null && animationComponent.IsPlaying(clipName))
+            {
+                animationComponent.Stop(clipName);
+            }
+        }
 
+        public void StopAllAnimations()
+        {
+            if (animationComponent != null)
+            {
+                animationComponent.Stop();
+            }
+        }
 
-
-        /// <summary>
-        /// Sprawdza czy element jest zamontowany po przeciwnej stronie niż domyślna
-        /// </summary>
         public bool IsMountedOnOppositeSide()
         {
             if (currentMountPoint == null)
@@ -116,33 +182,21 @@ namespace OperatingTable
             return currentMountPoint.side != defaultMountSide;
         }
 
-        /// <summary>
-        /// Zwraca pivot o podanej nazwie
-        /// </summary>
         public RotationPivot GetPivotByName(string pivotName)
         {
             return rotationPivots.Find(p => p.pivotName == pivotName);
         }
 
-        /// <summary>
-        /// Zwraca oś ruchu o podanej nazwie
-        /// </summary>
         public MovementAxis GetAxisByName(string axisName)
         {
             return movementAxes.Find(a => a.axisName == axisName);
         }
 
-        /// <summary>
-        /// Sprawdza czy element ma jakiekolwiek pivoty
-        /// </summary>
         public bool HasRotationPivots()
         {
             return rotationPivots != null && rotationPivots.Count > 0;
         }
 
-        /// <summary>
-        /// Sprawdza czy element ma jakiekolwiek osie ruchu
-        /// </summary>
         public bool HasMovementAxes()
         {
             return movementAxes != null && movementAxes.Count > 0;

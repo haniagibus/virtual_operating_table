@@ -3,65 +3,58 @@ guid: 7958f3afcba3f6c4b919eb43705b33a5
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: ball_hinge
-    100002: bearing_lower
-    100004: bearing_upper
-    100006: curved_pipe
-    100008: fastener1
-    100010: fastener2
-    100012: //RootNode
-    100014: heavy_arm_board_rotate
-    100016: pad
-    100018: pad_support
-    100020: rail
-    100022: strap_1
-    100024: strap_2
-    400000: ball_hinge
-    400002: bearing_lower
-    400004: bearing_upper
-    400006: curved_pipe
-    400008: fastener1
-    400010: fastener2
-    400012: //RootNode
-    400014: heavy_arm_board_rotate
-    400016: pad
-    400018: pad_support
-    400020: rail
-    400022: strap_1
-    400024: strap_2
+    100000: bearing_lower
+    100002: bearing_upper
+    100004: curved_pipe
+    100006: fastener1
+    100008: fastener2
+    100010: //RootNode
+    100012: pad
+    100014: pad_support
+    100016: rail
+    100018: strap_1
+    100020: strap_2
+    400000: bearing_lower
+    400002: bearing_upper
+    400004: curved_pipe
+    400006: fastener1
+    400008: fastener2
+    400010: //RootNode
+    400012: pad
+    400014: pad_support
+    400016: rail
+    400018: strap_1
+    400020: strap_2
     2100000: Metal
     2100002: Black plastic
     2100004: Cloth Black
     2100006: Black leather
-    2300000: ball_hinge
-    2300002: bearing_lower
-    2300004: bearing_upper
-    2300006: curved_pipe
-    2300008: fastener1
-    2300010: fastener2
-    2300012: pad
-    2300014: pad_support
-    2300016: rail
-    3300000: ball_hinge
-    3300002: bearing_lower
-    3300004: bearing_upper
-    3300006: curved_pipe
-    3300008: fastener1
-    3300010: fastener2
-    3300012: pad
-    3300014: pad_support
-    3300016: rail
-    4300000: ball_hinge
-    4300002: curved_pipe
-    4300004: pad_support
-    4300006: bearing_lower
-    4300008: bearing_upper
-    4300010: fastener1
-    4300012: fastener2
-    4300014: pad
-    4300016: rail
-    4300018: strap_1
-    4300020: strap_2
+    2300000: bearing_lower
+    2300002: bearing_upper
+    2300004: curved_pipe
+    2300006: fastener1
+    2300008: fastener2
+    2300010: pad
+    2300012: pad_support
+    2300014: rail
+    3300000: bearing_lower
+    3300002: bearing_upper
+    3300004: curved_pipe
+    3300006: fastener1
+    3300008: fastener2
+    3300010: pad
+    3300012: pad_support
+    3300014: rail
+    4300000: curved_pipe
+    4300002: pad_support
+    4300004: bearing_lower
+    4300006: bearing_upper
+    4300008: fastener1
+    4300010: fastener2
+    4300012: pad
+    4300014: rail
+    4300016: strap_1
+    4300018: strap_2
     7400000: curved_pipe|CubeAction
     7400002: curved_pipe|hab_curved_pipe_anim
     7400004: curved_pipe|PaeskTest
@@ -90,7 +83,27 @@ ModelImporter:
     13700000: strap_1
     13700002: strap_2
     2186277476908879412: ImportLogs
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Black leather
+    second: {fileID: 2100000, guid: 29cf1125bb0c5ae49aff02ee76fae8b1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Black plastic
+    second: {fileID: 2100000, guid: 995f8b5c3d7f0bc41916a9769c8327df, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cloth Black
+    second: {fileID: 2100000, guid: 6b52c08856d88444bb6eb798aeb83778, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Metal
+    second: {fileID: 2100000, guid: 2f68f91797a9d9742acfd6c321a98fdd, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

@@ -1,0 +1,302 @@
+fileFormatVersion: 2
+guid: 9e7733b24de38b04ea690cb91b2ab042
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: ball_hinge
+    100004: bearing
+    100006: bolt_1
+    100008: bolt_2
+    100010: bracket
+    100012: connector
+    100014: hinge
+    100016: hinge_arm
+    100018: mountig_rod
+    100020: pad
+    100022: pad_rotate
+    100024: strap_1
+    100026: strap_2
+    400000: //RootNode
+    400002: ball_hinge
+    400004: bearing
+    400006: bolt_1
+    400008: bolt_2
+    400010: bracket
+    400012: connector
+    400014: hinge
+    400016: hinge_arm
+    400018: mountig_rod
+    400020: pad
+    400022: pad_rotate
+    400024: strap_1
+    400026: strap_2
+    2100000: Metal
+    2100002: Black leather
+    2100004: Cloth Black
+    2300000: ball_hinge
+    2300002: bearing
+    2300004: bolt_1
+    2300006: bolt_2
+    2300008: bracket
+    2300010: connector
+    2300012: hinge_arm
+    2300014: mountig_rod
+    2300016: pad
+    3300000: ball_hinge
+    3300002: bearing
+    3300004: bolt_1
+    3300006: bolt_2
+    3300008: bracket
+    3300010: connector
+    3300012: hinge_arm
+    3300014: mountig_rod
+    3300016: pad
+    4300000: bearing
+    4300002: connector
+    4300004: bracket
+    4300006: hinge_arm
+    4300008: mountig_rod
+    4300010: ball_hinge
+    4300012: bolt_1
+    4300014: bolt_2
+    4300016: pad
+    4300018: strap_1
+    4300020: strap_2
+    7400000: bracket|abflp_hinge_anim
+    7400002: "bracket|cylinder_wyci\u0119tyAction.001"
+    7400004: bracket|hinge_arm_raise.001
+    7400006: bracket|strap1_fastening
+    7400008: bracket|strap2_fastening
+    7400010: hinge|abflp_hinge_anim
+    7400012: "hinge|cylinder_wyci\u0119tyAction.001"
+    7400014: hinge|hinge_arm_raise.001
+    7400016: hinge|strap1_fastening
+    7400018: hinge|strap2_fastening
+    7400020: hinge_arm|abflp_hinge_anim
+    7400022: "hinge_arm|cylinder_wyci\u0119tyAction.001"
+    7400024: hinge_arm|hinge_arm_raise
+    7400026: hinge_arm|strap1_fastening
+    7400028: hinge_arm|strap2_fastening
+    7400030: strap_1|abflp_hinge_anim
+    7400032: "strap_1|cylinder_wyci\u0119tyAction.001"
+    7400034: strap_1|hinge_arm_raise.001
+    7400036: strap_1|strap1_fastening
+    7400038: strap_1|strap2_fastening
+    7400040: strap_2|abflp_hinge_anim
+    7400042: "strap_2|cylinder_wyci\u0119tyAction.001"
+    7400044: strap_2|hinge_arm_raise.001
+    7400046: strap_2|strap1_fastening
+    7400048: strap_2|strap2_fastening
+    9500000: //RootNode
+    11100000: //RootNode
+    13700000: strap_1
+    13700002: strap_2
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Black leather
+    second: {fileID: 2100000, guid: 29cf1125bb0c5ae49aff02ee76fae8b1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cloth Black
+    second: {fileID: 2100000, guid: 6b52c08856d88444bb6eb798aeb83778, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Metal
+    second: {fileID: 2100000, guid: 2f68f91797a9d9742acfd6c321a98fdd, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: hinge|abflp_hinge_anim
+      takeName: hinge|abflp_hinge_anim
+      firstFrame: 0
+      lastFrame: 45
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: hinge_arm|hinge_arm_raise
+      takeName: hinge_arm|hinge_arm_raise.001
+      firstFrame: 0
+      lastFrame: 14
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: strap_1|strap1_fastening
+      takeName: strap_1|strap1_fastening
+      firstFrame: 0
+      lastFrame: 40
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: strap_2|strap2_fastening
+      takeName: strap_2|strap2_fastening
+      firstFrame: 0
+      lastFrame: 40
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

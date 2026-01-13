@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using OperatingTable;
 using System.Collections;
 
@@ -19,9 +20,14 @@ public class PivotEntryUI : MonoBehaviour
     public float lastZ = 0f;
 
     private bool suppressEvent = false;
-    private bool isAnimating = false; // flaga animacji
+    private bool isAnimating = false;
 
-    public float stepSize = 5f; // krok slidera
+    // NOWE: flagi śledzące czy slider jest wciśnięty
+    private bool isPressingX = false;
+    private bool isPressingY = false;
+    private bool isPressingZ = false;
+
+    public float stepSize = 5f;
 
     void Start()
     {
@@ -29,19 +35,127 @@ public class PivotEntryUI : MonoBehaviour
         {
             lastX = sliderX.value;
             sliderX.onValueChanged.AddListener(OnSliderXChanged);
+            AddSliderListeners(sliderX, "X");
         }
 
         if (sliderY != null)
         {
             lastY = sliderY.value;
             sliderY.onValueChanged.AddListener(OnSliderYChanged);
+            AddSliderListeners(sliderY, "Y");
         }
 
         if (sliderZ != null)
         {
             lastZ = sliderZ.value;
             sliderZ.onValueChanged.AddListener(OnSliderZChanged);
+            AddSliderListeners(sliderZ, "Z");
         }
+    }
+
+    void AddSliderListeners(Slider slider, string pivotName)
+    {
+        EventTrigger trigger = slider.gameObject.GetComponent<EventTrigger>();
+        if (trigger == null)
+            trigger = slider.gameObject.AddComponent<EventTrigger>();
+
+        trigger.triggers.Clear();
+
+        // Kliknięcie - animacja do przodu
+        EventTrigger.Entry entryDown = new EventTrigger.Entry();
+        entryDown.eventID = EventTriggerType.PointerDown;
+        entryDown.callback.AddListener((data) => { 
+            Debug.Log("[EVENT] PointerDown na slider " + pivotName);
+            OnSliderPressed(pivotName); 
+        });
+        trigger.triggers.Add(entryDown);
+
+        // Puszczenie - animacja do tyłu
+        EventTrigger.Entry entryUp = new EventTrigger.Entry();
+        entryUp.eventID = EventTriggerType.PointerUp;
+        entryUp.callback.AddListener((data) => { 
+            Debug.Log("[EVENT] PointerUp na slider " + pivotName);
+            OnSliderReleased(pivotName); 
+        });
+        trigger.triggers.Add(entryUp);
+
+        // Exit - tylko jeśli slider był wciśnięty
+        EventTrigger.Entry entryExit = new EventTrigger.Entry();
+        entryExit.eventID = EventTriggerType.PointerExit;
+        entryExit.callback.AddListener((data) => { 
+            Debug.Log("[EVENT] PointerExit na slider " + pivotName);
+            OnSliderExit(pivotName); 
+        });
+        trigger.triggers.Add(entryExit);
+
+        Debug.Log("[PivotEntryUI] Dodano EventTrigger do slidera " + pivotName);
+    }
+
+    void OnSliderPressed(string pivotName)
+    {
+        Debug.Log("[PivotEntryUI] OnSliderPressed wywołane dla " + pivotName);
+        
+        // Ustaw flagę wciśnięcia
+        SetPressing(pivotName, true);
+        
+        if (selector == null || selector.currentSelectedElement == null)
+        {
+            Debug.LogWarning("[PivotEntryUI] Brak selector lub elementu!");
+            return;
+        }
+        
+        Debug.Log("[PivotEntryUI] Naciśnięto slider " + pivotName + " - animacja do przodu");
+        selector.currentSelectedElement.PlayAnimationForPivot(pivot, pivotName, true);
+    }
+
+    void OnSliderReleased(string pivotName)
+    {
+        Debug.Log("[PivotEntryUI] OnSliderReleased wywołane dla " + pivotName);
+        
+        // Sprawdź czy slider był faktycznie wciśnięty
+        if (!IsPressing(pivotName))
+        {
+            Debug.Log("[PivotEntryUI] Slider nie był wciśnięty, ignoruję release");
+            return;
+        }
+        
+        // Wyzeruj flagę
+        SetPressing(pivotName, false);
+        
+        if (selector == null || selector.currentSelectedElement == null)
+        {
+            Debug.LogWarning("[PivotEntryUI] Brak selector lub elementu!");
+            return;
+        }
+        
+        Debug.Log("[PivotEntryUI] Puszczono slider " + pivotName + " - animacja do tyłu");
+        selector.currentSelectedElement.PlayAnimationForPivot(pivot, pivotName, false);
+    }
+
+    void OnSliderExit(string pivotName)
+    {
+        // Wywołaj release tylko jeśli slider był wciśnięty
+        if (IsPressing(pivotName))
+        {
+            Debug.Log("[PivotEntryUI] Exit podczas wciskania - wywołuję release");
+            OnSliderReleased(pivotName);
+        }
+    }
+
+    // Pomocnicze metody do zarządzania flagami
+    void SetPressing(string pivotName, bool value)
+    {
+        if (pivotName == "X") isPressingX = value;
+        else if (pivotName == "Y") isPressingY = value;
+        else if (pivotName == "Z") isPressingZ = value;
+    }
+
+    bool IsPressing(string pivotName)
+    {
+        if (pivotName == "X") return isPressingX;
+        else if (pivotName == "Y") return isPressingY;
+        else if (pivotName == "Z") return isPressingZ;
+        return false;
     }
 
     void OnSliderXChanged(float value)
@@ -57,11 +171,6 @@ public class PivotEntryUI : MonoBehaviour
         float delta = stepped - lastX;
         lastX = stepped;
         pivot.RotateWithVector3(Vector3.right, delta);
-
-        if (selector.currentSelectedElement != null)
-        {
-            StartCoroutine(PlayPivotAnimation(selector.currentSelectedElement, pivot, "X", delta >= 0));
-        }
     }
 
     void OnSliderYChanged(float value)
@@ -78,11 +187,6 @@ public class PivotEntryUI : MonoBehaviour
         lastY = stepped;
 
         pivot.RotateWithVector3(Vector3.up, delta);
-
-        if (selector.currentSelectedElement != null)
-        {
-            StartCoroutine(PlayPivotAnimation(selector.currentSelectedElement, pivot, "Y", delta >= 0));
-        }
     }
 
     void OnSliderZChanged(float value)
@@ -99,35 +203,5 @@ public class PivotEntryUI : MonoBehaviour
         lastZ = stepped;
 
         pivot.RotateWithVector3(Vector3.forward, delta);
-
-        if (selector.currentSelectedElement != null)
-        {
-            StartCoroutine(PlayPivotAnimation(selector.currentSelectedElement, pivot, "Z", delta >= 0));
-        }
-    }
-
-    IEnumerator PlayPivotAnimation(TableElement element, RotationPivot pivot, string axis, bool forward)
-    {
-        if (element == null || element.GetComponent<Animator>() == null) yield break;
-
-        isAnimating = true;
-        sliderX.interactable = false;
-        sliderY.interactable = false;
-        sliderZ.interactable = false;
-
-        element.PlayAnimationForPivot(pivot, axis, forward);
-
-        // pobieramy długość klipu animacji
-        var anim = element.elementAnimations.Find(a => a.pivot == pivot && a.axisName == axis);
-        if (anim != null && anim.clip != null)
-        {
-            float duration = anim.clip.length / Mathf.Abs(anim.speed);
-            yield return new WaitForSeconds(duration);
-        }
-
-        isAnimating = false;
-        sliderX.interactable = true;
-        sliderY.interactable = true;
-        sliderZ.interactable = true;
     }
 }

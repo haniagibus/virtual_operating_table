@@ -75,6 +75,7 @@ ModelImporter:
     7400004: upper_back_plate_button_R|ubp_button_L_anim
     7400006: upper_back_plate_button_R|ubp_button_R_anim
     9500000: //RootNode
+    11100000: //RootNode
     2186277476908879412: ImportLogs
   externalObjects:
   - first:
@@ -222,7 +223,7 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 1
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
