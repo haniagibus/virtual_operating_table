@@ -37,6 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4597881542213122}
   - component: {fileID: 114493068775548700}
+  - component: {fileID: 114130162955136430}
   m_Layer: 0
   m_Name: heavy_body_support_small_with_clamp
   m_TagString: Untagged
@@ -1466,6 +1467,31 @@ MonoBehaviour:
   currentPositionY: 0
   currentPositionZ: 0
   stepSize: 0.001
+--- !u!114 &114130162955136430
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1193207723681194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 721736a02d60c2d4ead09ee21f55c4b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  axisName: 
+  allowX: 1
+  allowY: 0
+  allowZ: 0
+  minDistanceX: 0
+  maxDistanceX: 0
+  minDistanceY: 0
+  maxDistanceY: 0
+  minDistanceZ: 0
+  maxDistanceZ: 0
+  currentPositionX: 0
+  currentPositionY: 0
+  currentPositionZ: 0
+  stepSize: 0.0001
 --- !u!114 &114216074944980090
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1535,6 +1561,7 @@ MonoBehaviour:
   - {fileID: 114817018376327860}
   - {fileID: 114216074944980090}
   movementAxes:
+  - {fileID: 114130162955136430}
   - {fileID: 114927450342124004}
   - {fileID: 114383744505819422}
   - {fileID: 114048253026037246}

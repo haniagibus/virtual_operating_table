@@ -104,7 +104,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4305303574360872}
-  - component: {fileID: 95085426935054994}
+  - component: {fileID: 111309848665519176}
   - component: {fileID: 114800484339087624}
   - component: {fileID: 54351503972464412}
   m_Layer: 0
@@ -537,21 +537,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1637566283142170
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4573362967964572}
-  m_Layer: 0
-  m_Name: 4-parts_leg_plate_lower_L
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1641357794687130
 GameObject:
   m_ObjectHideFlags: 1
@@ -715,6 +700,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4440344979189912}
   - component: {fileID: 114610453974377246}
+  - component: {fileID: 114774526382493534}
   m_Layer: 0
   m_Name: 4-parts_leg_plate_lower_L_rotate
   m_TagString: Untagged
@@ -753,6 +739,22 @@ GameObject:
   - component: {fileID: 65092855607631216}
   m_Layer: 0
   m_Name: leg_plate_underside_upper_L
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1854738120020386
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4442047890474752}
+  - component: {fileID: 114612744989169638}
+  m_Layer: 0
+  m_Name: 4-parts_leg_plate_lower_L_rotate_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1050,7 +1052,7 @@ Transform:
   - {fileID: 4392660528889238}
   - {fileID: 4051085887721962}
   - {fileID: 4599526935123224}
-  m_Father: {fileID: 4440344979189912}
+  m_Father: {fileID: 4442047890474752}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4342839306556736
@@ -1145,7 +1147,7 @@ Transform:
   m_LocalPosition: {x: 0.093708634, y: 0.017524345, z: -0.031475976}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4573362967964572}
+  - {fileID: 4440344979189912}
   - {fileID: 4781747780108360}
   - {fileID: 4346444372225748}
   - {fileID: 4913144359869600}
@@ -1159,12 +1161,27 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1822006956352696}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.1858269, y: 0.00095102214, z: 0.0031293035}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4442047890474752}
+  - {fileID: 4936571835239146}
+  m_Father: {fileID: 4410792261037974}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4442047890474752
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1854738120020386}
+  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.05445069, y: -0.0040021976, z: 0.012340739}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4953485067280360}
   - {fileID: 4335527492765620}
-  m_Father: {fileID: 4573362967964572}
+  m_Father: {fileID: 4440344979189912}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4442108069667184
@@ -1251,21 +1268,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4494136680360674}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4573362967964572
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1637566283142170}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.1858269, y: 0.00095102214, z: 0.0031293035}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 4440344979189912}
-  - {fileID: 4936571835239146}
-  m_Father: {fileID: 4410792261037974}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4599526935123224
@@ -1513,7 +1515,7 @@ Transform:
   - {fileID: 4019847587855180}
   - {fileID: 4065064335378774}
   - {fileID: 4636394635026364}
-  m_Father: {fileID: 4573362967964572}
+  m_Father: {fileID: 4440344979189912}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4953485067280360
@@ -1526,7 +1528,7 @@ Transform:
   m_LocalPosition: {x: -0, y: 7.929586e-10, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4440344979189912}
+  m_Father: {fileID: 4442047890474752}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4990602842560510
@@ -3302,24 +3304,25 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.34728682, y: 2.020256, z: 2.0000005}
   m_Center: {x: -0.0032953569, y: 0.8349112, z: -0.48751837}
---- !u!95 &95085426935054994
-Animator:
-  serializedVersion: 3
+--- !u!111 &111309848665519176
+Animation:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1107637578548166}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: c96a6b70a4cf290479f5d0f6eb93f29d, type: 3}
-  m_Controller: {fileID: 9100000, guid: d1642a6c727101a4f9f19b4507850345, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  serializedVersion: 3
+  m_Animation: {fileID: 7400006, guid: c96a6b70a4cf290479f5d0f6eb93f29d, type: 3}
+  m_Animations:
+  - {fileID: 7400006, guid: c96a6b70a4cf290479f5d0f6eb93f29d, type: 3}
+  - {fileID: 7400030, guid: c96a6b70a4cf290479f5d0f6eb93f29d, type: 3}
+  - {fileID: 7400064, guid: c96a6b70a4cf290479f5d0f6eb93f29d, type: 3}
+  - {fileID: 7400080, guid: c96a6b70a4cf290479f5d0f6eb93f29d, type: 3}
+  - {fileID: 7400096, guid: c96a6b70a4cf290479f5d0f6eb93f29d, type: 3}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!114 &114011401342618798
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3333,8 +3336,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: 
   side: 0
-  minRailPosition: -0.5
-  maxRailPosition: 0.5
+  minRailPosition: -0.03
+  maxRailPosition: 0.03
   attachedAccessory: {fileID: 0}
 --- !u!114 &114361460376194460
 MonoBehaviour:
@@ -3373,8 +3376,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: 
   side: 0
-  minRailPosition: -0.5
-  maxRailPosition: 0.5
+  minRailPosition: -0.07
+  maxRailPosition: 0.07
   attachedAccessory: {fileID: 0}
 --- !u!114 &114610453974377246
 MonoBehaviour:
@@ -3389,14 +3392,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pivotName: 
   allowX: 0
-  allowY: 1
+  allowY: 0
   allowZ: 1
+  minAngleX: 0
+  maxAngleX: 0
+  minAngleY: 0
+  maxAngleY: 0
+  minAngleZ: -90
+  maxAngleZ: 90
+  currentAngleX: 0
+  currentAngleY: 0
+  currentAngleZ: 0
+--- !u!114 &114612744989169638
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1854738120020386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88af6a1e8345c6546b8f10a10ddc31f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pivotName: 
+  allowX: 0
+  allowY: 1
+  allowZ: 0
   minAngleX: 0
   maxAngleX: 0
   minAngleY: -90
   maxAngleY: 90
-  minAngleZ: -90
-  maxAngleZ: 90
+  minAngleZ: 0
+  maxAngleZ: 0
   currentAngleX: 0
   currentAngleY: 0
   currentAngleZ: 0
@@ -3425,6 +3452,30 @@ MonoBehaviour:
   currentPositionY: 0
   currentPositionZ: 0
   stepSize: 0.000001
+--- !u!114 &114774526382493534
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1822006956352696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88af6a1e8345c6546b8f10a10ddc31f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pivotName: 
+  allowX: 0
+  allowY: 0
+  allowZ: 1
+  minAngleX: 0
+  maxAngleX: 0
+  minAngleY: 0
+  maxAngleY: 0
+  minAngleZ: -90
+  maxAngleZ: 90
+  currentAngleX: 0
+  currentAngleY: 0
+  currentAngleZ: 0
 --- !u!114 &114800484339087624
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3438,33 +3489,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elementName: 
   type: 0
+  attachAnimationClip: {fileID: 0}
   defaultMountSide: 0
   isFlipped: 0
   isAttached: 1
   rotationPivots:
   - {fileID: 114361460376194460}
   - {fileID: 114610453974377246}
+  - {fileID: 114612744989169638}
   movementAxes:
   - {fileID: 114618864294659030}
   currentMountPoint: {fileID: 0}
   elementAnimations:
   - pivot: {fileID: 114361460376194460}
     axis: {fileID: 0}
-    axisName: Y
     clip: {fileID: 7400064, guid: c96a6b70a4cf290479f5d0f6eb93f29d, type: 3}
     speed: 1
   - pivot: {fileID: 114610453974377246}
     axis: {fileID: 0}
-    axisName: Y
-    clip: {fileID: 7400080, guid: c96a6b70a4cf290479f5d0f6eb93f29d, type: 3}
-    speed: 1
-  - pivot: {fileID: 114610453974377246}
-    axis: {fileID: 0}
-    axisName: Z
     clip: {fileID: 7400030, guid: c96a6b70a4cf290479f5d0f6eb93f29d, type: 3}
+    speed: 1
+  - pivot: {fileID: 114612744989169638}
+    axis: {fileID: 0}
+    clip: {fileID: 7400080, guid: c96a6b70a4cf290479f5d0f6eb93f29d, type: 3}
     speed: 1
   - pivot: {fileID: 0}
     axis: {fileID: 114618864294659030}
-    axisName: X
     clip: {fileID: 7400096, guid: c96a6b70a4cf290479f5d0f6eb93f29d, type: 3}
     speed: 1

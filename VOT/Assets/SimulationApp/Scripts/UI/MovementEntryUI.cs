@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using OperatingTable;
+using VirtualOperatingTable;
 
 public class MovementEntryUI : MonoBehaviour
 {
@@ -12,7 +12,7 @@ public class MovementEntryUI : MonoBehaviour
     public Slider sliderZ;
 
     public MovementAxis axis;
-    public SelectorWindow selector;
+    public TableElementControlPanel tableElementControl;
 
     public float lastX = 0f;
     public float lastY = 0f;
@@ -20,7 +20,7 @@ public class MovementEntryUI : MonoBehaviour
 
     private bool suppressEvent = false;
 
-    // NOWE: flagi śledzące czy slider jest wciśnięty
+    // Flagi śledzące czy slider jest wciśnięty
     private bool isPressingX = false;
     private bool isPressingY = false;
     private bool isPressingZ = false;
@@ -96,14 +96,14 @@ public class MovementEntryUI : MonoBehaviour
         // Ustaw flagę wciśnięcia
         SetPressing(axisName, true);
         
-        if (selector == null || selector.currentSelectedElement == null)
+        if (tableElementControl == null || tableElementControl.currentSelectedElement == null)
         {
             Debug.LogWarning("[MovementEntryUI] Brak selector lub elementu!");
             return;
         }
         
         Debug.Log("[MovementEntryUI] Naciśnięto slider " + axisName + " - animacja do przodu");
-        selector.currentSelectedElement.PlayAnimationForAxis(axis, axisName, true);
+        tableElementControl.currentSelectedElement.PlayAnimationForAxis(axis, true);
     }
 
     void OnSliderReleased(string axisName)
@@ -120,14 +120,14 @@ public class MovementEntryUI : MonoBehaviour
         // Wyzeruj flagę
         SetPressing(axisName, false);
         
-        if (selector == null || selector.currentSelectedElement == null)
+        if (tableElementControl == null || tableElementControl.currentSelectedElement == null)
         {
             Debug.LogWarning("[MovementEntryUI] Brak selector lub elementu!");
             return;
         }
         
         Debug.Log("[MovementEntryUI] Puszczono slider " + axisName + " - animacja do tyłu");
-        selector.currentSelectedElement.PlayAnimationForAxis(axis, axisName, false);
+        tableElementControl.currentSelectedElement.PlayAnimationForAxis(axis, false);
     }
 
     void OnSliderExit(string axisName)

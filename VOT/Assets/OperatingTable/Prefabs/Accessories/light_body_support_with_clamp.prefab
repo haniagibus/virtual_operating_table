@@ -217,6 +217,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4937157862488752}
   - component: {fileID: 114402942362240478}
+  - component: {fileID: 114775235464712622}
   m_Layer: 0
   m_Name: light_body_support_with_clamp
   m_TagString: Untagged
@@ -822,7 +823,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1673608525011604}
   m_LocalRotation: {x: 0.000000021855694, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.531, y: 0.021962762, z: -1.155}
+  m_LocalPosition: {x: 1.531, y: 0.021962762, z: -0.851}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4644024463327460}
@@ -1540,8 +1541,8 @@ MonoBehaviour:
   maxAngleX: 32
   minAngleY: -32
   maxAngleY: 32
-  minAngleZ: -180
-  maxAngleZ: 180
+  minAngleZ: -179
+  maxAngleZ: 179
   currentAngleX: 0
   currentAngleY: 0
   currentAngleZ: 0
@@ -1565,6 +1566,7 @@ MonoBehaviour:
   - {fileID: 114700848361643942}
   - {fileID: 114334426817553450}
   movementAxes:
+  - {fileID: 114775235464712622}
   - {fileID: 114031752400500548}
   currentMountPoint: {fileID: 0}
   elementAnimations: []
@@ -1592,3 +1594,28 @@ MonoBehaviour:
   currentAngleX: 0
   currentAngleY: 0
   currentAngleZ: 0
+--- !u!114 &114775235464712622
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1673608525011604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 721736a02d60c2d4ead09ee21f55c4b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  axisName: 
+  allowX: 1
+  allowY: 0
+  allowZ: 0
+  minDistanceX: 0
+  maxDistanceX: 0
+  minDistanceY: 0
+  maxDistanceY: 0
+  minDistanceZ: 0
+  maxDistanceZ: 0
+  currentPositionX: 0
+  currentPositionY: 0
+  currentPositionZ: 0
+  stepSize: 0.0001

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace OperatingTable
+namespace VirtualOperatingTable
 {
     public class HandControl : MonoBehaviour
     {
@@ -27,14 +27,14 @@ namespace OperatingTable
         [Tooltip("Teleskopowy mechanizm podnoszenia stołu")]
         public TelescopicMovement tableHeightControl;
 
-        [Tooltip("Element blatu do przenoszenia podczas ruchu wysokości")]
-        public Transform tableTopElement;
+        // [Tooltip("Element blatu do przenoszenia podczas ruchu wysokości")]
+        // public Transform tableTopElement;
 
-        [Tooltip("Nazwa obiektu górnej sekcji nogi (do przyłączenia podczas ruchu)")]
-        public string topLegSectionName = "table_leg_column_segment_4_move";
+        // [Tooltip("Nazwa obiektu górnej sekcji nogi (do przyłączenia podczas ruchu)")]
+        // public string topLegSectionName = "table_leg_column_segment_4_move";
 
-        [Tooltip("Nazwa obiektu głównego stołu (do przyłączenia po zakończeniu ruchu)")]
-        public string mainTableName = "table";
+        // [Tooltip("Nazwa obiektu głównego stołu (do przyłączenia po zakończeniu ruchu)")]
+        // public string mainTableName = "table";
 
         [Header("Table Longitudinal Movement")]
         [Tooltip("Mechanizm przesuwania stołu wzdłużnie")]
@@ -381,13 +381,6 @@ namespace OperatingTable
                 StopCoroutine(currentHeightCoroutine);
             }
 
-            // Odłącz blat od głównego stołu i przypnij do górnej sekcji nogi
-            if (tableTopElement != null)
-            {
-                DetachFromParent(tableTopElement);
-                AttachToParent(tableTopElement, topLegSectionName);
-            }
-
             isMovingHeight = true;
             currentHeightCoroutine = StartCoroutine(HeightMovementCoroutine(direction));
         }
@@ -407,13 +400,6 @@ namespace OperatingTable
                 }
 
                 yield return new WaitForSeconds(heightTickInterval);
-            }
-
-            // Po zakończeniu ruchu, przyłącz blat z powrotem do głównego stołu
-            if (tableTopElement != null)
-            {
-                DetachFromParent(tableTopElement);
-                AttachToParent(tableTopElement, mainTableName);
             }
 
             currentHeightCoroutine = null;
@@ -475,54 +461,54 @@ namespace OperatingTable
         }
 
         // HELPERS
-        private void DetachFromParent(Transform element)
-        {
-            if (element == null)
-            {
-                Debug.LogWarning("[HandControl] Element do odłączenia jest null!");
-                return;
-            }
+        // private void DetachFromParent(Transform element)
+        // {
+        //     if (element == null)
+        //     {
+        //         Debug.LogWarning("[HandControl] Element do odłączenia jest null!");
+        //         return;
+        //     }
 
-            if (element.parent != null)
-            {
-                Vector3 worldPosition = element.position;
-                Quaternion worldRotation = element.rotation;
+        //     if (element.parent != null)
+        //     {
+        //         Vector3 worldPosition = element.position;
+        //         Quaternion worldRotation = element.rotation;
 
-                element.SetParent(null);
+        //         element.SetParent(null);
 
-                element.position = worldPosition;
-                element.rotation = worldRotation;
+        //         element.position = worldPosition;
+        //         element.rotation = worldRotation;
 
-                Debug.Log("[HandControl] Element " + element.name + " odłączony od parenta");
-            }
-        }
+        //         Debug.Log("[HandControl] Element " + element.name + " odłączony od parenta");
+        //     }
+        // }
 
-        private void AttachToParent(Transform element, string parentName)
-        {
-            if (element == null)
-            {
-                Debug.LogWarning("[HandControl] Element do przyłączenia jest null!");
-                return;
-            }
+        // private void AttachToParent(Transform element, string parentName)
+        // {
+        //     if (element == null)
+        //     {
+        //         Debug.LogWarning("[HandControl] Element do przyłączenia jest null!");
+        //         return;
+        //     }
 
-            GameObject parent = GameObject.Find(parentName);
+        //     GameObject parent = GameObject.Find(parentName);
 
-            if (parent == null)
-            {
-                Debug.LogWarning("[HandControl] Nie znaleziono obiektu " + parentName);
-                return;
-            }
+        //     if (parent == null)
+        //     {
+        //         Debug.LogWarning("[HandControl] Nie znaleziono obiektu " + parentName);
+        //         return;
+        //     }
 
-            Vector3 worldPosition = element.position;
-            Quaternion worldRotation = element.rotation;
+        //     Vector3 worldPosition = element.position;
+        //     Quaternion worldRotation = element.rotation;
 
-            element.SetParent(parent.transform);
+        //     element.SetParent(parent.transform);
 
-            element.position = worldPosition;
-            element.rotation = worldRotation;
+        //     element.position = worldPosition;
+        //     element.rotation = worldRotation;
 
-            Debug.Log("[HandControl] Element " + element.name + " przypięty do " + parentName);
-        }
+        //     Debug.Log("[HandControl] Element " + element.name + " przypięty do " + parentName);
+        // }
 
         private char DetectAxisFromVector(Vector3 axis)
         {

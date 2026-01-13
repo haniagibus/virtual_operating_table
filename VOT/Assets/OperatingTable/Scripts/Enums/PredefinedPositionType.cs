@@ -1,4 +1,4 @@
-namespace OperatingTable
+namespace VirtualOperatingTable
 {
     public enum PredefinedPositionType
     {

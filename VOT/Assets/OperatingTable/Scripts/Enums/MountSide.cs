@@ -1,4 +1,4 @@
-namespace OperatingTable
+namespace VirtualOperatingTable
 {
     public enum MountSide
     {
@@ -6,5 +6,3 @@ namespace OperatingTable
         Right
     }
 }
-
-

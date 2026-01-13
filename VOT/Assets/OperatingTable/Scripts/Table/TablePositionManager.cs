@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace OperatingTable
+namespace VirtualOperatingTable
 {
     [System.Serializable]
     public class TablePosition
@@ -65,24 +65,25 @@ namespace OperatingTable
         [Tooltip("Czy ignorować wysokość przy zapisywaniu/przywracaniu")]
         public bool ignoreHeight = false;
 
+        [Header("BlendShape Controller")]
+        public TableBlendShapeController blendShapeController;
+
         private List<TablePosition> savedPositions = new List<TablePosition>();
         private bool isRestoring = false;
 
+
         private void Start()
         {
-            // Inicjalizacja listy pozycji
             for (int i = 0; i < maxPositions; i++)
             {
                 savedPositions.Add(new TablePosition(""));
             }
 
-            // Sprawdź czy HandControl jest przypisany
             if (handControl == null)
             {
                 Debug.LogError("[TablePositionManager] HandControl nie jest przypisany!");
             }
 
-            // Ustaw predefiniowaną pozycję 1
             if (lockFirstPosition)
             {
                 SetupPredefinedPosition1();
@@ -93,7 +94,6 @@ namespace OperatingTable
         {
             TablePosition pos = new TablePosition("Level Zero");
 
-            // Wszystkie kąty na zero
             pos.backUpperAngleX = 0f;
             pos.backUpperAngleY = 0f;
             pos.backUpperAngleZ = 0f;
@@ -199,13 +199,6 @@ namespace OperatingTable
             Debug.Log("[TablePositionManager] Ustawiono predefiniowaną pozycję 1");
         }
 
-        // ============================================================
-        // PUBLIC API
-        // ============================================================
-
-        /// <summary>
-        /// Zapisuje aktualną pozycję stołu do określonego slotu
-        /// </summary>
         public void SavePosition(int slotIndex)
         {
             if (handControl == null)
@@ -226,7 +219,6 @@ namespace OperatingTable
                 return;
             }
 
-            // Blokada zapisywania pozycji 1 (indeks 0)
             if (lockFirstPosition && slotIndex == 0)
             {
                 Debug.LogWarning("[TablePositionManager] Pozycja 1 jest zablokowana - nie można jej nadpisać");
@@ -235,7 +227,6 @@ namespace OperatingTable
 
             TablePosition pos = new TablePosition("Pozycja " + (slotIndex + 1));
 
-            // Zapisz kąty rotacji
             if (handControl.tableBackPartUpperRotate != null)
             {
                 pos.backUpperAngleX = handControl.tableBackPartUpperRotate.currentAngleX;
@@ -271,7 +262,6 @@ namespace OperatingTable
                 pos.tableRotationAngleZ = handControl.tableRotation.currentAngleZ;
             }
 
-            // Wysokość - zapisz tylko jeśli nie jest ignorowana
             if (!ignoreHeight && handControl.tableHeightControl != null)
             {
                 pos.tableHeight = GetTelescopicPosition(handControl.tableHeightControl);
@@ -279,16 +269,14 @@ namespace OperatingTable
             }
             else
             {
-                pos.tableHeight = 0f; // Ignoruj wysokość
+                pos.tableHeight = 0f;
             }
 
-            // Zapisz pozycję wzdłużną
             if (handControl.tableLongitudinalControl != null)
             {
                 pos.tableLongitudinalX = handControl.tableLongitudinalControl.currentPositionX;
             }
 
-            // Zapisz stan reverse
             pos.isReversed = handControl.IsReversed;
 
             savedPositions[slotIndex] = pos;
@@ -296,9 +284,6 @@ namespace OperatingTable
             Debug.Log("[TablePositionManager] Zapisano pozycję do slotu " + (slotIndex + 1) + ": " + pos.name);
         }
 
-        /// <summary>
-        /// Przywraca pozycję stołu z określonego slotu
-        /// </summary>
         public void LoadPosition(int slotIndex)
         {
             if (handControl == null)
@@ -372,9 +357,7 @@ namespace OperatingTable
             Debug.Log("[TablePositionManager] Przywracanie pozycji predefiniowanej: " + pos.name);
             StartCoroutine(LoadPositionCoroutine(pos));
         }
-        /// <summary>
-        /// Usuwa zapisaną pozycję z określonego slotu
-        /// </summary>
+
         public void ClearPosition(int slotIndex)
         {
             if (slotIndex < 0 || slotIndex >= maxPositions)
@@ -387,9 +370,6 @@ namespace OperatingTable
             Debug.Log("[TablePositionManager] Wyczyszczono slot " + (slotIndex + 1));
         }
 
-        /// <summary>
-        /// Czyści wszystkie zapisane pozycje
-        /// </summary>
         public void ClearAllPositions()
         {
             for (int i = 0; i < maxPositions; i++)
@@ -399,9 +379,6 @@ namespace OperatingTable
             Debug.Log("[TablePositionManager] Wyczyszczono wszystkie pozycje");
         }
 
-        /// <summary>
-        /// Sprawdza czy slot zawiera zapisaną pozycję
-        /// </summary>
         public bool IsSlotOccupied(int slotIndex)
         {
             if (slotIndex < 0 || slotIndex >= maxPositions)
@@ -410,9 +387,7 @@ namespace OperatingTable
             return !savedPositions[slotIndex].IsEmpty();
         }
 
-        /// <summary>
-        /// Zwraca nazwę pozycji w danym slocie
-        /// </summary>
+
         public string GetPositionName(int slotIndex)
         {
             if (slotIndex < 0 || slotIndex >= maxPositions)
@@ -421,9 +396,6 @@ namespace OperatingTable
             return savedPositions[slotIndex].name;
         }
 
-        /// <summary>
-        /// Ustawia niestandardową nazwę dla pozycji
-        /// </summary>
         public void SetPositionName(int slotIndex, string customName)
         {
             if (slotIndex < 0 || slotIndex >= maxPositions)
@@ -439,9 +411,6 @@ namespace OperatingTable
             }
         }
 
-        /// <summary>
-        /// Zwraca szczegóły pozycji jako string (do debugowania)
-        /// </summary>
         public string GetPositionDetails(int slotIndex)
         {
             if (slotIndex < 0 || slotIndex >= maxPositions)
@@ -457,20 +426,14 @@ namespace OperatingTable
                    "Reverse: " + pos.isReversed;
         }
 
-        // ============================================================
-        // PRIVATE METHODS - RESTORE LOGIC
-        // ============================================================
-
         private IEnumerator LoadPositionCoroutine(TablePosition pos)
         {
             isRestoring = true;
 
             Debug.Log("[TablePositionManager] Rozpoczynam przywracanie pozycji: " + pos.name);
 
-            // Zatrzymaj wszystkie ruchy
             handControl.StopAllMovement();
 
-            // Najpierw ustaw reverse jeśli potrzeba
             if (pos.isReversed != handControl.IsReversed)
             {
                 Debug.Log("[TablePositionManager] Zmiana reverse na: " + pos.isReversed);
@@ -479,14 +442,13 @@ namespace OperatingTable
                 else
                     handControl.NormalPosition();
 
-                // Poczekaj na zakończenie obrotu
                 yield return new WaitForSeconds(0.5f);
             }
 
-            // Zresetuj licznik
+            StartCoroutine(UpdateBlendShapesCoroutine());
+
             runningCoroutines = 0;
 
-            // Przywróć wszystkie rotacje i pozycje
             if (handControl.tableBackPartUpperRotate != null)
             {
                 runningCoroutines++;
@@ -522,7 +484,6 @@ namespace OperatingTable
                 Debug.Log("[TablePositionManager] Uruchomiono przywracanie: tableRotation");
             }
 
-            // Wysokość - przywróć tylko jeśli nie jest ignorowana
             if (!ignoreHeight && handControl.tableHeightControl != null)
             {
                 runningCoroutines++;
@@ -543,7 +504,6 @@ namespace OperatingTable
 
             Debug.Log("[TablePositionManager] Uruchomiono " + runningCoroutines + " operacji przywracania");
 
-            // Poczekaj aż wszystkie się skończą
             float maxWaitTime = 30f;
             float waitedTime = 0f;
             while (runningCoroutines > 0 && waitedTime < maxWaitTime)
@@ -589,7 +549,6 @@ namespace OperatingTable
             if (pivot == null)
                 yield break;
 
-            // Przywróć każdą oś oddzielnie
             if (pivot.allowX && Mathf.Abs(pivot.currentAngleX - targetX) > 0.01f)
             {
                 yield return RestoreAxisCoroutine(pivot, Vector3.right, targetX);
@@ -616,21 +575,20 @@ namespace OperatingTable
             int iterations = 0;
             int maxIterations = 1000;
 
-            // Pętla aż osiągniemy cel
             while (iterations < maxIterations)
             {
-                float currentAngle = pivot.GetCurrentAngle(detectedAxis); // To już jest zsynchronizowane
+                float currentAngle = pivot.GetCurrentAngle(detectedAxis);
                 float diff = targetAngle - currentAngle;
 
                 if (Mathf.Abs(diff) < 0.1f)
-                    break; // Osiągnięto cel
+                    break;
 
                 int direction = diff > 0 ? 1 : -1;
                 float delta = restoreRotationStep * direction;
 
                 if (Mathf.Abs(delta) > Mathf.Abs(diff))
                 {
-                    delta = diff; // Nie przekraczaj celu
+                    delta = diff;
                 }
 
                 bool success = pivot.RotateWithVector3(axis, delta);
@@ -669,7 +627,7 @@ namespace OperatingTable
             Debug.Log("[TablePositionManager] Przywracanie wysokości - Start: " + currentHeight + " -> Cel: " + targetHeight);
 
             int iterations = 0;
-            int maxIterations = 10000; // zabezpieczenie przed nieskończoną pętlą
+            int maxIterations = 10000;
 
             while (Mathf.Abs(currentHeight - targetHeight) > 0.001f && iterations < maxIterations)
             {
@@ -711,40 +669,47 @@ namespace OperatingTable
                 return 0f;
             }
 
-            if (telescopic.sections == null || telescopic.sections.Length == 0)
+            if (telescopic.movementAxes == null || telescopic.movementAxes.Length == 0)
             {
-                Debug.LogWarning("[TablePositionManager] GetTelescopicPosition - brak sekcji!");
+                Debug.LogWarning("[TablePositionManager] GetTelescopicPosition - brak osi teleskopowych!");
                 return 0f;
             }
 
             float totalPosition = 0f;
             char axis = DetectAxisFromVector(telescopic.movementAxis);
 
-            Debug.Log("[TablePositionManager] GetTelescopicPosition - oś: " + axis + ", sekcji: " + telescopic.sections.Length);
+            Debug.Log("[TablePositionManager] GetTelescopicPosition - oś: " + axis +
+                      ", osi: " + telescopic.movementAxes.Length);
 
-            foreach (TelescopicMovement.TelescopicSection section in telescopic.sections)
+            foreach (MovementAxis movementAxis in telescopic.movementAxes)
             {
-                if (section.movementAxis != null)
+                if (movementAxis == null)
+                    continue;
+
+                float axisPos = 0f;
+
+                switch (axis)
                 {
-                    float sectionPos = 0f;
-                    switch (axis)
-                    {
-                        case 'X':
-                            sectionPos = section.movementAxis.currentPositionX;
-                            break;
-                        case 'Y':
-                            sectionPos = section.movementAxis.currentPositionY;
-                            break;
-                        case 'Z':
-                            sectionPos = section.movementAxis.currentPositionZ;
-                            break;
-                    }
-                    totalPosition += sectionPos;
-                    Debug.Log("[TablePositionManager] Sekcja: " + section.sectionName + " = " + sectionPos);
+                    case 'X':
+                        axisPos = movementAxis.currentPositionX;
+                        break;
+                    case 'Y':
+                        axisPos = movementAxis.currentPositionY;
+                        break;
+                    case 'Z':
+                        axisPos = movementAxis.currentPositionZ;
+                        break;
                 }
+
+                totalPosition += axisPos;
+
+                Debug.Log("[TablePositionManager] Oś: " + movementAxis.gameObject.name +
+                          " = " + axisPos.ToString("F4"));
             }
 
-            Debug.Log("[TablePositionManager] GetTelescopicPosition - suma: " + totalPosition);
+            Debug.Log("[TablePositionManager] GetTelescopicPosition - suma: " +
+                      totalPosition.ToString("F4"));
+
             return totalPosition;
         }
 
@@ -775,9 +740,30 @@ namespace OperatingTable
             Debug.Log("[TablePositionManager] Longitudinal restored to: " + currentX);
         }
 
-        // ============================================================
-        // HELPERS
-        // ============================================================
+        private IEnumerator UpdateBlendShapesCoroutine()
+        {
+            if (blendShapeController == null || handControl == null)
+                yield break;
+
+            while (isRestoring)
+            {
+                if (handControl.tableRotation != null)
+                {
+                    float trendAngle = handControl.tableRotation.currentAngleZ;
+                    blendShapeController.UpdateTrendelenburg(trendAngle);
+                }
+
+                if (handControl.tableRotation != null)
+                {
+                    float lateralAngle = handControl.tableRotation.currentAngleX;
+                    blendShapeController.UpdateLateral(lateralAngle);
+                }
+
+                yield return null;
+
+                Debug.Log("[TablePositionManager] BlendShape coroutine zakończona");
+            }
+        }
 
         private char DetectAxisFromVector(Vector3 axis)
         {
@@ -795,10 +781,6 @@ namespace OperatingTable
 
             return '?';
         }
-
-        // ============================================================
-        // GETTERS
-        // ============================================================
 
         public bool IsRestoring
         {

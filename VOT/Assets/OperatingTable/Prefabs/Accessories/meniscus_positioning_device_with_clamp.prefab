@@ -287,6 +287,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4904339279900728}
   - component: {fileID: 114821386673608780}
+  - component: {fileID: 114659871936316874}
   m_Layer: 0
   m_Name: meniscus_positioning_device_with_clamp
   m_TagString: Untagged
@@ -1169,6 +1170,31 @@ MonoBehaviour:
   currentPositionY: 0
   currentPositionZ: 0
   stepSize: 0.0001
+--- !u!114 &114659871936316874
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1967953906800418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 721736a02d60c2d4ead09ee21f55c4b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  axisName: 
+  allowX: 1
+  allowY: 0
+  allowZ: 0
+  minDistanceX: 0
+  maxDistanceX: 0
+  minDistanceY: 0
+  maxDistanceY: 0
+  minDistanceZ: 0
+  maxDistanceZ: 0
+  currentPositionX: 0
+  currentPositionY: 0
+  currentPositionZ: 0
+  stepSize: 0.0001
 --- !u!114 &114821386673608780
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1187,6 +1213,7 @@ MonoBehaviour:
   isAttached: 0
   rotationPivots: []
   movementAxes:
+  - {fileID: 114659871936316874}
   - {fileID: 114322449763072306}
   currentMountPoint: {fileID: 0}
   elementAnimations: []

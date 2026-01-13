@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace OperatingTable
+namespace VirtualOperatingTable
 {
     public class MountPoint : MonoBehaviour
     {
@@ -35,9 +35,7 @@ namespace OperatingTable
             get { return attachedAccessory != null; }
         }
 
-        /// <summary>
-        /// Sprawdza czy obiekt może być podłączony jako akcesorium
-        /// </summary>
+
         public bool CanAttach(GameObject accessory)
         {
             if (IsOccupied)
@@ -63,42 +61,32 @@ namespace OperatingTable
 
             TableElement element = accessory.GetComponent<TableElement>();
 
-            // jeśli było gdzieś indziej – odłącz
             if (element.currentMountPoint != null)
             {
                 element.currentMountPoint.Detach();
             }
 
-            // Sprawdź czy element był obrócony
             bool wasFlipped = element.isFlipped;
             
-            // Sprawdź czy element powinien być obrócony na nowym mount poincie
-            // Obrót następuje gdy strona mount pointa jest ODWROTNA niż defaultowa strona elementu
             bool shouldBeFlipped = (side != element.defaultMountSide);
 
-            // Jeśli zmienia się stan obrotu, obróć o 180°
             if (wasFlipped != shouldBeFlipped)
             {
                 accessory.transform.Rotate(0f, 180f, 0f, Space.World);
                 Debug.Log((shouldBeFlipped ? "Obrócono" : "Cofnięto obrót") + " " + accessory.name + " o 180°");
             }
 
-            // Zaktualizuj stan
             element.isFlipped = shouldBeFlipped;
 
             attachedAccessory = accessory;
             element.currentMountPoint = this;
 
-            // Ustaw parent z zachowaniem world position (ale pozwól na dziedziczenie rotacji)
             accessory.transform.SetParent(transform, true);
 
-            // Ustaw lokalną pozycję na zero (przyklej do mount pointa)
             accessory.transform.localPosition = Vector3.zero;
             
-            // Ustaw lokalną rotację na zero (przyjmij rotację mount pointa)
             accessory.transform.localRotation = Quaternion.identity;
             
-            // Jeśli element jest obrócony, zastosuj obrót lokalny
             if (element.isFlipped)
             {
                 accessory.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
@@ -106,16 +94,14 @@ namespace OperatingTable
 
             element.SetAttached(true);
 
-            // Zaktualizuj limity ruchu dla osi X w zależności od mount pointa
+            element.PlayAttachAnimation();
+
             UpdateAccessoryMovementLimits(element);
 
             Debug.Log("Mounted " + accessory.name + " to " + displayName + " (side: " + side + ", flipped: " + shouldBeFlipped + ")");
             return true;
         }
 
-        /// <summary>
-        /// Aktualizuje limity ruchu akcesorium na podstawie limitów mount pointa
-        /// </summary>
         private void UpdateAccessoryMovementLimits(TableElement element)
         {
             if (element.movementAxes == null || element.movementAxes.Count == 0)
@@ -126,7 +112,6 @@ namespace OperatingTable
                 if (axis == null || !axis.allowX)
                     continue;
 
-                // Sprawdź czy MovementAxis jest na tym samym GameObject co TableElement
                 if (axis.gameObject != element.gameObject)
                     continue;
 
@@ -143,7 +128,6 @@ namespace OperatingTable
 
             TableElement element = attachedAccessory.GetComponent<TableElement>();
             
-            // Jeśli element był obrócony, cofnij obrót do pozycji defaultowej
             if (element.isFlipped)
             {
                 attachedAccessory.transform.Rotate(0f, 180f, 0f, Space.World);
@@ -154,7 +138,6 @@ namespace OperatingTable
             element.currentMountPoint = null;
             attachedAccessory.transform.SetParent(null);
             
-            // Wyłącz widoczność elementu
             element.SetAttached(false);
 
             Debug.Log("Detached " + attachedAccessory.name + " from " + displayName);

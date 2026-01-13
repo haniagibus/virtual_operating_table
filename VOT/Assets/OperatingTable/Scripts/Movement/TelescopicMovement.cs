@@ -1,116 +1,156 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 
-namespace OperatingTable
+namespace VirtualOperatingTable
 {
     public class TelescopicMovement : MonoBehaviour
     {
-        [System.Serializable]
-        public class TelescopicSection
-        {
-            [Tooltip("MovementAxis tej sekcji")]
-            public MovementAxis movementAxis;
-
-            [Tooltip("Nazwa sekcji (opcjonalne, do debugowania)")]
-            public string sectionName = "";
-        }
-
-        [Header("Telescopic Sections")]
-        [Tooltip("Lista sekcji w kolejności wysuwania (od pierwszej do ostatniej)")]
-        public TelescopicSection[] sections;
+        [Header("Telescopic Axes")]
+        [Tooltip("Lista osi w kolejności wysuwania (od pierwszej do ostatniej)")]
+        public MovementAxis[] movementAxes;
 
         [Header("Movement Settings")]
         [Tooltip("Oś ruchu (domyślnie Y - do góry)")]
         public Vector3 movementAxis = Vector3.up;
 
-        [Header("Movement Settings")]
-        public float stepSize = 0.000001f;
+        [Header("Table Top Attachment")]
+        [Tooltip("Blat stołu do przepinania podczas ruchu")]
+        public Transform tableTopElement;
+
+        [Tooltip("Nazwa górnej sekcji nogi")]
+        public string topLegSectionName = "table_leg_column_segment_4_move";
+
+        [Tooltip("Nazwa głównego obiektu stołu")]
+        public string mainTableName = "table";
+
+        public float stepSize = 0.0001f;
+        private bool isMoving = false;
 
         void Start()
         {
-            ValidateSections();
+            ValidateAxes();
         }
 
-        private void ValidateSections()
+        private void ValidateAxes()
         {
             int validCount = 0;
-            foreach (TelescopicSection section in sections)
+
+            foreach (MovementAxis axis in movementAxes)
             {
-                if (section.movementAxis != null)
+                if (axis != null)
                 {
                     validCount++;
-                    if (string.IsNullOrEmpty(section.sectionName))
-                    {
-                        section.sectionName = section.movementAxis.gameObject.name;
-                    }
                 }
                 else
                 {
-                    Debug.LogWarning("[TelescopicMovement] Sekcja bez przypisanego MovementAxis!");
+                    Debug.LogWarning("[TelescopicMovement] Brak przypisanego MovementAxis!");
                 }
             }
 
-            Debug.Log("[TelescopicMovement] Zainicjalizowano " + validCount + " sekcji teleskopowych");
+            Debug.Log("[TelescopicMovement] Zainicjalizowano " + validCount + " osi teleskopowych");
         }
 
         public bool Move(float delta)
         {
-            if (sections.Length == 0)
+            if (!isMoving)
             {
-                Debug.LogWarning("[TelescopicMovement] Brak zdefiniowanych sekcji!");
-                return false;
+                BeginMovement();
+                isMoving = true;
             }
 
-            bool anyMoved = false;
+            bool moved = MoveInternal(delta);
 
-            foreach (TelescopicSection section in sections)
+            if (!moved)
             {
-                if (section.movementAxis == null)
-                {
-                    Debug.LogWarning("[TelescopicMovement] Sekcja bez MovementAxis!");
+                EndMovement();
+                isMoving = false;
+            }
+
+            return moved;
+        }
+
+
+        private bool MoveInternal(float delta)
+        {
+            if (movementAxes == null || movementAxes.Length == 0)
+                return false;
+
+            foreach (MovementAxis axis in movementAxes)
+            {
+                if (axis == null)
                     continue;
-                }
 
-                float currentPos = GetCurrentPosition(section.movementAxis);
-                float maxPos = GetMaxPosition(section.movementAxis);
-                float minPos = GetMinPosition(section.movementAxis);
+                float currentPos = GetCurrentPosition(axis);
+                float maxPos = GetMaxPosition(axis);
+                float minPos = GetMinPosition(axis);
 
-                bool canMove = false;
-                if (delta > 0)
-                {
-                    canMove = currentPos < maxPos - stepSize;
-                }
-                else
-                {
-                    canMove = currentPos > minPos + stepSize;
-                }
+                bool canMove = delta > 0
+                    ? currentPos < maxPos - stepSize
+                    : currentPos > minPos + stepSize;
 
                 if (canMove)
                 {
-                    bool moved = section.movementAxis.MoveWithVector3(movementAxis, delta);
-
-                    if (moved)
-                    {
-                        anyMoved = true;
-                        Debug.Log("[TelescopicMovement] Poruszam sekcję: " + section.sectionName +
-                                 " (pozycja: " + GetCurrentPosition(section.movementAxis).ToString("F3") + ")");
-                    }
-
-                    break;
-                }
-                else
-                {
-                    Debug.Log("[TelescopicMovement] Sekcja " + section.sectionName + " osiągnęła limit");
+                    return axis.MoveWithVector3(movementAxis, delta);
                 }
             }
 
-            return anyMoved;
+            return false;
         }
+
+
+        private void BeginMovement()
+        {
+            if (tableTopElement == null)
+                return;
+
+            DetachFromParent(tableTopElement);
+            AttachToParent(tableTopElement, topLegSectionName);
+
+            Debug.Log("[TelescopicMovement] Blat przypięty do nogi");
+        }
+
+        private void EndMovement()
+        {
+            if (tableTopElement == null)
+                return;
+
+            DetachFromParent(tableTopElement);
+            AttachToParent(tableTopElement, mainTableName);
+
+            Debug.Log("[TelescopicMovement] Blat przypięty do stołu");
+        }
+
+
+        private void DetachFromParent(Transform element)
+        {
+            if (element == null || element.parent == null)
+                return;
+
+            Vector3 pos = element.position;
+            Quaternion rot = element.rotation;
+
+            element.SetParent(null);
+            element.position = pos;
+            element.rotation = rot;
+        }
+
+        private void AttachToParent(Transform element, string parentName)
+        {
+            GameObject parent = GameObject.Find(parentName);
+            if (parent == null)
+                return;
+
+            Vector3 pos = element.position;
+            Quaternion rot = element.rotation;
+
+            element.SetParent(parent.transform);
+            element.position = pos;
+            element.rotation = rot;
+        }
+
 
         private float GetCurrentPosition(MovementAxis axis)
         {
-            char detectedAxis = DetectAxisChar(movementAxis);
-            switch (detectedAxis)
+            switch (DetectAxisChar(movementAxis))
             {
                 case 'X': return axis.currentPositionX;
                 case 'Y': return axis.currentPositionY;
@@ -121,8 +161,7 @@ namespace OperatingTable
 
         private float GetMaxPosition(MovementAxis axis)
         {
-            char detectedAxis = DetectAxisChar(movementAxis);
-            switch (detectedAxis)
+            switch (DetectAxisChar(movementAxis))
             {
                 case 'X': return axis.maxDistanceX;
                 case 'Y': return axis.maxDistanceY;
@@ -133,8 +172,7 @@ namespace OperatingTable
 
         private float GetMinPosition(MovementAxis axis)
         {
-            char detectedAxis = DetectAxisChar(movementAxis);
-            switch (detectedAxis)
+            switch (DetectAxisChar(movementAxis))
             {
                 case 'X': return axis.minDistanceX;
                 case 'Y': return axis.minDistanceY;
@@ -146,93 +184,16 @@ namespace OperatingTable
         private char DetectAxisChar(Vector3 axis)
         {
             axis = axis.normalized;
+
             float absX = Mathf.Abs(axis.x);
             float absY = Mathf.Abs(axis.y);
             float absZ = Mathf.Abs(axis.z);
 
-            if (absX > absY && absX > absZ)
-                return 'X';
-            else if (absY > absX && absY > absZ)
-                return 'Y';
-            else if (absZ > absX && absZ > absY)
-                return 'Z';
+            if (absX > absY && absX > absZ) return 'X';
+            if (absY > absX && absY > absZ) return 'Y';
+            if (absZ > absX && absZ > absY) return 'Z';
 
             return '?';
         }
-
-        // public bool IsFullyExtended()
-        // {
-        //     foreach (TelescopicSection section in sections)
-        //     {
-        //         if (section.movementAxis == null)
-        //             continue;
-
-        //         float current = GetCurrentPosition(section.movementAxis);
-        //         float max = GetMaxPosition(section.movementAxis);
-
-        //         if (current < max - stepSize)
-        //         {
-        //             return false;
-        //         }
-        //     }
-        //     return true;
-        // }
-
-        // public bool IsFullyRetracted()
-        // {
-        //     foreach (TelescopicSection section in sections)
-        //     {
-        //         if (section.movementAxis == null)
-        //             continue;
-
-        //         float current = GetCurrentPosition(section.movementAxis);
-        //         float min = GetMinPosition(section.movementAxis);
-
-        //         if (current > min + stepSize)
-        //         {
-        //             return false;
-        //         }
-        //     }
-        //     return true;
-        // }
-
-        // public void Reset()
-        // {
-        //     foreach (TelescopicSection section in sections)
-        //     {
-        //         if (section.movementAxis != null)
-        //         {
-        //             section.movementAxis.ResetPosition();
-        //         }
-        //     }
-
-        //     Debug.Log("[TelescopicMovement] Zresetowano teleskop");
-        // }
-
-        // public float GetTotalHeight()
-        // {
-        //     float total = 0f;
-        //     foreach (TelescopicSection section in sections)
-        //     {
-        //         if (section.movementAxis != null)
-        //         {
-        //             total += GetCurrentPosition(section.movementAxis);
-        //         }
-        //     }
-        //     return total;
-        // }
-
-        // public float GetMaxHeight()
-        // {
-        //     float total = 0f;
-        //     foreach (TelescopicSection section in sections)
-        //     {
-        //         if (section.movementAxis != null)
-        //         {
-        //             total += GetMaxPosition(section.movementAxis);
-        //         }
-        //     }
-        //     return total;
-        // }
     }
 }

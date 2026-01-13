@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace OperatingTable
+namespace VirtualOperatingTable
 {
     public class TableBlendShapeController : MonoBehaviour
     {
@@ -37,11 +37,8 @@ namespace OperatingTable
             }
         }
 
-        // ================= LATERAL (LEFT / RIGHT) =================
-
         public void UpdateLateral(float angle)
         {
-            // angle może być ujemne lub dodatnie
             if (indexLeft >= 0)
                 Set(indexLeft, Mathf.Max(angle, 0), maxTiltAngle);
             if (indexRight >= 0)
@@ -55,9 +52,6 @@ namespace OperatingTable
             Set(indexLeft, 0);
             Set(indexRight, 0);
         }
-
-        // ================= TREND / REVERSE =================
-
         public void UpdateTrendelenburg(float angle)
         {
             if (indexForward >= 0)
@@ -65,7 +59,7 @@ namespace OperatingTable
             if (indexBackward >= 0)
                 Set(indexBackward, Mathf.Max(-angle, 0), maxTrendelenburgAngle);
 
-            Debug.Log("[TREND] FORWARD=" + Mathf.Max(angle, 0) + " BACKWARD=" + Mathf.Max(-angle,0));
+            Debug.Log("[TREND] FORWARD=" + Mathf.Max(angle, 0) + " BACKWARD=" + Mathf.Max(-angle, 0));
         }
 
 
@@ -74,8 +68,6 @@ namespace OperatingTable
             Set(indexForward, 0);
             Set(indexBackward, 0);
         }
-
-        // ================= CORE =================
 
         private void Set(int index, float angle, float max = 1f)
         {

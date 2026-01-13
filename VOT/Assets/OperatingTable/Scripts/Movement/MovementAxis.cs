@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace OperatingTable
+namespace VirtualOperatingTable
 {
     public class MovementAxis : MonoBehaviour
     {

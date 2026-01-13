@@ -199,6 +199,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4909259634760136}
   - component: {fileID: 114172568706271958}
+  - component: {fileID: 114211501123142208}
   m_Layer: 0
   m_Name: foot_plate_L_with_clamp
   m_TagString: Untagged
@@ -807,9 +808,35 @@ MonoBehaviour:
   isAttached: 0
   rotationPivots: []
   movementAxes:
+  - {fileID: 114211501123142208}
   - {fileID: 114678476285025102}
   currentMountPoint: {fileID: 0}
   elementAnimations: []
+--- !u!114 &114211501123142208
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1964144304151786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 721736a02d60c2d4ead09ee21f55c4b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  axisName: 
+  allowX: 1
+  allowY: 0
+  allowZ: 0
+  minDistanceX: 0
+  maxDistanceX: 0
+  minDistanceY: 0
+  maxDistanceY: 0
+  minDistanceZ: 0
+  maxDistanceZ: 0
+  currentPositionX: 0
+  currentPositionY: 0
+  currentPositionZ: 0
+  stepSize: 0.0001
 --- !u!114 &114678476285025102
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace OperatingTable
+namespace VirtualOperatingTable
 {
     public class RotationPivot : MonoBehaviour
     {
@@ -180,23 +180,23 @@ namespace OperatingTable
             return angle;
         }
 
-        public bool IsAtLimitX()
-        {
-            SyncCurrentAnglesWithTransform(); // NOWE
-            return currentAngleX <= minAngleX + 0.1f || currentAngleX >= maxAngleX - 0.1f;
-        }
+        // public bool IsAtLimitX()
+        // {
+        //     SyncCurrentAnglesWithTransform(); // NOWE
+        //     return currentAngleX <= minAngleX + 0.1f || currentAngleX >= maxAngleX - 0.1f;
+        // }
 
-        public bool IsAtLimitY()
-        {
-            SyncCurrentAnglesWithTransform(); // NOWE
-            return currentAngleY <= minAngleY + 0.1f || currentAngleY >= maxAngleY - 0.1f;
-        }
+        // public bool IsAtLimitY()
+        // {
+        //     SyncCurrentAnglesWithTransform(); // NOWE
+        //     return currentAngleY <= minAngleY + 0.1f || currentAngleY >= maxAngleY - 0.1f;
+        // }
 
-        public bool IsAtLimitZ()
-        {
-            SyncCurrentAnglesWithTransform(); // NOWE
-            return currentAngleZ <= minAngleZ + 0.1f || currentAngleZ >= maxAngleZ - 0.1f;
-        }
+        // public bool IsAtLimitZ()
+        // {
+        //     SyncCurrentAnglesWithTransform(); // NOWE
+        //     return currentAngleZ <= minAngleZ + 0.1f || currentAngleZ >= maxAngleZ - 0.1f;
+        // }
 
         public float GetCurrentAngle(char axis)
         {
@@ -219,51 +219,51 @@ namespace OperatingTable
         }
 
         // NOWE METODY
-        public void SetCurrentAngle(char axis, float angle)
-        {
-            switch (axis)
-            {
-                case 'X':
-                case 'x':
-                    currentAngleX = angle;
-                    break;
-                case 'Y':
-                case 'y':
-                    currentAngleY = angle;
-                    break;
-                case 'Z':
-                case 'z':
-                    currentAngleZ = angle;
-                    break;
-            }
-        }
+        // public void SetCurrentAngle(char axis, float angle)
+        // {
+        //     switch (axis)
+        //     {
+        //         case 'X':
+        //         case 'x':
+        //             currentAngleX = angle;
+        //             break;
+        //         case 'Y':
+        //         case 'y':
+        //             currentAngleY = angle;
+        //             break;
+        //         case 'Z':
+        //         case 'z':
+        //             currentAngleZ = angle;
+        //             break;
+        //     }
+        // }
 
-        public void SetRotationDirect(float angleX, float angleY, float angleZ)
-        {
-            Vector3 newRotation = transform.localEulerAngles;
+        // public void SetRotationDirect(float angleX, float angleY, float angleZ)
+        // {
+        //     Vector3 newRotation = transform.localEulerAngles;
             
-            if (allowX)
-            {
-                newRotation.x = angleX;
-                currentAngleX = angleX;
-            }
+        //     if (allowX)
+        //     {
+        //         newRotation.x = angleX;
+        //         currentAngleX = angleX;
+        //     }
             
-            if (allowY)
-            {
-                newRotation.y = angleY;
-                currentAngleY = angleY;
-            }
+        //     if (allowY)
+        //     {
+        //         newRotation.y = angleY;
+        //         currentAngleY = angleY;
+        //     }
             
-            if (allowZ)
-            {
-                newRotation.z = angleZ;
-                currentAngleZ = angleZ;
-            }
+        //     if (allowZ)
+        //     {
+        //         newRotation.z = angleZ;
+        //         currentAngleZ = angleZ;
+        //     }
             
-            transform.localEulerAngles = newRotation;
+        //     transform.localEulerAngles = newRotation;
             
-            Debug.Log(pivotName + " - Bezpośrednio ustawiono rotację: X=" + angleX.ToString("F1") + 
-                      ", Y=" + angleY.ToString("F1") + ", Z=" + angleZ.ToString("F1"));
-        }
+        //     Debug.Log(pivotName + " - Bezpośrednio ustawiono rotację: X=" + angleX.ToString("F1") + 
+        //               ", Y=" + angleY.ToString("F1") + ", Z=" + angleZ.ToString("F1"));
+        // }
     }
 }
