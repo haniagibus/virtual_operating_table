@@ -20,7 +20,8 @@ namespace VirtualOperatingTable
         [Tooltip("Główny transform blatu stołu do obrotu")]
         public Transform tableTop;
 
-        private bool isReversed = false;
+        // private bool isReversed = false;
+        public TableState tableState = TableState.Normal;
         private Coroutine reverseCoroutine = null;
 
         [Header("Table Telescopic Movement")]
@@ -261,29 +262,34 @@ namespace VirtualOperatingTable
         // ============================================================
         // NORMAL / REVERSE
         // ============================================================
-        public void NormalPosition()
+        public TableState NormalPosition()
         {
             if (isLocked == true)
             {
                 Debug.Log("[HandControl] Stół wyłączony ");
-                return;
+                return tableState;
             }
             Debug.Log("[HandControl] Ustawiam stół w pozycji normalnej");
-            isReversed = false;
-            reverseCoroutine = StartCoroutine(RotateToReverseCoroutine(isReversed));
+            tableState = TableState.Normal;
+            return tableState;
+
+            // isReversed = false;
+            // reverseCoroutine = StartCoroutine(RotateToReverseCoroutine(isReversed));
         }
 
-        public void ReversePosition()
+        public TableState ReversePosition()
         {
             if (isLocked == true)
             {
                 Debug.Log("[HandControl] Stół wyłączony ");
-                return;
+                return tableState;
             }
             Debug.Log("[HandControl] Ustawiam stół w pozycji reverse");
+            tableState = TableState.Reverse;
+            return tableState;
 
-            isReversed = true;
-            reverseCoroutine = StartCoroutine(RotateToReverseCoroutine(isReversed));
+            // isReversed = true;
+            // reverseCoroutine = StartCoroutine(RotateToReverseCoroutine(isReversed));
         }
 
         // ============================================================
@@ -443,22 +449,22 @@ namespace VirtualOperatingTable
             currentLongitudinalCoroutine = null;
         }
 
-        private IEnumerator RotateToReverseCoroutine(bool reverse)
-        {
-            if (tableTop == null)
-            {
-                Debug.LogError("[HandControl] TableTop nie jest przypisany!");
-                yield break;
-            }
+        // private IEnumerator RotateToReverseCoroutine(bool reverse)
+        // {
+        //     if (tableTop == null)
+        //     {
+        //         Debug.LogError("[HandControl] TableTop nie jest przypisany!");
+        //         yield break;
+        //     }
 
-            float targetAngle = reverse ? 180f : 0f;
+        //     float targetAngle = reverse ? 180f : 0f;
 
-            Vector3 euler = tableTop.localEulerAngles;
-            euler.y = targetAngle;
-            tableTop.localEulerAngles = euler;
+        //     Vector3 euler = tableTop.localEulerAngles;
+        //     euler.y = targetAngle;
+        //     tableTop.localEulerAngles = euler;
 
-            reverseCoroutine = null;
-        }
+        //     reverseCoroutine = null;
+        // }
 
         // HELPERS
         // private void DetachFromParent(Transform element)
@@ -551,9 +557,9 @@ namespace VirtualOperatingTable
             get { return isMovingLongitudinal; }
         }
 
-        public bool IsReversed
-        {
-            get { return isReversed; }
-        }
+        // public bool IsReversed
+        // {
+        //     get { return isReversed; }
+        // }
     }
 }

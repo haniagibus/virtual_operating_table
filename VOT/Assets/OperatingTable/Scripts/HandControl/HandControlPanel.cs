@@ -15,6 +15,11 @@ namespace VirtualOperatingTable
         [Header("Hand Control")]
         public HandControl handControl;
 
+        [Header("Table State")]
+        public TableState tableState = TableState.Normal;
+        public Button normalButton;
+        public Button reverseButton;
+
         [Header("Optional UI Settings")]
         public EventSystem eventSystem;
         public bool autoSelectFirst = true;
@@ -46,6 +51,7 @@ namespace VirtualOperatingTable
                 isOpen = !startClosed;
                 SetPanelState(!startClosed);
                 SetCursorForPanel(isOpen);
+                ToggleStateButtons();
             }
         }
 
@@ -119,40 +125,53 @@ namespace VirtualOperatingTable
         // BACK TILT
         public void OnTiltBackUpButtonDown()
         {
-            if (handControl != null)
-            {
+            if (handControl == null)
+                return;
+
+            if (tableState == TableState.Normal)
                 handControl.TiltBackPlate(-1);
-            }
+            else
+                handControl.TiltLegsPlate(1);
+
         }
 
         public void OnTiltBackDownButtonDown()
         {
-            if (handControl != null)
-            {
+            if (handControl == null)
+                return;
+            if (tableState == TableState.Normal)
                 handControl.TiltBackPlate(1);
-            }
+            else
+                handControl.TiltLegsPlate(-1);
         }
 
         // LEGS TILT
         public void OnTiltLegsUpButtonDown()
         {
-            if (handControl != null)
-            {
+            if (handControl == null)
+                return;
+            if (tableState == TableState.Normal)
                 handControl.TiltLegsPlate(1);
-            }
+            else
+                handControl.TiltBackPlate(-1);
         }
 
         public void OnTiltLegsDownButtonDown()
         {
-            if (handControl != null)
-            {
+            if (handControl == null)
+                return;
+            if (tableState == TableState.Normal)
                 handControl.TiltLegsPlate(-1);
-            }
+            else
+                handControl.TiltBackPlate(1);
         }
 
         public void OnRightLegSelectedButtonDown(Button button)
         {
-            if (handControl != null)
+            if (handControl == null)
+                return;
+
+            if (tableState == TableState.Normal)
             {
                 handControl.RightLegSelected();
 
@@ -162,9 +181,13 @@ namespace VirtualOperatingTable
                     button.image.color = Color.white;
             }
         }
+
         public void OnLeftLegSelectedButtonDown(Button button)
         {
-            if (handControl != null)
+            if (handControl == null)
+                return;
+
+            if (tableState == TableState.Normal)
             {
                 handControl.LeftLegSelected();
 
@@ -178,35 +201,43 @@ namespace VirtualOperatingTable
         // TRENDELENBURG POSITION
         public void OnTrendelenburgButtonDown()
         {
-            if (handControl != null)
-            {
+            if (handControl == null)
+                return;
+            if (tableState == TableState.Normal)
                 handControl.TiltTrendelenburg(1);
-            }
+            else
+                handControl.TiltTrendelenburg(-1);
         }
 
         public void OnReverseTrendelenburgButtonDown()
         {
-            if (handControl != null)
-            {
+            if (handControl == null)
+                return;
+            if (tableState == TableState.Normal)
                 handControl.TiltTrendelenburg(-1);
-            }
+            else
+                handControl.TiltTrendelenburg(1);
         }
 
         // LATERAL TILT
         public void OnTiltTableRightButtonDown()
         {
-            if (handControl != null)
-            {
+            if (handControl == null)
+                return;
+            if (tableState == TableState.Normal)
                 handControl.TiltTable(-1);
-            }
+            else
+                handControl.TiltTable(1);
         }
 
         public void OnTiltTableLeftButtonDown()
         {
-            if (handControl != null)
-            {
+            if (handControl == null)
+                return;
+            if (tableState == TableState.Normal)
                 handControl.TiltTable(1);
-            }
+            else
+                handControl.TiltTable(-1);
         }
 
         // ============================================================
@@ -233,18 +264,22 @@ namespace VirtualOperatingTable
         // LONGITUDINAL
         public void OnSlideForwardButtonDown()
         {
-            if (handControl != null)
-            {
+            if (handControl == null)
+                return;
+            if (tableState == TableState.Normal)
                 handControl.MoveTable(-1);
-            }
+            else
+                handControl.MoveTable(1);
         }
 
         public void OnSlideBackwardButtonDown()
         {
-            if (handControl != null)
-            {
+            if (handControl == null)
+                return;
+            if (tableState == TableState.Normal)
                 handControl.MoveTable(1);
-            }
+            else
+                handControl.MoveTable(-1);
         }
 
         // ============================================================
@@ -288,20 +323,37 @@ namespace VirtualOperatingTable
         // ============================================================
         // NORMAL / REVERSE
         // ============================================================
-        public void OnNormalPositionButtonDown()
+        public void OnNormalPositionButtonDown(Button button)
         {
             if (handControl != null)
             {
-                handControl.NormalPosition();
+                tableState = handControl.NormalPosition();
+                ToggleStateButtons();
             }
         }
 
-        public void OnReversePositionButtonDown()
+        public void OnReversePositionButtonDown(Button button)
         {
             if (handControl != null)
             {
-                handControl.ReversePosition();
+                tableState = handControl.ReversePosition();
+                ToggleStateButtons();
             }
+        }
+
+        private void ToggleStateButtons()
+        {
+            if (tableState == TableState.Normal)
+            {
+                normalButton.interactable = false;
+                reverseButton.interactable = true;
+            }
+            else
+            {
+                normalButton.interactable = true;
+                reverseButton.interactable = false;
+            }
+
         }
 
         // ============================================================
