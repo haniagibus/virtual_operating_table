@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace OperatingTable
+namespace VirtualOperatingTable
 {
     public class MovementAxis : MonoBehaviour
     {
@@ -36,7 +36,7 @@ namespace OperatingTable
 
         private Vector3 initialPosition;
 
-        void Start()
+        void Awake()
         {
             if (string.IsNullOrEmpty(axisName))
             {
@@ -150,12 +150,12 @@ namespace OperatingTable
             return '?';
         }
 
-        public void ResetPosition()
-        {
-            transform.localPosition = initialPosition;
-            currentPositionX = 0f;
-            currentPositionY = 0f;
-            currentPositionZ = 0f;
-        }        
+        // public void ResetPosition()
+        // {
+        //     transform.localPosition = initialPosition;
+        //     currentPositionX = 0f;
+        //     currentPositionY = 0f;
+        //     currentPositionZ = 0f;
+        // }        
     }
 }

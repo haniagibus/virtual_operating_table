@@ -1,0 +1,231 @@
+fileFormatVersion: 2
+guid: 5e4fafb76e863f14698d528f0fbfeac6
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: upper_back_plate_button_L
+    100004: upper_back_plate_button_R
+    100006: upper_back_plate_mount
+    100008: upper_back_plate_pad
+    100010: upper_back_plate_plate
+    100012: upper_back_plate_rail_connector_1_L
+    100014: upper_back_plate_rail_connector_1_R
+    100016: upper_back_plate_rail_connector_2_L
+    100018: upper_back_plate_rail_connector_2_R
+    100020: upper_back_plate_rail_L
+    100022: upper_back_plate_rail_R
+    100024: upper_back_plate_underside_L
+    100026: upper_back_plate_underside_R
+    400000: //RootNode
+    400002: upper_back_plate_button_L
+    400004: upper_back_plate_button_R
+    400006: upper_back_plate_mount
+    400008: upper_back_plate_pad
+    400010: upper_back_plate_plate
+    400012: upper_back_plate_rail_connector_1_L
+    400014: upper_back_plate_rail_connector_1_R
+    400016: upper_back_plate_rail_connector_2_L
+    400018: upper_back_plate_rail_connector_2_R
+    400020: upper_back_plate_rail_L
+    400022: upper_back_plate_rail_R
+    400024: upper_back_plate_underside_L
+    400026: upper_back_plate_underside_R
+    2100000: Black leather
+    2100002: Black plastic
+    2100004: Metal
+    2300000: upper_back_plate_button_L
+    2300002: upper_back_plate_button_R
+    2300004: upper_back_plate_pad
+    2300006: upper_back_plate_plate
+    2300008: upper_back_plate_rail_connector_1_L
+    2300010: upper_back_plate_rail_connector_1_R
+    2300012: upper_back_plate_rail_connector_2_L
+    2300014: upper_back_plate_rail_connector_2_R
+    2300016: upper_back_plate_rail_L
+    2300018: upper_back_plate_rail_R
+    2300020: upper_back_plate_underside_L
+    2300022: upper_back_plate_underside_R
+    3300000: upper_back_plate_button_L
+    3300002: upper_back_plate_button_R
+    3300004: upper_back_plate_pad
+    3300006: upper_back_plate_plate
+    3300008: upper_back_plate_rail_connector_1_L
+    3300010: upper_back_plate_rail_connector_1_R
+    3300012: upper_back_plate_rail_connector_2_L
+    3300014: upper_back_plate_rail_connector_2_R
+    3300016: upper_back_plate_rail_L
+    3300018: upper_back_plate_rail_R
+    3300020: upper_back_plate_underside_L
+    3300022: upper_back_plate_underside_R
+    4300000: upper_back_plate_pad
+    4300002: upper_back_plate_plate
+    4300004: upper_back_plate_underside_L
+    4300006: upper_back_plate_button_L
+    4300008: upper_back_plate_rail_L
+    4300010: upper_back_plate_rail_connector_1_L
+    4300012: upper_back_plate_rail_connector_2_L
+    4300014: upper_back_plate_underside_R
+    4300016: upper_back_plate_button_R
+    4300018: upper_back_plate_rail_R
+    4300020: upper_back_plate_rail_connector_1_R
+    4300022: upper_back_plate_rail_connector_2_R
+    7400000: upper_back_plate_button_L|ubp_button_L_anim
+    7400002: upper_back_plate_button_L|ubp_button_R_anim
+    7400004: upper_back_plate_button_R|ubp_button_L_anim
+    7400006: upper_back_plate_button_R|ubp_button_R_anim
+    9500000: //RootNode
+    11100000: //RootNode
+    2186277476908879412: ImportLogs
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Black leather
+    second: {fileID: 2100000, guid: 29cf1125bb0c5ae49aff02ee76fae8b1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Black plastic
+    second: {fileID: 2100000, guid: 995f8b5c3d7f0bc41916a9769c8327df, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Metal
+    second: {fileID: 2100000, guid: 2f68f91797a9d9742acfd6c321a98fdd, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: upper_back_plate_button_L|ubp_button_L_anim
+      takeName: upper_back_plate_button_L|ubp_button_L_anim
+      firstFrame: 0
+      lastFrame: 19
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: upper_back_plate_button_R|ubp_button_R_anim
+      takeName: upper_back_plate_button_R|ubp_button_R_anim
+      firstFrame: 0
+      lastFrame: 19
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
