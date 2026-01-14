@@ -1754,6 +1754,34 @@ GameObject:
   m_PrefabParentObject: {fileID: 1529787717921632, guid: e04f91f23d63a334db4ac99a756515a3,
     type: 2}
   m_PrefabInternal: {fileID: 753274518}
+--- !u!1 &1162356695 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100022, guid: 7aca26d09e61a4445836c59d0b6ed70e, type: 3}
+  m_PrefabInternal: {fileID: 1712965786}
+--- !u!114 &1162356696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1162356695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88af6a1e8345c6546b8f10a10ddc31f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pivotName: 
+  allowX: 1
+  allowY: 1
+  allowZ: 1
+  minAngleX: -32
+  maxAngleX: 32
+  minAngleY: -179
+  maxAngleY: 179
+  minAngleZ: -32
+  maxAngleZ: 32
+  currentAngleX: 0
+  currentAngleY: 0
+  currentAngleZ: 0
 --- !u!1001 &1304195106
 Prefab:
   m_ObjectHideFlags: 0

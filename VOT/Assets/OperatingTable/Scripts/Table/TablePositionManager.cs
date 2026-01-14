@@ -25,7 +25,9 @@ namespace VirtualOperatingTable
         public float tableRotationAngleZ;
         public float tableHeight;
         public float tableLongitudinalX;
-        public bool isReversed;
+        // public bool isReversed;
+        public TableState tableState;
+
 
         public TablePosition(string positionName)
         {
@@ -111,7 +113,9 @@ namespace VirtualOperatingTable
             pos.tableRotationAngleZ = 0f;
             pos.tableHeight = 0f;
             pos.tableLongitudinalX = 0f;
-            pos.isReversed = false;
+            // pos.isReversed = false;
+            pos.tableState = TableState.Normal;
+
 
             Debug.Log("[TablePositionManager] Ustawiono pozycję " + name);
             return pos;
@@ -138,7 +142,9 @@ namespace VirtualOperatingTable
             pos.tableRotationAngleZ = -20f;
             pos.tableHeight = 0f;
             pos.tableLongitudinalX = 0f;
-            pos.isReversed = false;
+            // pos.isReversed = false;
+            pos.tableState = TableState.Normal;
+
 
             Debug.Log("[TablePositionManager] Ustawiono pozycję " + pos.name);
             return pos;
@@ -165,7 +171,9 @@ namespace VirtualOperatingTable
             pos.tableRotationAngleZ = 30f;
             pos.tableHeight = 0f;
             pos.tableLongitudinalX = 0f;
-            pos.isReversed = false;
+            // pos.isReversed = false;
+            pos.tableState = TableState.Normal;
+
 
             Debug.Log("[TablePositionManager] Ustawiono pozycję " + pos.name);
             return pos;
@@ -192,7 +200,9 @@ namespace VirtualOperatingTable
             pos.tableRotationAngleZ = 25f;
             pos.tableHeight = 0f;
             pos.tableLongitudinalX = 0f;
-            pos.isReversed = false;
+            // pos.isReversed = false;
+            pos.tableState = TableState.Normal;
+
 
             savedPositions[0] = pos;
 
@@ -277,7 +287,7 @@ namespace VirtualOperatingTable
                 pos.tableLongitudinalX = handControl.tableLongitudinalControl.currentPositionX;
             }
 
-            pos.isReversed = handControl.IsReversed;
+            pos.tableState = handControl.tableState;
 
             savedPositions[slotIndex] = pos;
 
@@ -423,7 +433,7 @@ namespace VirtualOperatingTable
             return pos.name + "\n" +
                    "Wysokość: " + pos.tableHeight.ToString("F4") + "\n" +
                    "Pozycja wzdłużna: " + pos.tableLongitudinalX.ToString("F4") + "\n" +
-                   "Reverse: " + pos.isReversed;
+                   "Reverse: " + pos.tableState.ToString();
         }
 
         private IEnumerator LoadPositionCoroutine(TablePosition pos)
@@ -434,10 +444,10 @@ namespace VirtualOperatingTable
 
             handControl.StopAllMovement();
 
-            if (pos.isReversed != handControl.IsReversed)
+            if (pos.tableState != handControl.tableState)
             {
-                Debug.Log("[TablePositionManager] Zmiana reverse na: " + pos.isReversed);
-                if (pos.isReversed)
+                Debug.Log("[TablePositionManager] Zmiana reverse na: " + pos.tableState);
+                if (pos.tableState == TableState.Reverse)
                     handControl.ReversePosition();
                 else
                     handControl.NormalPosition();
