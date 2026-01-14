@@ -18,14 +18,13 @@ public class MovementEntryUI : MonoBehaviour
     public float lastY = 0f;
     public float lastZ = 0f;
 
+    public float stepSize = 5f;
+
     private bool suppressEvent = false;
 
-    // Flagi śledzące czy slider jest wciśnięty
     private bool isPressingX = false;
     private bool isPressingY = false;
     private bool isPressingZ = false;
-
-    public float stepSize = 5f; // krok slidera
 
     void Start()
     {
@@ -51,96 +50,100 @@ public class MovementEntryUI : MonoBehaviour
         }
     }
 
+    // EVENT TRIGGERS
     void AddSliderListeners(Slider slider, string axisName)
     {
-        EventTrigger trigger = slider.gameObject.GetComponent<EventTrigger>();
+        EventTrigger trigger = slider.GetComponent<EventTrigger>();
         if (trigger == null)
             trigger = slider.gameObject.AddComponent<EventTrigger>();
 
         trigger.triggers.Clear();
 
-        // Kliknięcie - animacja do przodu
-        EventTrigger.Entry entryDown = new EventTrigger.Entry();
-        entryDown.eventID = EventTriggerType.PointerDown;
-        entryDown.callback.AddListener((data) => { 
-            Debug.Log("[EVENT] PointerDown na slider " + axisName);
-            OnSliderPressed(axisName); 
-        });
-        trigger.triggers.Add(entryDown);
-
-        // Puszczenie - animacja do tyłu
-        EventTrigger.Entry entryUp = new EventTrigger.Entry();
-        entryUp.eventID = EventTriggerType.PointerUp;
-        entryUp.callback.AddListener((data) => { 
-            Debug.Log("[EVENT] PointerUp na slider " + axisName);
-            OnSliderReleased(axisName); 
-        });
-        trigger.triggers.Add(entryUp);
-
-        // Exit - tylko jeśli slider był wciśnięty
-        EventTrigger.Entry entryExit = new EventTrigger.Entry();
-        entryExit.eventID = EventTriggerType.PointerExit;
-        entryExit.callback.AddListener((data) => { 
-            Debug.Log("[EVENT] PointerExit na slider " + axisName);
-            OnSliderExit(axisName); 
-        });
-        trigger.triggers.Add(entryExit);
-
-        Debug.Log("[MovementEntryUI] Dodano EventTrigger do slidera " + axisName);
+        trigger.triggers.Add(CreateEntry(EventTriggerType.PointerDown, _ => OnSliderPressed(axisName)));
+        trigger.triggers.Add(CreateEntry(EventTriggerType.PointerUp, _ => OnSliderReleased(axisName)));
+        trigger.triggers.Add(CreateEntry(EventTriggerType.PointerExit, _ => OnSliderExit(axisName)));
     }
 
+    EventTrigger.Entry CreateEntry(EventTriggerType type, UnityEngine.Events.UnityAction<BaseEventData> callback)
+    {
+        EventTrigger.Entry e = new EventTrigger.Entry { eventID = type };
+        e.callback.AddListener(callback);
+        return e;
+    }
+
+    // SLIDER PRESS LOGIC
     void OnSliderPressed(string axisName)
     {
-        Debug.Log("[MovementEntryUI] OnSliderPressed wywołane dla " + axisName);
-        
-        // Ustaw flagę wciśnięcia
         SetPressing(axisName, true);
-        
-        if (tableElementControl == null || tableElementControl.currentSelectedElement == null)
-        {
-            Debug.LogWarning("[MovementEntryUI] Brak selector lub elementu!");
-            return;
-        }
-        
-        Debug.Log("[MovementEntryUI] Naciśnięto slider " + axisName + " - animacja do przodu");
-        tableElementControl.currentSelectedElement.PlayAnimationForAxis(axis, true);
+
+        TableElement element = GetCurrentElement();
+        if (element == null) return;
+
+        ElementAnimation anim = element.GetAnimationForAxis(axis);
+        if (anim == null) return;
+
+        element.Play(anim, true); // odtwarza wszystkie klipy w sekwencji
     }
 
     void OnSliderReleased(string axisName)
     {
-        Debug.Log("[MovementEntryUI] OnSliderReleased wywołane dla " + axisName);
-        
-        // Sprawdź czy slider był faktycznie wciśnięty
-        if (!IsPressing(axisName))
-        {
-            Debug.Log("[MovementEntryUI] Slider nie był wciśnięty, ignoruję release");
-            return;
-        }
-        
-        // Wyzeruj flagę
+        if (!IsPressing(axisName)) return;
         SetPressing(axisName, false);
-        
-        if (tableElementControl == null || tableElementControl.currentSelectedElement == null)
-        {
-            Debug.LogWarning("[MovementEntryUI] Brak selector lub elementu!");
-            return;
-        }
-        
-        Debug.Log("[MovementEntryUI] Puszczono slider " + axisName + " - animacja do tyłu");
-        tableElementControl.currentSelectedElement.PlayAnimationForAxis(axis, false);
+
+        TableElement element = GetCurrentElement();
+        if (element == null) return;
+
+        ElementAnimation anim = element.GetAnimationForAxis(axis);
+        if (anim == null) return;
+
+        element.Play(anim, false); // odtwarza wszystkie klipy w odwrotnym kierunku
     }
 
     void OnSliderExit(string axisName)
     {
-        // Wywołaj release tylko jeśli slider był wciśnięty
         if (IsPressing(axisName))
-        {
-            Debug.Log("[MovementEntryUI] Exit podczas wciskania - wywołuję release");
             OnSliderReleased(axisName);
-        }
     }
 
-    // Pomocnicze metody do zarządzania flagami
+    // SLIDER VALUE CHANGE
+    void OnSliderXChanged(float value)
+    {
+        if (suppressEvent) return;
+        ApplyMovement(sliderX, ref lastX, value, Vector3.right);
+    }
+
+    void OnSliderYChanged(float value)
+    {
+        if (suppressEvent) return;
+        ApplyMovement(sliderY, ref lastY, value, Vector3.up);
+    }
+
+    void OnSliderZChanged(float value)
+    {
+        if (suppressEvent) return;
+        ApplyMovement(sliderZ, ref lastZ, value, Vector3.forward);
+    }
+
+    void ApplyMovement(Slider slider, ref float lastValue, float newValue, Vector3 dir)
+    {
+        float stepped = Mathf.Round(newValue / stepSize) * stepSize;
+
+        suppressEvent = true;
+        slider.value = stepped;
+        suppressEvent = false;
+
+        float delta = stepped - lastValue;
+        lastValue = stepped;
+
+        axis.MoveWithVector3(dir, delta);
+    }
+
+    // HELPERS
+    TableElement GetCurrentElement()
+    {
+        return tableElementControl != null ? tableElementControl.currentSelectedElement : null;
+    }
+
     void SetPressing(string axisName, bool value)
     {
         if (axisName == "X") isPressingX = value;
@@ -151,55 +154,8 @@ public class MovementEntryUI : MonoBehaviour
     bool IsPressing(string axisName)
     {
         if (axisName == "X") return isPressingX;
-        else if (axisName == "Y") return isPressingY;
-        else if (axisName == "Z") return isPressingZ;
+        if (axisName == "Y") return isPressingY;
+        if (axisName == "Z") return isPressingZ;
         return false;
-    }
-
-    void OnSliderXChanged(float value)
-    {
-        if (suppressEvent) return;
-
-        float stepped = Mathf.Round(value / stepSize) * stepSize;
-
-        suppressEvent = true;
-        sliderX.value = stepped;
-        suppressEvent = false;
-
-        float delta = stepped - lastX;
-        lastX = stepped;
-        axis.MoveWithVector3(Vector3.right, delta);
-    }
-
-    void OnSliderYChanged(float value)
-    {
-        if (suppressEvent) return;
-
-        float stepped = Mathf.Round(value / stepSize) * stepSize;
-
-        suppressEvent = true;
-        sliderY.value = stepped;
-        suppressEvent = false;
-
-        float delta = stepped - lastY;
-        lastY = stepped;
-
-        axis.MoveWithVector3(Vector3.up, delta);
-    }
-
-    void OnSliderZChanged(float value)
-    {
-        if (suppressEvent) return;
-
-        float stepped = Mathf.Round(value / stepSize) * stepSize;
-
-        suppressEvent = true;
-        sliderZ.value = stepped;
-        suppressEvent = false;
-
-        float delta = stepped - lastZ;
-        lastZ = stepped;
-
-        axis.MoveWithVector3(Vector3.forward, delta);
     }
 }
