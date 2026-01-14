@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 4783820367241934}
   - component: {fileID: 33305928193459668}
   - component: {fileID: 23547566453265024}
+  - component: {fileID: 114364493244948028}
   m_Layer: 0
   m_Name: head_plate_rail_L
   m_TagString: Untagged
@@ -280,6 +281,7 @@ GameObject:
   - component: {fileID: 4373408616207286}
   - component: {fileID: 33575368316123182}
   - component: {fileID: 23114336847086736}
+  - component: {fileID: 114867329029800302}
   m_Layer: 0
   m_Name: head_plate_rail_R
   m_TagString: Untagged
@@ -582,8 +584,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1609932072613236}
-  m_LocalRotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.52819735, y: 2.149, z: -0.499}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.5413034, y: -0.024464149, z: -0.21092524}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4799722614042780}
@@ -1561,6 +1563,22 @@ MonoBehaviour:
   currentAngleX: 0
   currentAngleY: 0
   currentAngleZ: 0
+--- !u!114 &114364493244948028
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1038543997658296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cdc94b203341bc46954213d0e8f74db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayName: 
+  side: 0
+  minRailPosition: -0.05
+  maxRailPosition: 0.05
+  attachedAccessory: {fileID: 0}
 --- !u!114 &114573489261134128
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1574,7 +1592,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elementName: 
   type: 0
-  attachAnimationClip: {fileID: 0}
+  attachAnimationClips:
+  - {fileID: 7400008, guid: fe89c6ac88dbe6f46b9b35bf6168e2be, type: 3}
+  - {fileID: 7400018, guid: fe89c6ac88dbe6f46b9b35bf6168e2be, type: 3}
   defaultMountSide: 1
   isFlipped: 0
   isAttached: 1
@@ -1582,13 +1602,31 @@ MonoBehaviour:
   - {fileID: 114247890042101774}
   - {fileID: 114152889211935248}
   movementAxes: []
-  currentMountPoint: {fileID: 0}
   elementAnimations:
   - pivot: {fileID: 114247890042101774}
     axis: {fileID: 0}
-    clip: {fileID: 7400028, guid: fe89c6ac88dbe6f46b9b35bf6168e2be, type: 3}
+    clips:
+    - {fileID: 7400028, guid: fe89c6ac88dbe6f46b9b35bf6168e2be, type: 3}
     speed: 3
   - pivot: {fileID: 114152889211935248}
     axis: {fileID: 0}
-    clip: {fileID: 7400038, guid: fe89c6ac88dbe6f46b9b35bf6168e2be, type: 3}
+    clips:
+    - {fileID: 7400038, guid: fe89c6ac88dbe6f46b9b35bf6168e2be, type: 3}
     speed: 3
+  currentMountPoint: {fileID: 0}
+--- !u!114 &114867329029800302
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1755064592979254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cdc94b203341bc46954213d0e8f74db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayName: 
+  side: 1
+  minRailPosition: -0.05
+  maxRailPosition: 0.05
+  attachedAccessory: {fileID: 0}

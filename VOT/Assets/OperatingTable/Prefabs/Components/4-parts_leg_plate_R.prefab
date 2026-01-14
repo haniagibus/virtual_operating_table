@@ -104,6 +104,7 @@ GameObject:
   - component: {fileID: 4696361069065390}
   - component: {fileID: 33969160671806358}
   - component: {fileID: 23315627424374938}
+  - component: {fileID: 114280290051562490}
   m_Layer: 0
   m_Name: leg_plate_rail_lower_R
   m_TagString: Untagged
@@ -508,6 +509,7 @@ GameObject:
   - component: {fileID: 4261999388221992}
   - component: {fileID: 33916417550086244}
   - component: {fileID: 23090167041688018}
+  - component: {fileID: 114398074865290986}
   m_Layer: 0
   m_Name: leg_plate_rail_upper_R
   m_TagString: Untagged
@@ -3304,7 +3306,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elementName: 
   type: 0
-  attachAnimationClip: {fileID: 0}
+  attachAnimationClips: []
   defaultMountSide: 1
   isFlipped: 0
   isAttached: 1
@@ -3314,24 +3316,60 @@ MonoBehaviour:
   - {fileID: 114426280434020128}
   movementAxes:
   - {fileID: 114525724603728584}
-  currentMountPoint: {fileID: 0}
   elementAnimations:
   - pivot: {fileID: 114755213822663920}
     axis: {fileID: 0}
-    clip: {fileID: 7400064, guid: 575b5077e15efd446906d613877d46f1, type: 3}
+    clips:
+    - {fileID: 7400064, guid: 575b5077e15efd446906d613877d46f1, type: 3}
     speed: 3
   - pivot: {fileID: 114641099770845872}
     axis: {fileID: 0}
-    clip: {fileID: 7400032, guid: 575b5077e15efd446906d613877d46f1, type: 3}
+    clips:
+    - {fileID: 7400032, guid: 575b5077e15efd446906d613877d46f1, type: 3}
     speed: 3
   - pivot: {fileID: 114426280434020128}
     axis: {fileID: 0}
-    clip: {fileID: 7400080, guid: 575b5077e15efd446906d613877d46f1, type: 3}
+    clips:
+    - {fileID: 7400080, guid: 575b5077e15efd446906d613877d46f1, type: 3}
     speed: 3
   - pivot: {fileID: 0}
     axis: {fileID: 114525724603728584}
-    clip: {fileID: 7400096, guid: 575b5077e15efd446906d613877d46f1, type: 3}
+    clips:
+    - {fileID: 7400096, guid: 575b5077e15efd446906d613877d46f1, type: 3}
     speed: 3
+  currentMountPoint: {fileID: 0}
+--- !u!114 &114280290051562490
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1112051900184294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cdc94b203341bc46954213d0e8f74db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayName: 
+  side: 1
+  minRailPosition: -0.07
+  maxRailPosition: 0.07
+  attachedAccessory: {fileID: 0}
+--- !u!114 &114398074865290986
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1552119557629336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cdc94b203341bc46954213d0e8f74db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayName: 
+  side: 1
+  minRailPosition: -0.03
+  maxRailPosition: 0.03
+  attachedAccessory: {fileID: 0}
 --- !u!114 &114426280434020128
 MonoBehaviour:
   m_ObjectHideFlags: 1

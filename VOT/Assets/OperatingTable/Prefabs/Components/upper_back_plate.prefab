@@ -121,6 +121,7 @@ GameObject:
   - component: {fileID: 4586029989965314}
   - component: {fileID: 33577209894047800}
   - component: {fileID: 23850867974684328}
+  - component: {fileID: 114620240106595532}
   m_Layer: 0
   m_Name: upper_back_plate_rail_R
   m_TagString: Untagged
@@ -138,6 +139,7 @@ GameObject:
   - component: {fileID: 4422406163260712}
   - component: {fileID: 33323038711876438}
   - component: {fileID: 23834766696215234}
+  - component: {fileID: 114587879615710194}
   m_Layer: 0
   m_Name: upper_back_plate_rail_L
   m_TagString: Untagged
@@ -283,8 +285,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1659794426303592}
-  m_LocalRotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.0535592, y: 1.864, z: -0.196}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4407841694250384}
@@ -1016,6 +1018,38 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &114587879615710194
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1576091720959112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cdc94b203341bc46954213d0e8f74db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayName: 
+  side: 0
+  minRailPosition: -0.07
+  maxRailPosition: 0.07
+  attachedAccessory: {fileID: 0}
+--- !u!114 &114620240106595532
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1482930378941880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cdc94b203341bc46954213d0e8f74db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayName: 
+  side: 1
+  minRailPosition: -0.07
+  maxRailPosition: 0.07
+  attachedAccessory: {fileID: 0}
 --- !u!114 &114956697332939334
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1029,11 +1063,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elementName: 
   type: 0
-  attachAnimationClip: {fileID: 0}
+  attachAnimationClips:
+  - {fileID: 7400000, guid: 5e4fafb76e863f14698d528f0fbfeac6, type: 3}
+  - {fileID: 7400006, guid: 5e4fafb76e863f14698d528f0fbfeac6, type: 3}
   defaultMountSide: 1
   isFlipped: 0
   isAttached: 1
   rotationPivots: []
   movementAxes: []
-  currentMountPoint: {fileID: 0}
   elementAnimations: []
+  currentMountPoint: {fileID: 0}

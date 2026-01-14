@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 4446057701220136}
   - component: {fileID: 33350478242050188}
   - component: {fileID: 23340389196843506}
+  - component: {fileID: 65881576519930264}
   m_Layer: 0
   m_Name: ball_hinge
   m_TagString: Untagged
@@ -70,6 +71,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4402400055311932}
+  - component: {fileID: 114246849908726100}
   m_Layer: 0
   m_Name: light_radial_clamp_rotate
   m_TagString: Untagged
@@ -138,6 +140,7 @@ GameObject:
   - component: {fileID: 4155430315747756}
   - component: {fileID: 33892345099387034}
   - component: {fileID: 23043398641082846}
+  - component: {fileID: 65636923016763012}
   m_Layer: 0
   m_Name: hinge_arm
   m_TagString: Untagged
@@ -189,6 +192,8 @@ GameObject:
   - component: {fileID: 4868697449980384}
   - component: {fileID: 33028280694549288}
   - component: {fileID: 23135434209901220}
+  - component: {fileID: 65612538163480228}
+  - component: {fileID: 65520239062970532}
   m_Layer: 0
   m_Name: mountig_rod
   m_TagString: Untagged
@@ -222,6 +227,7 @@ GameObject:
   - component: {fileID: 4914481637855686}
   - component: {fileID: 33533573400768492}
   - component: {fileID: 23190316157165638}
+  - component: {fileID: 65866362166584250}
   m_Layer: 0
   m_Name: bearing
   m_TagString: Untagged
@@ -385,6 +391,7 @@ GameObject:
   - component: {fileID: 4131966338424524}
   - component: {fileID: 33090378267739210}
   - component: {fileID: 23673691911150960}
+  - component: {fileID: 65455212680647170}
   m_Layer: 0
   m_Name: connector
   m_TagString: Untagged
@@ -402,6 +409,7 @@ GameObject:
   - component: {fileID: 4444383771840532}
   - component: {fileID: 33180258089365286}
   - component: {fileID: 23713248719454544}
+  - component: {fileID: 65674576270531964}
   m_Layer: 0
   m_Name: pad
   m_TagString: Untagged
@@ -445,7 +453,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &1953418202724548
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
@@ -453,6 +461,7 @@ GameObject:
   - component: {fileID: 4397575008229050}
   - component: {fileID: 111618608408498264}
   - component: {fileID: 114810318215861876}
+  - component: {fileID: 114529086052969340}
   m_Layer: 0
   m_Name: arm_board_for_lateral_position
   m_TagString: Untagged
@@ -650,14 +659,14 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1953418202724548}
-  m_LocalRotation: {x: 0.000000043711385, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.0010609627, y: 0, z: -0.041590214}
+  m_LocalRotation: {x: 0.00000002185569, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4914481637855686}
   - {fileID: 4430210573368018}
-  m_Father: {fileID: 4729131968853250}
-  m_RootOrder: 1
+  m_Father: {fileID: 4402400055311932}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4402400055311932
 Transform:
@@ -671,6 +680,7 @@ Transform:
   m_Children:
   - {fileID: 4890434505338580}
   - {fileID: 4089683096610226}
+  - {fileID: 4397575008229050}
   m_Father: {fileID: 4125440479503284}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -778,11 +788,10 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1378007167764210}
   m_LocalRotation: {x: 0.000000021855694, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.251, y: 0.79899997, z: -1.4023156}
+  m_LocalPosition: {x: 1.226, y: 0.22799999, z: -2.0303156}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4125440479503284}
-  - {fileID: 4397575008229050}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1666,6 +1675,90 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1166381399979956}
   m_Mesh: {fileID: 4300000, guid: cdf8f54b50441e248a85224aa3bc6be5, type: 3}
+--- !u!65 &65455212680647170
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1728875343733756}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.02, y: 0.02, z: 0.02}
+  m_Center: {x: 2.8304678e-16, y: -0.0000004774308, z: -0.019917646}
+--- !u!65 &65520239062970532
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1287906397419002}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.018000158, y: 0.020153806, z: 0.10924036}
+  m_Center: {x: 0.0000000949949, y: 0.23320115, z: -0.04543638}
+--- !u!65 &65612538163480228
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1287906397419002}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.018000158, y: 0.43863648, z: 0.018583443}
+  m_Center: {x: 0.0000000949949, y: 0.023959816, z: -0.0001079198}
+--- !u!65 &65636923016763012
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1251827013566184}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.015000008, y: 0.065000005, z: 0.015000006}
+  m_Center: {x: -0.00000022477539, y: -0.026120614, z: 0.000005373042}
+--- !u!65 &65674576270531964
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1844239451631902}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.11699866, y: 0.044850975, z: 0.6390002}
+  m_Center: {x: -0.00000055134296, y: 0.00006747153, z: -0.00000008940697}
+--- !u!65 &65866362166584250
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1317585288512136}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.027000008, y: 0.027000012, z: 0.027000006}
+  m_Center: {x: 0.000000013038516, y: 0.040300854, z: 0.000000009778887}
+--- !u!65 &65881576519930264
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1015929838961290}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.0225, y: 0.051501695, z: 0.0225}
+  m_Center: {x: 0.0000000037252903, y: 0.014500728, z: 0.00000012246892}
 --- !u!111 &111135934256795624
 Animation:
   m_ObjectHideFlags: 1
@@ -1700,6 +1793,54 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 1
+--- !u!114 &114246849908726100
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1184215769854444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88af6a1e8345c6546b8f10a10ddc31f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pivotName: 
+  allowX: 0
+  allowY: 0
+  allowZ: 1
+  minAngleX: 0
+  maxAngleX: 0
+  minAngleY: 0
+  maxAngleY: 0
+  minAngleZ: -179
+  maxAngleZ: 179
+  currentAngleX: 0
+  currentAngleY: 0
+  currentAngleZ: 0
+--- !u!114 &114529086052969340
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1953418202724548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88af6a1e8345c6546b8f10a10ddc31f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pivotName: 
+  allowX: 0
+  allowY: 1
+  allowZ: 0
+  minAngleX: 0
+  maxAngleX: 0
+  minAngleY: -179
+  maxAngleY: 179
+  minAngleZ: 0
+  maxAngleZ: 0
+  currentAngleX: 0
+  currentAngleY: 0
+  currentAngleZ: 0
 --- !u!114 &114577419264876722
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1745,18 +1886,19 @@ MonoBehaviour:
   isFlipped: 0
   isAttached: 0
   rotationPivots:
+  - {fileID: 114246849908726100}
   - {fileID: 114577419264876722}
   movementAxes:
   - {fileID: 114634972677125018}
   - {fileID: 114810318215861876}
   elementAnimations:
-  - pivot: {fileID: 0}
+  - pivot: {fileID: 114246849908726100}
     axis: {fileID: 114634972677125018}
     clips:
     - {fileID: 7400020, guid: cdf8f54b50441e248a85224aa3bc6be5, type: 3}
     - {fileID: 7400030, guid: cdf8f54b50441e248a85224aa3bc6be5, type: 3}
     speed: 3
-  - pivot: {fileID: 0}
+  - pivot: {fileID: 114529086052969340}
     axis: {fileID: 114810318215861876}
     clips:
     - {fileID: 7400020, guid: cdf8f54b50441e248a85224aa3bc6be5, type: 3}
