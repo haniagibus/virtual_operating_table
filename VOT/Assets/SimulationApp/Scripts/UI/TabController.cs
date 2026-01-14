@@ -56,11 +56,11 @@ public class TabController : MonoBehaviour
     }
 
     // Opcjonalnie: metoda do przełączenia (np. z klawisza) - nie używaj jednocześnie z SelectorWindow.Toggle
-    public void TogglePanels()
-    {
-        if (tablePanel != null && tablePanel.activeSelf)
-            ShowAccessoriesPanel();
-        else
-            ShowTablePanel();
-    }
+    // public void TogglePanels()
+    // {
+    //     if (tablePanel != null && tablePanel.activeSelf)
+    //         ShowAccessoriesPanel();
+    //     else
+    //         ShowTablePanel();
+    // }
 }

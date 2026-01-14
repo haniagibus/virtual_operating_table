@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 9e7733b24de38b04ea690cb91b2ab042
+guid: 7aca26d09e61a4445836c59d0b6ed70e
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
@@ -65,27 +65,27 @@ ModelImporter:
     4300020: strap_2
     7400000: bracket|abflp_hinge_anim
     7400002: "bracket|cylinder_wyci\u0119tyAction.001"
-    7400004: bracket|hinge_arm_raise.001
+    7400004: bracket|hinge_arm_raise
     7400006: bracket|strap1_fastening
     7400008: bracket|strap2_fastening
     7400010: hinge|abflp_hinge_anim
     7400012: "hinge|cylinder_wyci\u0119tyAction.001"
-    7400014: hinge|hinge_arm_raise.001
+    7400014: hinge|hinge_arm_raise
     7400016: hinge|strap1_fastening
     7400018: hinge|strap2_fastening
     7400020: hinge_arm|abflp_hinge_anim
     7400022: "hinge_arm|cylinder_wyci\u0119tyAction.001"
-    7400024: hinge_arm|hinge_arm_raise
+    7400024: hinge_arm|abflp_hinge_arm_raise
     7400026: hinge_arm|strap1_fastening
     7400028: hinge_arm|strap2_fastening
     7400030: strap_1|abflp_hinge_anim
     7400032: "strap_1|cylinder_wyci\u0119tyAction.001"
-    7400034: strap_1|hinge_arm_raise.001
+    7400034: strap_1|hinge_arm_raise
     7400036: strap_1|strap1_fastening
     7400038: strap_1|strap2_fastening
     7400040: strap_2|abflp_hinge_anim
     7400042: "strap_2|cylinder_wyci\u0119tyAction.001"
-    7400044: strap_2|hinge_arm_raise.001
+    7400044: strap_2|hinge_arm_raise
     7400046: strap_2|strap1_fastening
     7400048: strap_2|strap2_fastening
     9500000: //RootNode
@@ -164,8 +164,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: hinge_arm|hinge_arm_raise
-      takeName: hinge_arm|hinge_arm_raise.001
+      name: hinge_arm|abflp_hinge_arm_raise
+      takeName: hinge_arm|hinge_arm_raise
       firstFrame: 0
       lastFrame: 14
       wrapMode: 0

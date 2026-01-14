@@ -10,7 +10,6 @@ namespace VirtualOperatingTable
         public MovementAxis axis;
 
         public List<AnimationClip> clips = new List<AnimationClip>();
-
         public float speed = 1f;
     }
 
@@ -22,18 +21,17 @@ namespace VirtualOperatingTable
         [Header("Element Type")]
         public ElementType type = ElementType.Component;
 
-        [Header("Default Attach Animation")]
-        [Tooltip("Lista animacji montażu elementu")]
+        [Header("Attach Animations")]
         public List<AnimationClip> attachAnimationClips = new List<AnimationClip>();
 
         [Header("Default Mount Side")]
         public MountSide defaultMountSide = MountSide.Right;
 
         [Header("Flip State")]
-        [HideInInspector] public bool isFlipped = false;
+        [HideInInspector] public bool isFlipped;
 
         [Header("Attachment State")]
-        public bool isAttached = false;
+        public bool isAttached;
 
         [Header("Rotation System")]
         public List<RotationPivot> rotationPivots = new List<RotationPivot>();
@@ -47,7 +45,8 @@ namespace VirtualOperatingTable
         [HideInInspector]
         public MountPoint currentMountPoint;
 
-        private Animation animationComponent;
+        // 🔑 WSZYSTKIE Animation (root + dzieci)
+        private readonly List<Animation> animationComponents = new List<Animation>();
 
         private void Awake()
         {
@@ -57,61 +56,59 @@ namespace VirtualOperatingTable
             isFlipped = false;
             UpdateVisibility();
 
-            InitAnimationComponent();
+            InitAnimationComponents();
             RegisterClips();
         }
 
+        // =========================
         // INIT
-        private void InitAnimationComponent()
+        // =========================
+        private void InitAnimationComponents()
         {
-            animationComponent = GetComponent<Animation>();
+            animationComponents.Clear();
 
-            if (animationComponent == null)
-                animationComponent = GetComponentInChildren<Animation>(true);
+            // root
+            var rootAnim = GetComponent<Animation>();
+            if (rootAnim != null)
+                animationComponents.Add(rootAnim);
 
-            if (animationComponent == null)
+            // dzieci
+            var childAnims = GetComponentsInChildren<Animation>(true);
+            foreach (var anim in childAnims)
             {
-                animationComponent = gameObject.AddComponent<Animation>();
-                Debug.Log("[TableElement] Dodano Animation component na root");
+                if (!animationComponents.Contains(anim))
+                    animationComponents.Add(anim);
             }
-            else
-            {
-                Debug.Log("[TableElement] Znaleziono Animation na: " + animationComponent.gameObject.name);
-            }
+
+            Debug.Log("[TableElement] Animation components: " + animationComponents.Count);
         }
 
         private void RegisterClips()
         {
-            if (animationComponent == null)
-                return;
-
-            foreach (var anim in elementAnimations)
+            foreach (var animComp in animationComponents)
             {
-                if (anim != null && anim.clips != null)
+                foreach (var anim in elementAnimations)
                 {
+                    if (anim == null || anim.clips == null) continue;
+
                     foreach (var clip in anim.clips)
                     {
-                        if (clip != null && animationComponent.GetClip(clip.name) == null)
-                        {
-                            animationComponent.AddClip(clip, clip.name);
-                        }
+                        if (clip != null && animComp.GetClip(clip.name) == null)
+                            animComp.AddClip(clip, clip.name);
                     }
                 }
-            }
 
-            if (attachAnimationClips != null)
-            {
                 foreach (var clip in attachAnimationClips)
                 {
-                    if (clip != null && animationComponent.GetClip(clip.name) == null)
-                    {
-                        animationComponent.AddClip(clip, clip.name);
-                    }
+                    if (clip != null && animComp.GetClip(clip.name) == null)
+                        animComp.AddClip(clip, clip.name);
                 }
             }
         }
 
+        // =========================
         // VISIBILITY / STATE
+        // =========================
         public void SetAttached(bool attached)
         {
             isAttached = attached;
@@ -123,13 +120,15 @@ namespace VirtualOperatingTable
             gameObject.SetActive(isAttached);
         }
 
-        // ANIMATION API
+        // =========================
+        // PUBLIC API
+        // =========================
         public void PlayAttachAnimation(bool forward = true)
         {
             if (attachAnimationClips == null || attachAnimationClips.Count == 0)
                 return;
 
-            PlaySequence(attachAnimationClips, 3f, forward);
+            PlaySequence(attachAnimationClips, 1f, forward);
         }
 
         public void Play(ElementAnimation anim, bool forward = true)
@@ -140,38 +139,43 @@ namespace VirtualOperatingTable
             PlaySequence(anim.clips, anim.speed, forward);
         }
 
-        // ANIMATION INTERNAL
+        // =========================
+        // INTERNAL PLAYBACK
+        // =========================
         private void PlaySequence(List<AnimationClip> clips, float speed, bool forward)
         {
-            if (animationComponent == null || clips == null || clips.Count == 0)
+            if (clips == null || clips.Count == 0)
                 return;
 
-            animationComponent.Stop();
+            // stop wszystkich
+            foreach (var anim in animationComponents)
+                anim.Stop();
 
             foreach (var clip in clips)
             {
                 if (clip == null) continue;
 
-                var state = animationComponent[clip.name];
-                if (state == null)
+                foreach (var anim in animationComponents)
                 {
-                    animationComponent.AddClip(clip, clip.name);
-                    state = animationComponent[clip.name];
+                    var state = anim[clip.name];
+                    if (state == null) continue;
+
+                    state.speed = forward ? Mathf.Abs(speed) : -Mathf.Abs(speed);
+                    state.time = forward ? 0f : clip.length;
+                    state.weight = 1f;
+
+                    anim.PlayQueued(
+                        clip.name,
+                        QueueMode.CompleteOthers,
+                        PlayMode.StopSameLayer
+                    );
                 }
-
-                state.speed = forward ? Mathf.Abs(speed) : -Mathf.Abs(speed);
-                state.time = forward ? 0f : clip.length;
-                state.weight = 1f;
-
-                animationComponent.PlayQueued(
-                    clip.name,
-                    QueueMode.CompleteOthers,
-                    PlayMode.StopSameLayer
-                );
             }
         }
 
+        // =========================
         // HELPERS
+        // =========================
         public bool HasRotationPivots()
         {
             return rotationPivots != null && rotationPivots.Count > 0;
@@ -182,7 +186,6 @@ namespace VirtualOperatingTable
             return movementAxes != null && movementAxes.Count > 0;
         }
 
-        // GETTERS
         public ElementAnimation GetAnimationForPivot(RotationPivot pivot)
         {
             return elementAnimations.Find(a => a.pivot == pivot);

@@ -143,25 +143,25 @@ public class TableElementControlPanel : MonoBehaviour
     /// <summary>
     /// Ręczne odświeżenie listy elementów (np. po dodaniu nowych obiektów w runtime)
     /// </summary>
-    [ContextMenu("Refresh Element Lists")]
-    public void RefreshElementLists()
-    {
-        DiscoverAndSortElements();
-        UpdateComponentDropdown();
-        UpdateAccessoryDropdown();
+    // [ContextMenu("Refresh Element Lists")]
+    // public void RefreshElementLists()
+    // {
+    //     DiscoverAndSortElements();
+    //     UpdateComponentDropdown();
+    //     UpdateAccessoryDropdown();
 
-        // Odśwież aktualny widok
-        if (currentMode == PanelMode.Component && componentElements.Count > 0)
-        {
-            componentDropdown.value = 0;
-            OnComponentDropdownChange(0);
-        }
-        else if (currentMode == PanelMode.Accessory && accessoryElements.Count > 0)
-        {
-            accessoryDropdown.value = 0;
-            OnAccessoryDropdownChange(0);
-        }
-    }
+    //     // Odśwież aktualny widok
+    //     if (currentMode == PanelMode.Component && componentElements.Count > 0)
+    //     {
+    //         componentDropdown.value = 0;
+    //         OnComponentDropdownChange(0);
+    //     }
+    //     else if (currentMode == PanelMode.Accessory && accessoryElements.Count > 0)
+    //     {
+    //         accessoryDropdown.value = 0;
+    //         OnAccessoryDropdownChange(0);
+    //     }
+    // }
 
     void Update()
     {

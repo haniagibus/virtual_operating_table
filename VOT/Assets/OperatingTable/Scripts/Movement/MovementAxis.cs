@@ -150,12 +150,12 @@ namespace VirtualOperatingTable
             return '?';
         }
 
-        public void ResetPosition()
-        {
-            transform.localPosition = initialPosition;
-            currentPositionX = 0f;
-            currentPositionY = 0f;
-            currentPositionZ = 0f;
-        }        
+        // public void ResetPosition()
+        // {
+        //     transform.localPosition = initialPosition;
+        //     currentPositionX = 0f;
+        //     currentPositionY = 0f;
+        //     currentPositionZ = 0f;
+        // }        
     }
 }

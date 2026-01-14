@@ -70,12 +70,12 @@ ModelImporter:
     7400014: clamp|hinge_rotate
     7400016: hinge_arm|clamp_anim
     7400018: "hinge_arm|cylinder_wyci\u0119tyAction"
-    7400020: hinge_arm|hinge_arm_raise
+    7400020: hinge_arm|lrc_hinge_arm_raise
     7400022: hinge_arm|hinge_rotate
     7400024: hinge_rotate|clamp_anim
     7400026: "hinge_rotate|cylinder_wyci\u0119tyAction"
     7400028: hinge_rotate|hinge_arm_raise
-    7400030: hinge_rotate|hinge_rotate
+    7400030: hinge_rotate|lrc_hinge_rotate
     9500000: //RootNode
     11100000: //RootNode
     2186277476908879412: ImportLogs
@@ -113,7 +113,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: hinge_arm|hinge_arm_raise
+      name: hinge_arm|lrc_hinge_arm_raise
       takeName: hinge_arm|hinge_arm_raise
       firstFrame: 0
       lastFrame: 14
@@ -141,7 +141,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: hinge_rotate|hinge_rotate
+      name: hinge_rotate|lrc_hinge_rotate
       takeName: hinge_rotate|hinge_rotate
       firstFrame: 0
       lastFrame: 45

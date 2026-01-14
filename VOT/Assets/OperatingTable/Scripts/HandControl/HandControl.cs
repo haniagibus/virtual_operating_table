@@ -16,13 +16,13 @@ namespace VirtualOperatingTable
 
         public RotationPivot tableRotation;
 
-        [Header("Reverse Position")]
-        [Tooltip("Główny transform blatu stołu do obrotu")]
-        public Transform tableTop;
+        // [Header("Reverse Position")]
+        // [Tooltip("Główny transform blatu stołu do obrotu")]
+        // public Transform tableTop;
 
         // private bool isReversed = false;
         public TableState tableState = TableState.Normal;
-        private Coroutine reverseCoroutine = null;
+        // private Coroutine reverseCoroutine = null;
 
         [Header("Table Telescopic Movement")]
         [Tooltip("Teleskopowy mechanizm podnoszenia stołu")]
@@ -533,29 +533,29 @@ namespace VirtualOperatingTable
             return '?';
         }
 
-        private float GetLongitudinalCurrentPosition()
-        {
-            if (tableLongitudinalControl == null)
-                return 0f;
+        // private float GetLongitudinalCurrentPosition()
+        // {
+        //     if (tableLongitudinalControl == null)
+        //         return 0f;
 
-            return tableLongitudinalControl.currentPositionX;
-        }
+        //     return tableLongitudinalControl.currentPositionX;
+        // }
 
         // GETTERS
-        public bool IsTilting
-        {
-            get { return isTilting; }
-        }
+        // public bool IsTilting
+        // {
+        //     get { return isTilting; }
+        // }
 
-        public bool IsMovingHeight
-        {
-            get { return isMovingHeight; }
-        }
+        // public bool IsMovingHeight
+        // {
+        //     get { return isMovingHeight; }
+        // }
 
-        public bool IsMovingLongitudinal
-        {
-            get { return isMovingLongitudinal; }
-        }
+        // public bool IsMovingLongitudinal
+        // {
+        //     get { return isMovingLongitudinal; }
+        // }
 
         // public bool IsReversed
         // {
