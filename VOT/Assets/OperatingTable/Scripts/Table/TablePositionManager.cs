@@ -25,9 +25,7 @@ namespace VirtualOperatingTable
         public float tableRotationAngleZ;
         public float tableHeight;
         public float tableLongitudinalX;
-        // public bool isReversed;
         public TableState tableState;
-
 
         public TablePosition(string positionName)
         {
@@ -43,15 +41,12 @@ namespace VirtualOperatingTable
     public class TablePositionManager : MonoBehaviour
     {
         [Header("Hand Control Reference")]
-        [Tooltip("Referencja do HandControl")]
         public HandControl handControl;
 
         [Header("Position Settings")]
-        [Tooltip("Maksymalna liczba zapisanych pozycji")]
         public int maxPositions = 10;
 
         [Header("Movement Settings")]
-        [Tooltip("Szybkość przywracania pozycji")]
         public float restoreRotationStep = 2f;
         public float restoreRotationTickInterval = 0.05f;
         public float restoreHeightStep = 0.001f;
@@ -60,11 +55,9 @@ namespace VirtualOperatingTable
         public float restoreLongitudinalTickInterval = 0.05f;
 
         [Header("Predefined Positions")]
-        [Tooltip("Czy pozycja 1 jest zablokowana (predefiniowana)")]
         public bool lockFirstPosition = true;
 
         [Header("Height Control")]
-        [Tooltip("Czy ignorować wysokość przy zapisywaniu/przywracaniu")]
         public bool ignoreHeight = false;
 
         [Header("BlendShape Controller")]
@@ -72,7 +65,6 @@ namespace VirtualOperatingTable
 
         private List<TablePosition> savedPositions = new List<TablePosition>();
         private bool isRestoring = false;
-
 
         private void Start()
         {
@@ -83,7 +75,7 @@ namespace VirtualOperatingTable
 
             if (handControl == null)
             {
-                Debug.LogError("[TablePositionManager] HandControl nie jest przypisany!");
+                Debug.LogError("[TablePositionManager] HandControl is not assigned!");
             }
 
             if (lockFirstPosition)
@@ -113,11 +105,9 @@ namespace VirtualOperatingTable
             pos.tableRotationAngleZ = 0f;
             pos.tableHeight = 0f;
             pos.tableLongitudinalX = 0f;
-            // pos.isReversed = false;
             pos.tableState = TableState.Normal;
 
-
-            Debug.Log("[TablePositionManager] Ustawiono pozycję " + name);
+            Debug.Log("[TablePositionManager] Set position " + name);
             return pos;
         }
 
@@ -142,11 +132,9 @@ namespace VirtualOperatingTable
             pos.tableRotationAngleZ = -20f;
             pos.tableHeight = 0f;
             pos.tableLongitudinalX = 0f;
-            // pos.isReversed = false;
             pos.tableState = TableState.Normal;
 
-
-            Debug.Log("[TablePositionManager] Ustawiono pozycję " + pos.name);
+            Debug.Log("[TablePositionManager] Set position " + pos.name);
             return pos;
         }
 
@@ -171,11 +159,9 @@ namespace VirtualOperatingTable
             pos.tableRotationAngleZ = 30f;
             pos.tableHeight = 0f;
             pos.tableLongitudinalX = 0f;
-            // pos.isReversed = false;
             pos.tableState = TableState.Normal;
 
-
-            Debug.Log("[TablePositionManager] Ustawiono pozycję " + pos.name);
+            Debug.Log("[TablePositionManager] Set position " + pos.name);
             return pos;
         }
 
@@ -200,42 +186,40 @@ namespace VirtualOperatingTable
             pos.tableRotationAngleZ = 25f;
             pos.tableHeight = 0f;
             pos.tableLongitudinalX = 0f;
-            // pos.isReversed = false;
             pos.tableState = TableState.Normal;
-
 
             savedPositions[0] = pos;
 
-            Debug.Log("[TablePositionManager] Ustawiono predefiniowaną pozycję 1");
+            Debug.Log("[TablePositionManager] Set predefined position 1");
         }
 
         public void SavePosition(int slotIndex)
         {
             if (handControl == null)
             {
-                Debug.LogError("[TablePositionManager] HandControl nie jest przypisany!");
+                Debug.LogError("[TablePositionManager] HandControl is not assigned!");
                 return;
             }
 
             if (handControl.isLocked)
             {
-                Debug.Log("[TablePositionManager] Stół wyłączony - nie można zapisać pozycji");
+                Debug.Log("[TablePositionManager] Table is locked - cannot save position");
                 return;
             }
 
             if (slotIndex < 0 || slotIndex >= maxPositions)
             {
-                Debug.LogError("[TablePositionManager] Nieprawidłowy indeks slotu: " + slotIndex);
+                Debug.LogError("[TablePositionManager] Invalid slot index: " + slotIndex);
                 return;
             }
 
             if (lockFirstPosition && slotIndex == 0)
             {
-                Debug.LogWarning("[TablePositionManager] Pozycja 1 jest zablokowana - nie można jej nadpisać");
+                Debug.LogWarning("[TablePositionManager] Position 1 is locked - cannot overwrite it");
                 return;
             }
 
-            TablePosition pos = new TablePosition("Pozycja " + (slotIndex + 1));
+            TablePosition pos = new TablePosition("Position " + (slotIndex + 1));
 
             if (handControl.tableBackPartUpperRotate != null)
             {
@@ -275,7 +259,7 @@ namespace VirtualOperatingTable
             if (!ignoreHeight && handControl.tableHeightControl != null)
             {
                 pos.tableHeight = GetTelescopicPosition(handControl.tableHeightControl);
-                Debug.Log("[TablePositionManager] ZAPISYWANIE - Wysokość telescopic: " + pos.tableHeight);
+                Debug.Log("[TablePositionManager] SAVING - Telescopic height: " + pos.tableHeight);
             }
             else
             {
@@ -291,26 +275,26 @@ namespace VirtualOperatingTable
 
             savedPositions[slotIndex] = pos;
 
-            Debug.Log("[TablePositionManager] Zapisano pozycję do slotu " + (slotIndex + 1) + ": " + pos.name);
+            Debug.Log("[TablePositionManager] Saved position to slot " + (slotIndex + 1) + ": " + pos.name);
         }
 
         public void LoadPosition(int slotIndex)
         {
             if (handControl == null)
             {
-                Debug.LogError("[TablePositionManager] HandControl nie jest przypisany!");
+                Debug.LogError("[TablePositionManager] HandControl is not assigned!");
                 return;
             }
 
             if (handControl.isLocked)
             {
-                Debug.Log("[TablePositionManager] Stół wyłączony - nie można załadować pozycji");
+                Debug.Log("[TablePositionManager] Table is locked - cannot load position");
                 return;
             }
 
             if (slotIndex < 0 || slotIndex >= maxPositions)
             {
-                Debug.LogError("[TablePositionManager] Nieprawidłowy indeks slotu: " + slotIndex);
+                Debug.LogError("[TablePositionManager] Invalid slot index: " + slotIndex);
                 return;
             }
 
@@ -318,17 +302,17 @@ namespace VirtualOperatingTable
 
             if (pos.IsEmpty())
             {
-                Debug.LogWarning("[TablePositionManager] Slot " + (slotIndex + 1) + " jest pusty");
+                Debug.LogWarning("[TablePositionManager] Slot " + (slotIndex + 1) + " is empty");
                 return;
             }
 
             if (isRestoring)
             {
-                Debug.LogWarning("[TablePositionManager] Trwa już przywracanie pozycji");
+                Debug.LogWarning("[TablePositionManager] A position restore is already in progress");
                 return;
             }
 
-            Debug.Log("[TablePositionManager] Ładowanie pozycji ze slotu " + (slotIndex + 1) + ": " + pos.name);
+            Debug.Log("[TablePositionManager] Loading position from slot " + (slotIndex + 1) + ": " + pos.name);
             StartCoroutine(LoadPositionCoroutine(pos));
         }
 
@@ -336,13 +320,13 @@ namespace VirtualOperatingTable
         {
             if (handControl == null)
             {
-                Debug.LogError("[TablePositionManager] HandControl nie jest przypisany!");
+                Debug.LogError("[TablePositionManager] HandControl is not assigned!");
                 return;
             }
 
             if (handControl.isLocked)
             {
-                Debug.Log("[TablePositionManager] Stół wyłączony - nie można ustawić pozycji predefiniowanej");
+                Debug.Log("[TablePositionManager] Table is locked - cannot set predefined position");
                 return;
             }
 
@@ -360,11 +344,11 @@ namespace VirtualOperatingTable
                     pos = SetupReflexPosition();
                     break;
                 default:
-                    Debug.LogWarning("[TablePositionManager] Nieznany typ pozycji predefiniowanej");
+                    Debug.LogWarning("[TablePositionManager] Unknown predefined position type");
                     return;
             }
 
-            Debug.Log("[TablePositionManager] Przywracanie pozycji predefiniowanej: " + pos.name);
+            Debug.Log("[TablePositionManager] Restoring predefined position: " + pos.name);
             StartCoroutine(LoadPositionCoroutine(pos));
         }
 
@@ -372,12 +356,12 @@ namespace VirtualOperatingTable
         {
             if (slotIndex < 0 || slotIndex >= maxPositions)
             {
-                Debug.LogError("[TablePositionManager] Nieprawidłowy indeks slotu: " + slotIndex);
+                Debug.LogError("[TablePositionManager] Invalid slot index: " + slotIndex);
                 return;
             }
 
             savedPositions[slotIndex] = new TablePosition("");
-            Debug.Log("[TablePositionManager] Wyczyszczono slot " + (slotIndex + 1));
+            Debug.Log("[TablePositionManager] Cleared slot " + (slotIndex + 1));
         }
 
         public void ClearAllPositions()
@@ -386,7 +370,7 @@ namespace VirtualOperatingTable
             {
                 savedPositions[i] = new TablePosition("");
             }
-            Debug.Log("[TablePositionManager] Wyczyszczono wszystkie pozycje");
+            Debug.Log("[TablePositionManager] Cleared all positions");
         }
 
         public bool IsSlotOccupied(int slotIndex)
@@ -396,7 +380,6 @@ namespace VirtualOperatingTable
 
             return !savedPositions[slotIndex].IsEmpty();
         }
-
 
         public string GetPositionName(int slotIndex)
         {
@@ -410,43 +393,43 @@ namespace VirtualOperatingTable
         {
             if (slotIndex < 0 || slotIndex >= maxPositions)
             {
-                Debug.LogError("[TablePositionManager] Nieprawidłowy indeks slotu: " + slotIndex);
+                Debug.LogError("[TablePositionManager] Invalid slot index: " + slotIndex);
                 return;
             }
 
             if (!savedPositions[slotIndex].IsEmpty())
             {
                 savedPositions[slotIndex].name = customName;
-                Debug.Log("[TablePositionManager] Zmieniono nazwę slotu " + (slotIndex + 1) + " na: " + customName);
+                Debug.Log("[TablePositionManager] Changed slot " + (slotIndex + 1) + " name to: " + customName);
             }
         }
 
         public string GetPositionDetails(int slotIndex)
         {
             if (slotIndex < 0 || slotIndex >= maxPositions)
-                return "Nieprawidłowy slot";
+                return "Invalid slot";
 
             TablePosition pos = savedPositions[slotIndex];
             if (pos.IsEmpty())
-                return "Pusty slot";
+                return "Empty slot";
 
             return pos.name + "\n" +
-                   "Wysokość: " + pos.tableHeight.ToString("F4") + "\n" +
-                   "Pozycja wzdłużna: " + pos.tableLongitudinalX.ToString("F4") + "\n" +
+                   "Height: " + pos.tableHeight.ToString("F4") + "\n" +
+                   "Longitudinal position: " + pos.tableLongitudinalX.ToString("F4") + "\n" +
                    "Reverse: " + pos.tableState.ToString();
         }
-
+        
         private IEnumerator LoadPositionCoroutine(TablePosition pos)
         {
             isRestoring = true;
 
-            Debug.Log("[TablePositionManager] Rozpoczynam przywracanie pozycji: " + pos.name);
+            Debug.Log("[TablePositionManager] Starting position restore: " + pos.name);
 
             handControl.StopAllMovement();
 
             if (pos.tableState != handControl.tableState)
             {
-                Debug.Log("[TablePositionManager] Zmiana reverse na: " + pos.tableState);
+                Debug.Log("[TablePositionManager] Changing reverse to: " + pos.tableState);
                 if (pos.tableState == TableState.Reverse)
                     handControl.ReversePosition();
                 else
@@ -463,56 +446,56 @@ namespace VirtualOperatingTable
             {
                 runningCoroutines++;
                 StartCoroutine(RestorePivotCoroutineTracked(handControl.tableBackPartUpperRotate, pos.backUpperAngleX, pos.backUpperAngleY, pos.backUpperAngleZ));
-                Debug.Log("[TablePositionManager] Uruchomiono przywracanie: tableBackPartUpperRotate");
+                Debug.Log("[TablePositionManager] Started restoring: tableBackPartUpperRotate");
             }
 
             if (handControl.tableBackPartLowerRotate != null)
             {
                 runningCoroutines++;
                 StartCoroutine(RestorePivotCoroutineTracked(handControl.tableBackPartLowerRotate, pos.backLowerAngleX, pos.backLowerAngleY, pos.backLowerAngleZ));
-                Debug.Log("[TablePositionManager] Uruchomiono przywracanie: tableBackPartLowerRotate");
+                Debug.Log("[TablePositionManager] Started restoring: tableBackPartLowerRotate");
             }
 
             if (handControl.tableBackPartLowerLeftRotate != null)
             {
                 runningCoroutines++;
                 StartCoroutine(RestorePivotCoroutineTracked(handControl.tableBackPartLowerLeftRotate, pos.backLowerLeftAngleX, pos.backLowerLeftAngleY, pos.backLowerLeftAngleZ));
-                Debug.Log("[TablePositionManager] Uruchomiono przywracanie: tableBackPartLowerLeftRotate");
+                Debug.Log("[TablePositionManager] Started restoring: tableBackPartLowerLeftRotate");
             }
 
             if (handControl.tableBackPartLowerRightRotate != null)
             {
                 runningCoroutines++;
                 StartCoroutine(RestorePivotCoroutineTracked(handControl.tableBackPartLowerRightRotate, pos.backLowerRightAngleX, pos.backLowerRightAngleY, pos.backLowerRightAngleZ));
-                Debug.Log("[TablePositionManager] Uruchomiono przywracanie: tableBackPartLowerRightRotate");
+                Debug.Log("[TablePositionManager] Started restoring: tableBackPartLowerRightRotate");
             }
 
             if (handControl.tableRotation != null)
             {
                 runningCoroutines++;
                 StartCoroutine(RestorePivotCoroutineTracked(handControl.tableRotation, pos.tableRotationAngleX, pos.tableRotationAngleY, pos.tableRotationAngleZ));
-                Debug.Log("[TablePositionManager] Uruchomiono przywracanie: tableRotation");
+                Debug.Log("[TablePositionManager] Started restoring: tableRotation");
             }
 
             if (!ignoreHeight && handControl.tableHeightControl != null)
             {
                 runningCoroutines++;
                 StartCoroutine(RestoreHeightCoroutineTracked(pos.tableHeight));
-                Debug.Log("[TablePositionManager] Uruchomiono przywracanie wysokości: " + pos.tableHeight);
+                Debug.Log("[TablePositionManager] Started restoring height: " + pos.tableHeight);
             }
             else
             {
-                Debug.Log("[TablePositionManager] Pomijam przywracanie wysokości (ignoreHeight = " + ignoreHeight + ")");
+                Debug.Log("[TablePositionManager] Skipping height restore (ignoreHeight = " + ignoreHeight + ")");
             }
 
             if (handControl.tableLongitudinalControl != null)
             {
                 runningCoroutines++;
                 StartCoroutine(RestoreLongitudinalCoroutineTracked(pos.tableLongitudinalX));
-                Debug.Log("[TablePositionManager] Uruchomiono przywracanie pozycji wzdłużnej: " + pos.tableLongitudinalX);
+                Debug.Log("[TablePositionManager] Started restoring longitudinal position: " + pos.tableLongitudinalX);
             }
 
-            Debug.Log("[TablePositionManager] Uruchomiono " + runningCoroutines + " operacji przywracania");
+            Debug.Log("[TablePositionManager] Started " + runningCoroutines + " restore operations");
 
             float maxWaitTime = 30f;
             float waitedTime = 0f;
@@ -524,11 +507,11 @@ namespace VirtualOperatingTable
 
             if (runningCoroutines > 0)
             {
-                Debug.LogWarning("[TablePositionManager] Timeout - nie wszystkie operacje się zakończyły. Pozostało: " + runningCoroutines);
+                Debug.LogWarning("[TablePositionManager] Timeout - not all operations completed. Remaining: " + runningCoroutines);
             }
 
             isRestoring = false;
-            Debug.Log("[TablePositionManager] Załadowano pozycję: " + pos.name);
+            Debug.Log("[TablePositionManager] Position loaded: " + pos.name);
         }
 
         private int runningCoroutines = 0;
@@ -537,21 +520,21 @@ namespace VirtualOperatingTable
         {
             yield return StartCoroutine(RestorePivotCoroutine(pivot, targetX, targetY, targetZ));
             runningCoroutines--;
-            Debug.Log("[TablePositionManager] Pivot zakończony. Pozostało: " + runningCoroutines);
+            Debug.Log("[TablePositionManager] Pivot finished. Remaining: " + runningCoroutines);
         }
 
         private IEnumerator RestoreHeightCoroutineTracked(float targetHeight)
         {
             yield return StartCoroutine(RestoreHeightCoroutine(targetHeight));
             runningCoroutines--;
-            Debug.Log("[TablePositionManager] Wysokość zakończona. Pozostało: " + runningCoroutines);
+            Debug.Log("[TablePositionManager] Height restore finished. Remaining: " + runningCoroutines);
         }
 
         private IEnumerator RestoreLongitudinalCoroutineTracked(float targetX)
         {
             yield return StartCoroutine(RestoreLongitudinalCoroutine(targetX));
             runningCoroutines--;
-            Debug.Log("[TablePositionManager] Pozycja wzdłużna zakończona. Pozostało: " + runningCoroutines);
+            Debug.Log("[TablePositionManager] Longitudinal restore finished. Remaining: " + runningCoroutines);
         }
 
         private IEnumerator RestorePivotCoroutine(RotationPivot pivot, float targetX, float targetY, float targetZ)
@@ -579,8 +562,8 @@ namespace VirtualOperatingTable
         {
             char detectedAxis = DetectAxisFromVector(axis);
 
-            Debug.Log("[TablePositionManager] " + pivot.pivotName + " oś " + detectedAxis +
-                      " - Cel: " + targetAngle.ToString("F1") + "°");
+            Debug.Log("[TablePositionManager] " + pivot.pivotName + " axis " + detectedAxis +
+                      " - Aim: " + targetAngle.ToString("F1") + "°");
 
             int iterations = 0;
             int maxIterations = 1000;
@@ -606,7 +589,7 @@ namespace VirtualOperatingTable
                 if (!success)
                 {
                     Debug.LogWarning("[TablePositionManager] " + pivot.pivotName +
-                                   " nie może kontynuować ruchu na osi " + detectedAxis);
+                                   " cannot continue " + detectedAxis);
                     break;
                 }
 
@@ -617,24 +600,24 @@ namespace VirtualOperatingTable
             if (iterations >= maxIterations)
             {
                 Debug.LogWarning("[TablePositionManager] " + pivot.pivotName +
-                                " osiągnięto max iteracji na osi " + detectedAxis);
+                                " max of iterations reached " + detectedAxis);
             }
 
             float finalAngle = pivot.GetCurrentAngle(detectedAxis);
-            Debug.Log("[TablePositionManager] " + pivot.pivotName + " oś " + detectedAxis +
-                      " zakończono na: " + finalAngle.ToString("F1") + "°");
+            Debug.Log("[TablePositionManager] " + pivot.pivotName + " axis " + detectedAxis +
+                      " is over with value: " + finalAngle.ToString("F1") + "°");
         }
 
         private IEnumerator RestoreHeightCoroutine(float targetHeight)
         {
             if (handControl.tableHeightControl == null)
             {
-                Debug.LogWarning("[TablePositionManager] tableHeightControl jest null!");
+                Debug.LogWarning("[TablePositionManager] tableHeightControl is null!");
                 yield break;
             }
 
             float currentHeight = GetTelescopicPosition(handControl.tableHeightControl);
-            Debug.Log("[TablePositionManager] Przywracanie wysokości - Start: " + currentHeight + " -> Cel: " + targetHeight);
+            Debug.Log("[TablePositionManager] Restoring height - Start: " + currentHeight + " -> Aim: " + targetHeight);
 
             int iterations = 0;
             int maxIterations = 10000;
@@ -653,7 +636,7 @@ namespace VirtualOperatingTable
                 bool canContinue = handControl.tableHeightControl.Move(delta);
                 if (!canContinue)
                 {
-                    Debug.LogWarning("[TablePositionManager] Wysokość - nie może kontynuować ruchu. Aktualna: " + currentHeight);
+                    Debug.LogWarning("[TablePositionManager] Height - cannot continue. Current: " + currentHeight);
                     break;
                 }
 
@@ -665,31 +648,28 @@ namespace VirtualOperatingTable
 
             if (iterations >= maxIterations)
             {
-                Debug.LogWarning("[TablePositionManager] Wysokość - przekroczono maksymalną liczbę iteracji!");
+                Debug.LogWarning("[TablePositionManager] Height - no iterations left!");
             }
 
-            Debug.Log("[TablePositionManager] Przywracanie wysokości - Koniec: " + currentHeight + " (iteracji: " + iterations + ")");
+            Debug.Log("[TablePositionManager] Restoring height - over: " + currentHeight + " (number of iterations: " + iterations + ")");
         }
 
         private float GetTelescopicPosition(TelescopicMovement telescopic)
         {
             if (telescopic == null)
             {
-                Debug.LogWarning("[TablePositionManager] GetTelescopicPosition - telescopic jest null!");
+                Debug.LogWarning("[TablePositionManager] GetTelescopicPosition - telescopic is null!");
                 return 0f;
             }
 
             if (telescopic.movementAxes == null || telescopic.movementAxes.Length == 0)
             {
-                Debug.LogWarning("[TablePositionManager] GetTelescopicPosition - brak osi teleskopowych!");
+                Debug.LogWarning("[TablePositionManager] GetTelescopicPosition - no telescopic axis!");
                 return 0f;
             }
 
             float totalPosition = 0f;
             char axis = DetectAxisFromVector(telescopic.movementAxis);
-
-            Debug.Log("[TablePositionManager] GetTelescopicPosition - oś: " + axis +
-                      ", osi: " + telescopic.movementAxes.Length);
 
             foreach (MovementAxis movementAxis in telescopic.movementAxes)
             {
@@ -713,12 +693,9 @@ namespace VirtualOperatingTable
 
                 totalPosition += axisPos;
 
-                Debug.Log("[TablePositionManager] Oś: " + movementAxis.gameObject.name +
+                Debug.Log("[TablePositionManager] Axis: " + movementAxis.gameObject.name +
                           " = " + axisPos.ToString("F4"));
             }
-
-            Debug.Log("[TablePositionManager] GetTelescopicPosition - suma: " +
-                      totalPosition.ToString("F4"));
 
             return totalPosition;
         }
@@ -771,7 +748,7 @@ namespace VirtualOperatingTable
 
                 yield return null;
 
-                Debug.Log("[TablePositionManager] BlendShape coroutine zakończona");
+                Debug.Log("[TablePositionManager] BlendShape coroutine is over");
             }
         }
 

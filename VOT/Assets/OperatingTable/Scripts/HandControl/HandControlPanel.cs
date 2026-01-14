@@ -30,12 +30,12 @@ namespace VirtualOperatingTable
         {
             if (handControlPanel == null)
             {
-                Debug.LogError("[HandControlPanel] HandControlPanel nie przypisany w Inspektorze!");
+                Debug.LogError("[HandControlPanel] HandControlPanel is not assigned in the Inspector!");
             }
 
             if (handControl == null)
             {
-                Debug.LogError("[HandControlPanel] HandControl nie przypisany w Inspektorze!");
+                Debug.LogError("[HandControlPanel] HandControl is not assigned in the Inspector!");
             }
 
             if (eventSystem == null)
@@ -43,7 +43,6 @@ namespace VirtualOperatingTable
                 eventSystem = EventSystem.current;
             }
         }
-
         void Start()
         {
             if (handControlPanel != null)
@@ -62,61 +61,6 @@ namespace VirtualOperatingTable
                 ToggleHandControlPanel();
             }
         }
-
-        // // ============================================================
-        // // MENU 
-        // // ============================================================
-
-        // public void OnMenuMiddleButtonDown()
-        // {
-        //     switch (menuController.currentState)
-        //     {
-        //         case MenuState.Closed:
-        //             menuController.EnterMenu();
-        //             break;
-
-        //         case MenuState.Menu:
-        //             menuController.EnterPositions();
-        //             break;
-
-        //         case MenuState.Positions:
-        //             ConfirmPosition();
-        //             break;
-        //     }
-        // }
-
-        // private void ConfirmPosition()
-        // {
-        //     int index = menuController.currentIndex;
-
-        //     if (index < 0) return;
-
-        //     // TU mapujesz index → akcja
-        //     Debug.Log("Zatwierdzono pozycję: " + index);
-        // }
-
-        // public void OnMenuLeftButtonDown()
-        // {
-        //     if (menuController.currentState == MenuState.Menu ||
-        //         menuController.currentState == MenuState.Positions)
-        //     {
-        //         menuController.Iterate();
-        //     }
-        // }
-
-        // public void OnMenuRightButtonDown()
-        // {
-        //     switch (menuController.currentState)
-        //     {
-        //         case MenuState.Positions:
-        //             menuController.ExitToMenu();
-        //             break;
-
-        //         case MenuState.Menu:
-        //             menuController.ExitAll();
-        //             break;
-        //     }
-        // }
 
         // ============================================================
         // ROTATION 

@@ -5,21 +5,16 @@ namespace VirtualOperatingTable
     public class TelescopicMovement : MonoBehaviour
     {
         [Header("Telescopic Axes")]
-        [Tooltip("Lista osi w kolejności wysuwania (od pierwszej do ostatniej)")]
         public MovementAxis[] movementAxes;
 
         [Header("Movement Settings")]
-        [Tooltip("Oś ruchu (domyślnie Y - do góry)")]
         public Vector3 movementAxis = Vector3.up;
 
         [Header("Table Top Attachment")]
-        [Tooltip("Blat stołu do przepinania podczas ruchu")]
         public Transform tableTopElement;
 
-        [Tooltip("Nazwa górnej sekcji nogi")]
         public string topLegSectionName = "table_leg_column_segment_4_move";
 
-        [Tooltip("Nazwa głównego obiektu stołu")]
         public string mainTableName = "table";
 
         public float stepSize = 0.0001f;
@@ -42,11 +37,11 @@ namespace VirtualOperatingTable
                 }
                 else
                 {
-                    Debug.LogWarning("[TelescopicMovement] Brak przypisanego MovementAxis!");
+                    Debug.LogWarning("[TelescopicMovement] No MovementAxis assigned!");
                 }
             }
 
-            Debug.Log("[TelescopicMovement] Zainicjalizowano " + validCount + " osi teleskopowych");
+            Debug.Log("[TelescopicMovement] Initialized " + validCount + " telescopic axes");
         }
 
         public bool Move(float delta)
@@ -67,7 +62,6 @@ namespace VirtualOperatingTable
 
             return moved;
         }
-
 
         private bool MoveInternal(float delta)
         {
@@ -96,7 +90,6 @@ namespace VirtualOperatingTable
             return false;
         }
 
-
         private void BeginMovement()
         {
             if (tableTopElement == null)
@@ -104,8 +97,6 @@ namespace VirtualOperatingTable
 
             DetachFromParent(tableTopElement);
             AttachToParent(tableTopElement, topLegSectionName);
-
-            Debug.Log("[TelescopicMovement] Blat przypięty do nogi");
         }
 
         private void EndMovement()
@@ -115,10 +106,7 @@ namespace VirtualOperatingTable
 
             DetachFromParent(tableTopElement);
             AttachToParent(tableTopElement, mainTableName);
-
-            Debug.Log("[TelescopicMovement] Blat przypięty do stołu");
         }
-
 
         private void DetachFromParent(Transform element)
         {
@@ -146,7 +134,6 @@ namespace VirtualOperatingTable
             element.position = pos;
             element.rotation = rot;
         }
-
 
         private float GetCurrentPosition(MovementAxis axis)
         {

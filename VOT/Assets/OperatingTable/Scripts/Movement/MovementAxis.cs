@@ -43,7 +43,6 @@ namespace VirtualOperatingTable
                 axisName = gameObject.name.Replace("_", " ");
             }
 
-
             initialPosition = transform.localPosition;
             currentPositionX = 0f;
             currentPositionY = 0f;
@@ -56,7 +55,7 @@ namespace VirtualOperatingTable
 
             if (detectedAxis == '?')
             {
-                Debug.LogWarning("Nieznana oś: " + axis);
+                Debug.LogWarning("[MovementAxis] Unknown axis: " + axis);
                 return false;
             }
 
@@ -89,7 +88,7 @@ namespace VirtualOperatingTable
 
             if (!allowed)
             {
-                Debug.LogWarning("Oś " + detectedAxis + " jest wyłączona dla " + axisName);
+                Debug.LogWarning("[MovementAxis] Axis " + detectedAxis + " is disabled for " + axisName);
                 return false;
             }
 
@@ -98,14 +97,14 @@ namespace VirtualOperatingTable
 
             if (newPos > maxDist)
             {
-                Debug.Log(axisName + " - Osiągnięto maksymalną pozycję na osi " + detectedAxis);
+                Debug.Log("[MovementAxis]" + axisName + " - Maximum position reached on axis " + detectedAxis);
                 newPos = maxDist;
                 delta = maxDist - currentPos;
                 hitLimit = true;
             }
             else if (newPos < minDist)
             {
-                Debug.Log(axisName + " - Osiągnięto minimalną pozycję na osi " + detectedAxis);
+                Debug.Log("[MovementAxis]" + axisName + " - Minimum position reached on axis " + detectedAxis);
                 newPos = minDist;
                 delta = minDist - currentPos;
                 hitLimit = true;
@@ -148,14 +147,6 @@ namespace VirtualOperatingTable
                 return 'Z';
 
             return '?';
-        }
-
-        // public void ResetPosition()
-        // {
-        //     transform.localPosition = initialPosition;
-        //     currentPositionX = 0f;
-        //     currentPositionY = 0f;
-        //     currentPositionZ = 0f;
-        // }        
+        }     
     }
 }

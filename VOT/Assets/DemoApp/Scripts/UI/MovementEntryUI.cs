@@ -50,7 +50,6 @@ public class MovementEntryUI : MonoBehaviour
         }
     }
 
-    // EVENT TRIGGERS
     void AddSliderListeners(Slider slider, string axisName)
     {
         EventTrigger trigger = slider.GetComponent<EventTrigger>();
@@ -71,7 +70,6 @@ public class MovementEntryUI : MonoBehaviour
         return e;
     }
 
-    // SLIDER PRESS LOGIC
     void OnSliderPressed(string axisName)
     {
         SetPressing(axisName, true);
@@ -82,7 +80,7 @@ public class MovementEntryUI : MonoBehaviour
         ElementAnimation anim = element.GetAnimationForAxis(axis);
         if (anim == null) return;
 
-        element.Play(anim, true); // odtwarza wszystkie klipy w sekwencji
+        element.Play(anim, true); 
     }
 
     void OnSliderReleased(string axisName)
@@ -96,7 +94,7 @@ public class MovementEntryUI : MonoBehaviour
         ElementAnimation anim = element.GetAnimationForAxis(axis);
         if (anim == null) return;
 
-        element.Play(anim, false); // odtwarza wszystkie klipy w odwrotnym kierunku
+        element.Play(anim, false); 
     }
 
     void OnSliderExit(string axisName)
@@ -105,7 +103,6 @@ public class MovementEntryUI : MonoBehaviour
             OnSliderReleased(axisName);
     }
 
-    // SLIDER VALUE CHANGE
     void OnSliderXChanged(float value)
     {
         if (suppressEvent) return;
@@ -138,7 +135,6 @@ public class MovementEntryUI : MonoBehaviour
         axis.MoveWithVector3(dir, delta);
     }
 
-    // HELPERS
     TableElement GetCurrentElement()
     {
         return tableElementControl != null ? tableElementControl.currentSelectedElement : null;

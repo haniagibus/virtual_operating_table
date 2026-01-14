@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 
-
 namespace VirtualOperatingTable
 {
     public class MenuController : MonoBehaviour
@@ -48,13 +47,12 @@ namespace VirtualOperatingTable
 
             if (positionManager == null)
             {
-                Debug.LogError("[MenuController] TablePositionManager nie jest przypisany!");
+                Debug.LogError("[MenuController] TablePositionManager is not assigned!");
             }
         }
 
         void Start()
         {
-            // Zaktualizuj kolory przycisków pozycji na starcie
             UpdatePositionButtonColors();
         }
 
@@ -92,7 +90,6 @@ namespace VirtualOperatingTable
                     break;
 
                 case MenuState.Positions:
-
                     Iterate(positionButtons);
                     break;
             }
@@ -113,7 +110,6 @@ namespace VirtualOperatingTable
                 case MenuState.Positions:
                     ExitToMenu();
                     break;
-
             }
         }
 
@@ -191,14 +187,11 @@ namespace VirtualOperatingTable
             if (buttonList == null || buttonList.Count == 0)
                 return;
 
-            // odkliknij stary przycisk
             if (currentIndex >= 0)
                 SetButtonNormal(buttonList[currentIndex]);
 
-            // przejdź do następnego
             currentIndex = (currentIndex + 1) % buttonList.Count;
 
-            // zaznacz nowy przycisk
             SetSelected(buttonList[currentIndex]);
         }
 
@@ -222,7 +215,6 @@ namespace VirtualOperatingTable
         {
             Color baseColor = normalColor;
 
-            // Dla przycisków pozycji, sprawdź czy jest zajęty
             if (currentState == MenuState.Positions && positionButtons.Contains(button))
             {
                 int index = positionButtons.IndexOf(button);
@@ -268,9 +260,8 @@ namespace VirtualOperatingTable
 
             selectedAction = (MenuAction)currentIndex;
 
-            Debug.Log("[MenuController] Wybrano akcję: " + selectedAction);
+            Debug.Log("[MenuController] Selected action: " + selectedAction);
 
-            // Przejdź do panelu pozycji
             EnterPositions();
         }
 
@@ -281,13 +272,13 @@ namespace VirtualOperatingTable
         {
             if (currentIndex < 0)
             {
-                Debug.LogWarning("[MenuController] Nie wybrano pozycji");
+                Debug.LogWarning("[MenuController] No position selected");
                 return;
             }
 
             if (positionManager == null)
             {
-                Debug.LogError("[MenuController] TablePositionManager nie jest przypisany!");
+                Debug.LogError("[MenuController] TablePositionManager is not assigned!");
                 return;
             }
 
@@ -304,44 +295,37 @@ namespace VirtualOperatingTable
                     break;
 
                 default:
-                    Debug.LogWarning("[MenuController] Nie wybrano akcji z menu");
+                    Debug.LogWarning("[MenuController] No menu action selected");
                     break;
             }
         }
 
         private void SavePosition(int slotIndex)
         {
-            // Sprawdź czy to nie jest zablokowana pozycja 1
             if (positionManager.lockFirstPosition && slotIndex == 0)
             {
-                Debug.LogWarning("[MenuController] Nie można zapisać pozycji 1 - jest ona predefiniowana");
+                Debug.LogWarning("[MenuController] Cannot save position 1 - it is predefined");
                 return;
             }
 
-            Debug.Log("[MenuController] Zapisywanie pozycji do slotu: " + (slotIndex + 1));
             positionManager.SavePosition(slotIndex);
 
-            // Zaktualizuj kolor przycisku
             UpdatePositionButtonColors();
 
-            // Zostań w panelu pozycji - nie wychodź
-            Debug.Log("[MenuController] Pozycja zapisana do slotu " + (slotIndex + 1));
+            Debug.Log("[MenuController] Position saved to slot " + (slotIndex + 1));
         }
 
         private void LoadPosition(int slotIndex)
         {
-            // Sprawdź czy slot jest zajęty
             if (!positionManager.IsSlotOccupied(slotIndex))
             {
-                Debug.LogWarning("[MenuController] Slot " + (slotIndex + 1) + " jest pusty - nie można załadować");
+                Debug.LogWarning("[MenuController] Slot " + (slotIndex + 1) + " is empty - cannot load");
                 return;
             }
 
-            Debug.Log("[MenuController] Ładowanie pozycji ze slotu: " + (slotIndex + 1));
             positionManager.LoadPosition(slotIndex);
 
-            // Zostań w panelu pozycji - nie wychodź
-            Debug.Log("[MenuController] Ładowanie pozycji ze slotu " + (slotIndex + 1) + " rozpoczęte");
+            Debug.Log("[MenuController] Loading position from slot " + (slotIndex + 1) + " started");
         }
 
         // ==========================
@@ -354,21 +338,11 @@ namespace VirtualOperatingTable
 
             for (int i = 0; i < positionButtons.Count; i++)
             {
-                if (i != currentIndex) // Nie zmieniaj koloru zaznaczonego przycisku
+                if (i != currentIndex)
                 {
                     SetButtonNormal(positionButtons[i]);
                 }
-
-                // NIE zmieniamy tekstu - pozostawiamy oryginalny z Unity
             }
-        }
-
-        // ==========================
-        // PUBLIC HELPERS
-        // ==========================
-        public void RefreshPositionButtons()
-        {
-            UpdatePositionButtonColors();
         }
     }
 }
