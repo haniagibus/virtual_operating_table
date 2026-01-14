@@ -27,10 +27,8 @@ public class TableElementControlPanel : MonoBehaviour
     public List<TableElement> accessoryElements = new List<TableElement>();
 
     [Header("Auto-Discovery")]
-    [Tooltip("Automatycznie znajdź wszystkie TableElement w scenie")]
     public bool autoDiscoverElements = true;
-    
-    [Tooltip("Rodzic zawierający wszystkie elementy (opcjonalny)")]
+
     public Transform elementsContainer;
 
     [Header("Component Pivot & Movement Containers")]
@@ -58,29 +56,23 @@ public class TableElementControlPanel : MonoBehaviour
     {
         mainPanel.SetActive(false);
 
-        // Automatycznie znajdź i segreguj elementy
         if (autoDiscoverElements)
         {
             DiscoverAndSortElements();
         }
 
-        // Setup button listeners
         componentModeButton.onClick.AddListener(() => SwitchMode(PanelMode.Component));
         accessoryModeButton.onClick.AddListener(() => SwitchMode(PanelMode.Accessory));
 
-        // Setup component dropdown
         componentDropdown.onValueChanged.AddListener(OnComponentDropdownChange);
         componentVisibilityToggle.onValueChanged.AddListener(OnVisibilityToggleChanged);
 
-        // Setup accessory dropdown
         accessoryDropdown.onValueChanged.AddListener(OnAccessoryDropdownChange);
         mountPointDropdown.onValueChanged.AddListener(OnMountPointDropdownChange);
 
-        // Initialize dropdowns
         UpdateComponentDropdown();
         UpdateAccessoryDropdown();
 
-        // Start with component mode
         SwitchMode(PanelMode.Component);
     }
 
@@ -95,19 +87,14 @@ public class TableElementControlPanel : MonoBehaviour
 
         TableElement[] allElements;
 
-        // Jeśli podano kontener, szukaj tylko w nim (włącznie z nieaktywnymi)
         if (elementsContainer != null)
         {
             allElements = elementsContainer.GetComponentsInChildren<TableElement>(true);
         }
         else
         {
-            // Unity 2018 - FindObjectsOfType nie znajduje nieaktywnych obiektów
-            // Musisz ustawić elementsContainer w inspektorze aby znaleźć wszystkie elementy
             allElements = FindObjectsOfType<TableElement>();
             
-            // Alternatywnie: znajdź wszystkie obiekty w scenie włącznie z nieaktywnymi
-            // poprzez przeszukanie wszystkich root objects
             List<TableElement> elementsList = new List<TableElement>();
             GameObject[] rootObjects = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
             foreach (GameObject root in rootObjects)
@@ -120,7 +107,6 @@ public class TableElementControlPanel : MonoBehaviour
 
         Debug.Log("Znaleziono " + allElements.Length + " elementów TableElement");
 
-        // Sortuj elementy według typu
         foreach (var element in allElements)
         {
             if (element == null) continue;
@@ -139,29 +125,6 @@ public class TableElementControlPanel : MonoBehaviour
 
         Debug.Log("Komponenty: " + componentElements.Count + ", Akcesoria: " + accessoryElements.Count);
     }
-
-    /// <summary>
-    /// Ręczne odświeżenie listy elementów (np. po dodaniu nowych obiektów w runtime)
-    /// </summary>
-    // [ContextMenu("Refresh Element Lists")]
-    // public void RefreshElementLists()
-    // {
-    //     DiscoverAndSortElements();
-    //     UpdateComponentDropdown();
-    //     UpdateAccessoryDropdown();
-
-    //     // Odśwież aktualny widok
-    //     if (currentMode == PanelMode.Component && componentElements.Count > 0)
-    //     {
-    //         componentDropdown.value = 0;
-    //         OnComponentDropdownChange(0);
-    //     }
-    //     else if (currentMode == PanelMode.Accessory && accessoryElements.Count > 0)
-    //     {
-    //         accessoryDropdown.value = 0;
-    //         OnAccessoryDropdownChange(0);
-    //     }
-    // }
 
     void Update()
     {
@@ -195,11 +158,9 @@ public class TableElementControlPanel : MonoBehaviour
             componentPanel.SetActive(true);
             accessoryPanel.SetActive(false);
 
-            // Highlight active button
             componentModeButton.interactable = false;
             accessoryModeButton.interactable = true;
 
-            // Initialize component view
             if (componentElements.Count > 0)
             {
                 componentDropdown.value = Mathf.Clamp(componentDropdown.value, 0, componentElements.Count - 1);
@@ -212,16 +173,14 @@ public class TableElementControlPanel : MonoBehaviour
                 ClearMovementUI();
             }
         }
-        else // Accessory
+        else
         {
             componentPanel.SetActive(false);
             accessoryPanel.SetActive(true);
 
-            // Highlight active button
             componentModeButton.interactable = true;
             accessoryModeButton.interactable = false;
 
-            // Initialize accessory view
             if (accessoryElements.Count > 0)
             {
                 accessoryDropdown.value = Mathf.Clamp(accessoryDropdown.value, 0, accessoryElements.Count - 1);
@@ -282,7 +241,6 @@ public class TableElementControlPanel : MonoBehaviour
 
         UpdateComponentToggleState();
         
-        // Ładuj UI tylko jeśli element jest attached
         if (currentSelectedElement.isAttached)
         {
             BuildPivotUI();
@@ -343,7 +301,6 @@ public class TableElementControlPanel : MonoBehaviour
         
         Debug.Log("Wybrano akcesorium: " + currentSelectedElement.elementName);
 
-        // Ładuj UI tylko jeśli element jest attached
         if (currentSelectedElement.isAttached)
         {
             BuildPivotUI();
@@ -369,7 +326,6 @@ public class TableElementControlPanel : MonoBehaviour
 
         currentSelectedElement.SetAttached(isOn);
         
-        // Odśwież UI po zmianie stanu attached
         if (isOn)
         {
             BuildPivotUI();
@@ -397,23 +353,19 @@ public class TableElementControlPanel : MonoBehaviour
         if (currentSelectedElement.type != ElementType.Accessory)
             return;
 
-        // Index 0 = "Not Attached" (odłączenie)
         if (index == 0)
         {
-            // Jeśli element jest aktualnie podłączony, odłącz go
             if (currentSelectedElement.currentMountPoint != null)
             {
                 currentSelectedElement.currentMountPoint.Detach();
                 Debug.Log("Odłączono akcesorium: " + currentSelectedElement.elementName);
                 
-                // Wyczyść UI po odłączeniu
                 ClearPivotUI();
                 ClearMovementUI();
             }
             return;
         }
 
-        // Index > 0 = faktyczne mount pointy (indeks-1 w liście mountPoints)
         int mountPointIndex = index - 1;
         
         if (mountPointIndex < 0 || mountPointIndex >= mountPoints.Count)
@@ -428,11 +380,9 @@ public class TableElementControlPanel : MonoBehaviour
         target.Attach(element.gameObject);
         element.SetAttached(true);
 
-        // Odśwież UI po podłączeniu
         BuildPivotUI();
         BuildMovementUI();
 
-        // odśwież dropdown (stan zajętości)
         BuildMountPointDropdown();
     }
 
@@ -444,23 +394,17 @@ public class TableElementControlPanel : MonoBehaviour
         MountPoint[] points = FindObjectsOfType<MountPoint>();
         List<string> names = new List<string>();
 
-        // ZAWSZE dodaj "Not Attached" jako pierwszą opcję
         names.Add("Not Attached");
-        int selectedIndex = 0; // Domyślnie "Not Attached"
+        int selectedIndex = 0;
 
         for (int i = 0; i < points.Length; i++)
         {
             MountPoint mp = points[i];
 
-            // pokaż:
-            // - aktualny mount
-            // - wolne mountpointy
             if (!mp.IsOccupied || mp.HasAccessory(currentSelectedElement.gameObject))
             {
-                // Jeśli to aktualny mount point tego akcesorium
                 if (mp.HasAccessory(currentSelectedElement.gameObject))
                 {
-                    // +1 bo "Not Attached" jest na indeksie 0
                     selectedIndex = mountPoints.Count + 1;
                 }
 
@@ -469,7 +413,6 @@ public class TableElementControlPanel : MonoBehaviour
             }
         }
 
-        // Jeśli element nie jest nigdzie podłączony, wybierz "Not Attached"
         if (currentSelectedElement.currentMountPoint == null)
         {
             selectedIndex = 0;
@@ -494,7 +437,6 @@ public class TableElementControlPanel : MonoBehaviour
             return;
         }
 
-        // Wybierz odpowiedni kontener w zależności od trybu
         Transform targetContainer = (currentMode == PanelMode.Component) 
             ? componentPivotListContainer 
             : accessoryPivotListContainer;
@@ -510,7 +452,6 @@ public class TableElementControlPanel : MonoBehaviour
             entry.tableElementControl = this;
             entry.nameText.text = pivot.pivotName;
 
-            // Konfiguruj slider X
             if (pivot.allowX && entry.sliderX != null)
             {
                 entry.sliderX.gameObject.SetActive(true);
@@ -526,7 +467,6 @@ public class TableElementControlPanel : MonoBehaviour
                 entry.sliderX.gameObject.SetActive(false);
             }
 
-            // Konfiguruj slider Y
             if (pivot.allowY && entry.sliderY != null)
             {
                 entry.sliderY.gameObject.SetActive(true);
@@ -542,7 +482,6 @@ public class TableElementControlPanel : MonoBehaviour
                 entry.sliderY.gameObject.SetActive(false);
             }
 
-            // Konfiguruj slider Z
             if (pivot.allowZ && entry.sliderZ != null)
             {
                 entry.sliderZ.gameObject.SetActive(true);
@@ -569,7 +508,6 @@ public class TableElementControlPanel : MonoBehaviour
             return;
         }
 
-        // Wybierz odpowiedni kontener w zależności od trybu
         Transform targetContainer = (currentMode == PanelMode.Component) 
             ? componentMovementListContainer 
             : accessoryMovementListContainer;
@@ -585,7 +523,6 @@ public class TableElementControlPanel : MonoBehaviour
             entry.tableElementControl = this;
             entry.nameText.text = axis.axisName;
 
-            // ---------- X ----------
             if (axis.allowX && entry.sliderX != null)
             {
                 entry.sliderX.gameObject.SetActive(true);
@@ -601,7 +538,6 @@ public class TableElementControlPanel : MonoBehaviour
                 entry.sliderX.gameObject.SetActive(false);
             }
 
-            // ---------- Y ----------
             if (axis.allowY && entry.sliderY != null)
             {
                 entry.sliderY.gameObject.SetActive(true);
@@ -617,7 +553,6 @@ public class TableElementControlPanel : MonoBehaviour
                 entry.sliderY.gameObject.SetActive(false);
             }
 
-            // ---------- Z ----------
             if (axis.allowZ && entry.sliderZ != null)
             {
                 entry.sliderZ.gameObject.SetActive(true);
@@ -637,7 +572,6 @@ public class TableElementControlPanel : MonoBehaviour
 
     void ClearPivotUI()
     {
-        // Wyczyść oba kontenery
         foreach (Transform child in componentPivotListContainer)
             Destroy(child.gameObject);
         
@@ -647,7 +581,6 @@ public class TableElementControlPanel : MonoBehaviour
 
     void ClearMovementUI()
     {
-        // Wyczyść oba kontenery
         foreach (Transform child in componentMovementListContainer)
             Destroy(child.gameObject);
         

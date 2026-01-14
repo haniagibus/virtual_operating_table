@@ -25,7 +25,6 @@ namespace VirtualOperatingTable
         public float tableRotationAngleZ;
         public float tableHeight;
         public float tableLongitudinalX;
-        // public bool isReversed;
         public TableState tableState;
 
 
@@ -43,15 +42,12 @@ namespace VirtualOperatingTable
     public class TablePositionManager : MonoBehaviour
     {
         [Header("Hand Control Reference")]
-        [Tooltip("Referencja do HandControl")]
         public HandControl handControl;
 
         [Header("Position Settings")]
-        [Tooltip("Maksymalna liczba zapisanych pozycji")]
         public int maxPositions = 10;
 
         [Header("Movement Settings")]
-        [Tooltip("Szybkość przywracania pozycji")]
         public float restoreRotationStep = 2f;
         public float restoreRotationTickInterval = 0.05f;
         public float restoreHeightStep = 0.001f;
@@ -60,11 +56,9 @@ namespace VirtualOperatingTable
         public float restoreLongitudinalTickInterval = 0.05f;
 
         [Header("Predefined Positions")]
-        [Tooltip("Czy pozycja 1 jest zablokowana (predefiniowana)")]
         public bool lockFirstPosition = true;
 
         [Header("Height Control")]
-        [Tooltip("Czy ignorować wysokość przy zapisywaniu/przywracaniu")]
         public bool ignoreHeight = false;
 
         [Header("BlendShape Controller")]
@@ -113,9 +107,7 @@ namespace VirtualOperatingTable
             pos.tableRotationAngleZ = 0f;
             pos.tableHeight = 0f;
             pos.tableLongitudinalX = 0f;
-            // pos.isReversed = false;
             pos.tableState = TableState.Normal;
-
 
             Debug.Log("[TablePositionManager] Ustawiono pozycję " + name);
             return pos;
@@ -142,9 +134,7 @@ namespace VirtualOperatingTable
             pos.tableRotationAngleZ = -20f;
             pos.tableHeight = 0f;
             pos.tableLongitudinalX = 0f;
-            // pos.isReversed = false;
             pos.tableState = TableState.Normal;
-
 
             Debug.Log("[TablePositionManager] Ustawiono pozycję " + pos.name);
             return pos;
@@ -171,9 +161,7 @@ namespace VirtualOperatingTable
             pos.tableRotationAngleZ = 30f;
             pos.tableHeight = 0f;
             pos.tableLongitudinalX = 0f;
-            // pos.isReversed = false;
             pos.tableState = TableState.Normal;
-
 
             Debug.Log("[TablePositionManager] Ustawiono pozycję " + pos.name);
             return pos;
@@ -200,9 +188,7 @@ namespace VirtualOperatingTable
             pos.tableRotationAngleZ = 25f;
             pos.tableHeight = 0f;
             pos.tableLongitudinalX = 0f;
-            // pos.isReversed = false;
             pos.tableState = TableState.Normal;
-
 
             savedPositions[0] = pos;
 

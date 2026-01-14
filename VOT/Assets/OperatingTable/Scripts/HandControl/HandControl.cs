@@ -16,33 +16,15 @@ namespace VirtualOperatingTable
 
         public RotationPivot tableRotation;
 
-        // [Header("Reverse Position")]
-        // [Tooltip("Główny transform blatu stołu do obrotu")]
-        // public Transform tableTop;
-
-        // private bool isReversed = false;
         public TableState tableState = TableState.Normal;
-        // private Coroutine reverseCoroutine = null;
 
         [Header("Table Telescopic Movement")]
-        [Tooltip("Teleskopowy mechanizm podnoszenia stołu")]
         public TelescopicMovement tableHeightControl;
 
-        // [Tooltip("Element blatu do przenoszenia podczas ruchu wysokości")]
-        // public Transform tableTopElement;
-
-        // [Tooltip("Nazwa obiektu górnej sekcji nogi (do przyłączenia podczas ruchu)")]
-        // public string topLegSectionName = "table_leg_column_segment_4_move";
-
-        // [Tooltip("Nazwa obiektu głównego stołu (do przyłączenia po zakończeniu ruchu)")]
-        // public string mainTableName = "table";
-
         [Header("Table Longitudinal Movement")]
-        [Tooltip("Mechanizm przesuwania stołu wzdłużnie")]
         public MovementAxis tableLongitudinalControl;
 
         [Header("Blend Shapes")]
-        [Tooltip("Kontroler blend shapes (opcjonalny)")]
         public TableBlendShapeController blendShapeController;
 
         [Header("Rotation Settings")]
@@ -56,16 +38,12 @@ namespace VirtualOperatingTable
         [Header("Longitudinal Movement Settings")]
         public float longitudinalStep = 0.00005f;
         public float longitudinalTickInterval = 0.05f;
-
         private Coroutine currentTiltCoroutine = null;
         private bool isTilting = false;
-
         private Coroutine currentHeightCoroutine = null;
         private bool isMovingHeight = false;
-
         private Coroutine currentLongitudinalCoroutine = null;
         private bool isMovingLongitudinal = false;
-
         public bool isLocked = false;
         public LegSelection currentLeg = LegSelection.Both;
 
@@ -94,6 +72,7 @@ namespace VirtualOperatingTable
             }
 
             Debug.Log("[HandControl] Podnoszę dolną część stołu");
+            
             if (currentLeg == LegSelection.Both)
             {
                 StartTiltElement(tableBackPartLowerRotate, Vector3.forward, direction, false);
@@ -148,7 +127,6 @@ namespace VirtualOperatingTable
             }
         }
 
-        // TRENDELENBURG POSITION - Z BLEND SHAPES
         public void TiltTrendelenburg(int direction)
         {
             if (isLocked == true)
@@ -161,7 +139,6 @@ namespace VirtualOperatingTable
             StartTiltElement(tableRotation, Vector3.forward, direction, true);
         }
 
-        // LATERAL TILT - Z BLEND SHAPES
         public void TiltTable(int direction)
         {
             if (isLocked == true)
@@ -273,8 +250,6 @@ namespace VirtualOperatingTable
             tableState = TableState.Normal;
             return tableState;
 
-            // isReversed = false;
-            // reverseCoroutine = StartCoroutine(RotateToReverseCoroutine(isReversed));
         }
 
         public TableState ReversePosition()
@@ -288,8 +263,6 @@ namespace VirtualOperatingTable
             tableState = TableState.Reverse;
             return tableState;
 
-            // isReversed = true;
-            // reverseCoroutine = StartCoroutine(RotateToReverseCoroutine(isReversed));
         }
 
         // ============================================================
@@ -333,7 +306,6 @@ namespace VirtualOperatingTable
 
                 Debug.Log("[BlendShape] Axis=" + detectedAxis + " angle=" + angle);
 
-                // Zaktualizuj blend shapes jeśli są włączone
                 if (useBlendShapes && blendShapeController != null)
                 {
                     UpdateBlendShapes(pivot, axis);
@@ -363,11 +335,11 @@ namespace VirtualOperatingTable
 
             Debug.Log("[BlendShape] Axis=" + detectedAxis + " angle=" + angle);
 
-            if (detectedAxis == 'X') // LATERAL (Left / Right)
+            if (detectedAxis == 'X') 
             {
                 blendShapeController.UpdateLateral(angle);
             }
-            else if (detectedAxis == 'Z') // TRENDELENBURG (Forward / Backward)
+            else if (detectedAxis == 'Z') 
             {
                 blendShapeController.UpdateTrendelenburg(angle);
             }
@@ -449,73 +421,6 @@ namespace VirtualOperatingTable
             currentLongitudinalCoroutine = null;
         }
 
-        // private IEnumerator RotateToReverseCoroutine(bool reverse)
-        // {
-        //     if (tableTop == null)
-        //     {
-        //         Debug.LogError("[HandControl] TableTop nie jest przypisany!");
-        //         yield break;
-        //     }
-
-        //     float targetAngle = reverse ? 180f : 0f;
-
-        //     Vector3 euler = tableTop.localEulerAngles;
-        //     euler.y = targetAngle;
-        //     tableTop.localEulerAngles = euler;
-
-        //     reverseCoroutine = null;
-        // }
-
-        // HELPERS
-        // private void DetachFromParent(Transform element)
-        // {
-        //     if (element == null)
-        //     {
-        //         Debug.LogWarning("[HandControl] Element do odłączenia jest null!");
-        //         return;
-        //     }
-
-        //     if (element.parent != null)
-        //     {
-        //         Vector3 worldPosition = element.position;
-        //         Quaternion worldRotation = element.rotation;
-
-        //         element.SetParent(null);
-
-        //         element.position = worldPosition;
-        //         element.rotation = worldRotation;
-
-        //         Debug.Log("[HandControl] Element " + element.name + " odłączony od parenta");
-        //     }
-        // }
-
-        // private void AttachToParent(Transform element, string parentName)
-        // {
-        //     if (element == null)
-        //     {
-        //         Debug.LogWarning("[HandControl] Element do przyłączenia jest null!");
-        //         return;
-        //     }
-
-        //     GameObject parent = GameObject.Find(parentName);
-
-        //     if (parent == null)
-        //     {
-        //         Debug.LogWarning("[HandControl] Nie znaleziono obiektu " + parentName);
-        //         return;
-        //     }
-
-        //     Vector3 worldPosition = element.position;
-        //     Quaternion worldRotation = element.rotation;
-
-        //     element.SetParent(parent.transform);
-
-        //     element.position = worldPosition;
-        //     element.rotation = worldRotation;
-
-        //     Debug.Log("[HandControl] Element " + element.name + " przypięty do " + parentName);
-        // }
-
         private char DetectAxisFromVector(Vector3 axis)
         {
             axis = axis.normalized;
@@ -532,34 +437,6 @@ namespace VirtualOperatingTable
 
             return '?';
         }
-
-        // private float GetLongitudinalCurrentPosition()
-        // {
-        //     if (tableLongitudinalControl == null)
-        //         return 0f;
-
-        //     return tableLongitudinalControl.currentPositionX;
-        // }
-
-        // GETTERS
-        // public bool IsTilting
-        // {
-        //     get { return isTilting; }
-        // }
-
-        // public bool IsMovingHeight
-        // {
-        //     get { return isMovingHeight; }
-        // }
-
-        // public bool IsMovingLongitudinal
-        // {
-        //     get { return isMovingLongitudinal; }
-        // }
-
-        // public bool IsReversed
-        // {
-        //     get { return isReversed; }
-        // }
+       
     }
 }

@@ -70,7 +70,6 @@ public class PivotEntryUI : MonoBehaviour
         return e;
     }
 
-    // SLIDER PRESS LOGIC
     void OnSliderPressed(string axisName)
     {
         SetPressing(axisName, true);
@@ -81,7 +80,7 @@ public class PivotEntryUI : MonoBehaviour
         ElementAnimation anim = element.GetAnimationForPivot(pivot);
         if (anim == null) return;
 
-        element.Play(anim, true); // odtwarza wszystkie clipy w sekwencji
+        element.Play(anim, true);
     }
 
     void OnSliderReleased(string axisName)
@@ -95,7 +94,7 @@ public class PivotEntryUI : MonoBehaviour
         ElementAnimation anim = element.GetAnimationForPivot(pivot);
         if (anim == null) return;
 
-        element.Play(anim, false); // odtwarza wszystkie clipy w odwrotnym kierunku
+        element.Play(anim, false);
     }
 
     void OnSliderExit(string axisName)
@@ -104,7 +103,6 @@ public class PivotEntryUI : MonoBehaviour
             OnSliderReleased(axisName);
     }
 
-    // SLIDER VALUE CHANGE
     void OnSliderXChanged(float value)
     {
         if (suppressEvent) return;

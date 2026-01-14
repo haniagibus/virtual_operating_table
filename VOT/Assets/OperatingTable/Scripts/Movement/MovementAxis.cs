@@ -148,14 +148,6 @@ namespace VirtualOperatingTable
                 return 'Z';
 
             return '?';
-        }
-
-        // public void ResetPosition()
-        // {
-        //     transform.localPosition = initialPosition;
-        //     currentPositionX = 0f;
-        //     currentPositionY = 0f;
-        //     currentPositionZ = 0f;
-        // }        
+        }     
     }
 }

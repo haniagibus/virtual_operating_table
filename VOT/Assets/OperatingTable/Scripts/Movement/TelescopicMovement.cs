@@ -104,8 +104,6 @@ namespace VirtualOperatingTable
 
             DetachFromParent(tableTopElement);
             AttachToParent(tableTopElement, topLegSectionName);
-
-            Debug.Log("[TelescopicMovement] Blat przypięty do nogi");
         }
 
         private void EndMovement()
@@ -115,8 +113,6 @@ namespace VirtualOperatingTable
 
             DetachFromParent(tableTopElement);
             AttachToParent(tableTopElement, mainTableName);
-
-            Debug.Log("[TelescopicMovement] Blat przypięty do stołu");
         }
 
 

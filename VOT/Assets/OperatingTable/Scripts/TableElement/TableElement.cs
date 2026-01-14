@@ -45,7 +45,6 @@ namespace VirtualOperatingTable
         [HideInInspector]
         public MountPoint currentMountPoint;
 
-        // 🔑 WSZYSTKIE Animation (root + dzieci)
         private readonly List<Animation> animationComponents = new List<Animation>();
 
         private void Awake()
@@ -60,19 +59,14 @@ namespace VirtualOperatingTable
             RegisterClips();
         }
 
-        // =========================
-        // INIT
-        // =========================
         private void InitAnimationComponents()
         {
             animationComponents.Clear();
 
-            // root
             var rootAnim = GetComponent<Animation>();
             if (rootAnim != null)
                 animationComponents.Add(rootAnim);
 
-            // dzieci
             var childAnims = GetComponentsInChildren<Animation>(true);
             foreach (var anim in childAnims)
             {
@@ -106,9 +100,6 @@ namespace VirtualOperatingTable
             }
         }
 
-        // =========================
-        // VISIBILITY / STATE
-        // =========================
         public void SetAttached(bool attached)
         {
             isAttached = attached;
@@ -120,9 +111,6 @@ namespace VirtualOperatingTable
             gameObject.SetActive(isAttached);
         }
 
-        // =========================
-        // PUBLIC API
-        // =========================
         public void PlayAttachAnimation(bool forward = true)
         {
             if (attachAnimationClips == null || attachAnimationClips.Count == 0)
@@ -139,15 +127,11 @@ namespace VirtualOperatingTable
             PlaySequence(anim.clips, anim.speed, forward);
         }
 
-        // =========================
-        // INTERNAL PLAYBACK
-        // =========================
         private void PlaySequence(List<AnimationClip> clips, float speed, bool forward)
         {
             if (clips == null || clips.Count == 0)
                 return;
 
-            // stop wszystkich
             foreach (var anim in animationComponents)
                 anim.Stop();
 

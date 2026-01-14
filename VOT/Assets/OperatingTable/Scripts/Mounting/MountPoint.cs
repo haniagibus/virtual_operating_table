@@ -8,18 +8,14 @@ namespace VirtualOperatingTable
         public string displayName;
 
         [Header("Side Configuration")]
-        [Tooltip("Strona stołu (lewa/prawa)")]
         public MountSide side = MountSide.Left;
 
         [Header("Rail Movement Limits")]
-        [Tooltip("Minimalna pozycja przesunięcia po szynie (oś X)")]
         public float minRailPosition = -0.5f;
-        
-        [Tooltip("Maksymalna pozycja przesunięcia po szynie (oś X)")]
+    
         public float maxRailPosition = 0.5f;
 
         [Header("Status")]
-        [Tooltip("Aktualnie podłączone akcesorium")]
         public GameObject attachedAccessory;
 
         void Start()
