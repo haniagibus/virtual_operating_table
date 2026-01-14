@@ -30,12 +30,12 @@ namespace VirtualOperatingTable
         {
             if (handControlPanel == null)
             {
-                Debug.LogError("[HandControlPanel] HandControlPanel nie przypisany w Inspektorze!");
+                Debug.LogError("[HandControlPanel] HandControlPanel is not assigned in the Inspector!");
             }
 
             if (handControl == null)
             {
-                Debug.LogError("[HandControlPanel] HandControl nie przypisany w Inspektorze!");
+                Debug.LogError("[HandControlPanel] HandControl is not assigned in the Inspector!");
             }
 
             if (eventSystem == null)
@@ -43,7 +43,6 @@ namespace VirtualOperatingTable
                 eventSystem = EventSystem.current;
             }
         }
-
         void Start()
         {
             if (handControlPanel != null)

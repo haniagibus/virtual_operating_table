@@ -31,7 +31,6 @@ namespace VirtualOperatingTable
             get { return attachedAccessory != null; }
         }
 
-
         public bool CanAttach(GameObject accessory)
         {
             if (IsOccupied)
@@ -63,13 +62,12 @@ namespace VirtualOperatingTable
             }
 
             bool wasFlipped = element.isFlipped;
-            
             bool shouldBeFlipped = (side != element.defaultMountSide);
 
             if (wasFlipped != shouldBeFlipped)
             {
                 accessory.transform.Rotate(0f, 180f, 0f, Space.World);
-                Debug.Log((shouldBeFlipped ? "Obrócono" : "Cofnięto obrót") + " " + accessory.name + " o 180°");
+                Debug.Log("[MountPoint]" + (shouldBeFlipped ? "Rotated" : "Reverted rotation") + " " + accessory.name + " by 180°");
             }
 
             element.isFlipped = shouldBeFlipped;
@@ -78,23 +76,20 @@ namespace VirtualOperatingTable
             element.currentMountPoint = this;
 
             accessory.transform.SetParent(transform, true);
-
             accessory.transform.localPosition = Vector3.zero;
-            
             accessory.transform.localRotation = Quaternion.identity;
-            
+
             if (element.isFlipped)
             {
                 accessory.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
             }
 
             element.SetAttached(true);
-
             element.PlayAttachAnimation();
 
             UpdateAccessoryMovementLimits(element);
 
-            Debug.Log("Mounted " + accessory.name + " to " + displayName + " (side: " + side + ", flipped: " + shouldBeFlipped + ")");
+            Debug.Log("[MountPoint] Mounted " + accessory.name + " to " + displayName + " (side: " + side + ", flipped: " + shouldBeFlipped + ")");
             return true;
         }
 
@@ -113,7 +108,7 @@ namespace VirtualOperatingTable
 
                 axis.minDistanceX = minRailPosition;
                 axis.maxDistanceX = maxRailPosition;
-                Debug.Log("Zaktualizowano limity osi X dla " + axis.axisName + ": [" + minRailPosition + ", " + maxRailPosition + "]");
+                Debug.Log("[MountPoint] Updated X-axis limits for " + axis.axisName + ": [" + minRailPosition + ", " + maxRailPosition + "]");
             }
         }
 
@@ -128,15 +123,14 @@ namespace VirtualOperatingTable
             {
                 attachedAccessory.transform.Rotate(0f, 180f, 0f, Space.World);
                 element.isFlipped = false;
-                Debug.Log("Cofnięto obrót " + attachedAccessory.name + " do pozycji defaultowej");
+                Debug.Log("[MountPoint] Reverted rotation of " + attachedAccessory.name + " to default position");
             }
 
             element.currentMountPoint = null;
             attachedAccessory.transform.SetParent(null);
-            
             element.SetAttached(false);
 
-            Debug.Log("Detached " + attachedAccessory.name + " from " + displayName);
+            Debug.Log("[MountPoint] Detached " + attachedAccessory.name + " from " + displayName);
             
             attachedAccessory = null;
         }

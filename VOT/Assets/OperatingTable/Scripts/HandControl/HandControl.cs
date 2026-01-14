@@ -55,11 +55,11 @@ namespace VirtualOperatingTable
         {
             if (isLocked == true)
             {
-                Debug.Log("[HandControl] Stół wyłączony ");
+                Debug.Log("[HandControl] Table is turned off");
                 return;
             }
 
-            Debug.Log("[HandControl] Podnoszę górną część stołu");
+            Debug.Log("[HandControl] Raising upper part of the table");
             StartTiltElement(tableBackPartUpperRotate, Vector3.forward, direction, false);
         }
 
@@ -67,11 +67,11 @@ namespace VirtualOperatingTable
         {
             if (isLocked == true)
             {
-                Debug.Log("[HandControl] Stół wyłączony ");
+                Debug.Log("[HandControl] Table is turned off");
                 return;
             }
 
-            Debug.Log("[HandControl] Podnoszę dolną część stołu");
+            Debug.Log("[HandControl] Raising lower part of the table");
             
             if (currentLeg == LegSelection.Both)
             {
@@ -91,19 +91,19 @@ namespace VirtualOperatingTable
         {
             if (isLocked == true)
             {
-                Debug.Log("[HandControl] Stół wyłączony");
+                Debug.Log("[HandControl] Table is turned off");
                 return;
             }
 
             if (currentLeg != LegSelection.Left)
             {
                 currentLeg = LegSelection.Left;
-                Debug.Log("[HandControl] Sterowanie: lewa noga");
+                Debug.Log("[HandControl] Control: left leg");
             }
             else
             {
                 currentLeg = LegSelection.Both;
-                Debug.Log("[HandControl] Sterowanie: obie nogi");
+                Debug.Log("[HandControl] Control: both legs");
             }
         }
 
@@ -111,19 +111,19 @@ namespace VirtualOperatingTable
         {
             if (isLocked == true)
             {
-                Debug.Log("[HandControl] Stół wyłączony ");
+                Debug.Log("[HandControl] Table is turned off");
                 return;
             }
 
             if (currentLeg != LegSelection.Right)
             {
                 currentLeg = LegSelection.Right;
-                Debug.Log("[HandControl] Sterowanie: prawa noga");
+                Debug.Log("[HandControl] Control: right leg");
             }
             else
             {
                 currentLeg = LegSelection.Both;
-                Debug.Log("[HandControl] Sterowanie: obie nogi");
+                Debug.Log("[HandControl] Control: both legs");
             }
         }
 
@@ -131,11 +131,11 @@ namespace VirtualOperatingTable
         {
             if (isLocked == true)
             {
-                Debug.Log("[HandControl] Stół wyłączony ");
+                Debug.Log("[HandControl] Table is turned off");
                 return;
             }
 
-            Debug.Log("[HandControl] Pozycja Trendelenburga");
+            Debug.Log("[HandControl] Trendelenburg position");
             StartTiltElement(tableRotation, Vector3.forward, direction, true);
         }
 
@@ -143,11 +143,11 @@ namespace VirtualOperatingTable
         {
             if (isLocked == true)
             {
-                Debug.Log("[HandControl] Stół wyłączony ");
+                Debug.Log("[HandControl] Table is turned off");
                 return;
             }
 
-            Debug.Log("[HandControl] Przechylam stół");
+            Debug.Log("[HandControl] Tilting table");
             StartTiltElement(tableRotation, Vector3.right, direction, true);
         }
 
@@ -159,11 +159,11 @@ namespace VirtualOperatingTable
         {
             if (isLocked == true)
             {
-                Debug.Log("[HandControl] Stół wyłączony ");
+                Debug.Log("[HandControl] Table is turned off");
                 return;
             }
 
-            Debug.Log("[HandControl] Zmieniam wysokość stołu");
+            Debug.Log("[HandControl] Changing table height");
             StartHeightMovement(direction);
         }
 
@@ -171,11 +171,11 @@ namespace VirtualOperatingTable
         {
             if (isLocked == true)
             {
-                Debug.Log("[HandControl] Stół wyłączony ");
+                Debug.Log("[HandControl] Table is turned off");
                 return;
             }
 
-            Debug.Log("[HandControl] Przesuwam stół");
+            Debug.Log("[HandControl] Moving table");
             StartLongitudinalMovement(Vector3.right, direction);
         }
 
@@ -205,7 +205,7 @@ namespace VirtualOperatingTable
                 currentLongitudinalCoroutine = null;
             }
 
-            Debug.Log("[HandControl] Zatrzymuję ruch stołu");
+            Debug.Log("[HandControl] Stopping table movement");
         }
 
         // ============================================================
@@ -223,13 +223,13 @@ namespace VirtualOperatingTable
         {
             if (isLocked)
             {
-                Debug.Log("[HandControl] Stół wyłączony - nie można ustawić Level Zero");
+                Debug.Log("[HandControl] Table is turned off - cannot set Level Zero");
                 return;
             }
 
             if (tablePositionManager == null)
             {
-                Debug.LogError("[HandControl] TablePositionManager nie jest przypisany!");
+                Debug.LogError("[HandControl] TablePositionManager is not assigned!");
                 return;
             }
 
@@ -243,10 +243,10 @@ namespace VirtualOperatingTable
         {
             if (isLocked == true)
             {
-                Debug.Log("[HandControl] Stół wyłączony ");
+                Debug.Log("[HandControl] Table is turned off");
                 return tableState;
             }
-            Debug.Log("[HandControl] Ustawiam stół w pozycji normalnej");
+            Debug.Log("[HandControl] Setting table to normal position");
             tableState = TableState.Normal;
             return tableState;
 
@@ -256,10 +256,10 @@ namespace VirtualOperatingTable
         {
             if (isLocked == true)
             {
-                Debug.Log("[HandControl] Stół wyłączony ");
+                Debug.Log("[HandControl] Table is turned off");
                 return tableState;
             }
-            Debug.Log("[HandControl] Ustawiam stół w pozycji reverse");
+            Debug.Log("[HandControl] Setting table to reverse position");
             tableState = TableState.Reverse;
             return tableState;
 
@@ -274,7 +274,7 @@ namespace VirtualOperatingTable
         {
             if (pivot == null)
             {
-                Debug.LogError("[HandControl] Pivot nie jest przypisany!");
+                Debug.LogError("[HandControl] Pivot is not assigned!");
                 return;
             }
 
@@ -291,7 +291,7 @@ namespace VirtualOperatingTable
         {
             if (pivot == null)
             {
-                Debug.LogError("[HandControl] Pivot jest null!");
+                Debug.LogError("[HandControl] Pivot is null!");
                 yield break;
             }
 
@@ -304,7 +304,7 @@ namespace VirtualOperatingTable
 
                 float angle = pivot.GetCurrentAngle(detectedAxis);
 
-                Debug.Log("[BlendShape] Axis=" + detectedAxis + " angle=" + angle);
+                Debug.Log("[HandControl] Axis=" + detectedAxis + " angle=" + angle);
 
                 if (useBlendShapes && blendShapeController != null)
                 {
@@ -313,7 +313,7 @@ namespace VirtualOperatingTable
 
                 if (!canContinue)
                 {
-                    Debug.Log("[HandControl] Osiągnięto limit rotacji");
+                    Debug.Log("[HandControl] Rotation limit reached");
                     isTilting = false;
                     break;
                 }
@@ -350,7 +350,7 @@ namespace VirtualOperatingTable
         {
             if (tableHeightControl == null)
             {
-                Debug.LogError("[HandControl] TelescopicMovement nie jest przypisany!");
+                Debug.LogError("[HandControl] TelescopicMovement is not assigned!");
                 return;
             }
 
@@ -372,7 +372,7 @@ namespace VirtualOperatingTable
 
                 if (!canContinue)
                 {
-                    Debug.Log("[HandControl] Teleskop osiągnął limit");
+                    Debug.Log("[HandControl] Telescopic movement limit reached");
                     isMovingHeight = false;
                     break;
                 }
@@ -388,7 +388,7 @@ namespace VirtualOperatingTable
         {
             if (tableLongitudinalControl == null)
             {
-                Debug.LogError("[HandControl] MovementAxis dla ruchu wzdłużnego nie jest przypisany!");
+                Debug.LogError("[HandControl] MovementAxis for longitudinal movement is not assigned!");
                 return;
             }
 
@@ -410,7 +410,7 @@ namespace VirtualOperatingTable
 
                 if (!canContinue)
                 {
-                    Debug.Log("[HandControl] Osiągnięto limit przesuwu wzdłużnego");
+                    Debug.Log("[HandControl] Longitudinal movement limit reached");
                     isMovingLongitudinal = false;
                     break;
                 }

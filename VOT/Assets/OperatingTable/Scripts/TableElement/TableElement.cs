@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace VirtualOperatingTable
@@ -116,7 +117,7 @@ namespace VirtualOperatingTable
             if (attachAnimationClips == null || attachAnimationClips.Count == 0)
                 return;
 
-            PlaySequence(attachAnimationClips, 1f, forward);
+            PlaySequence(attachAnimationClips, 3f, forward);
         }
 
         public void Play(ElementAnimation anim, bool forward = true)
@@ -129,31 +130,39 @@ namespace VirtualOperatingTable
 
         private void PlaySequence(List<AnimationClip> clips, float speed, bool forward)
         {
-            if (clips == null || clips.Count == 0)
-                return;
+            StopAllCoroutines(); 
+            StartCoroutine(PlaySequenceCoroutine(clips, speed, forward));
+        }
 
-            foreach (var anim in animationComponents)
-                anim.Stop();
+        private IEnumerator PlaySequenceCoroutine(List<AnimationClip> clips, float speed, bool forward)
+        {
+            if (clips == null || clips.Count == 0) yield break;
 
-            foreach (var clip in clips)
+            var sequence = forward ? clips : new List<AnimationClip>(clips);
+            if (!forward) sequence.Reverse();
+
+            foreach (var clip in sequence)
             {
                 if (clip == null) continue;
 
                 foreach (var anim in animationComponents)
                 {
                     var state = anim[clip.name];
-                    if (state == null) continue;
+                    if (state == null)
+                    {
+                        anim.AddClip(clip, clip.name);
+                        state = anim[clip.name];
+                    }
 
                     state.speed = forward ? Mathf.Abs(speed) : -Mathf.Abs(speed);
                     state.time = forward ? 0f : clip.length;
                     state.weight = 1f;
 
-                    anim.PlayQueued(
-                        clip.name,
-                        QueueMode.CompleteOthers,
-                        PlayMode.StopSameLayer
-                    );
+                    anim.Play(clip.name, PlayMode.StopSameLayer);
                 }
+
+                float duration = clip.length / Mathf.Abs(speed);
+                yield return new WaitForSeconds(duration);
             }
         }
 

@@ -105,8 +105,6 @@ public class TableElementControlPanel : MonoBehaviour
             allElements = elementsList.ToArray();
         }
 
-        Debug.Log("Znaleziono " + allElements.Length + " elementów TableElement");
-
         foreach (var element in allElements)
         {
             if (element == null) continue;
@@ -114,16 +112,16 @@ public class TableElementControlPanel : MonoBehaviour
             if (element.type == ElementType.Component)
             {
                 componentElements.Add(element);
-                Debug.Log("Dodano KOMPONENT: " + element.elementName);
+                Debug.Log("Added COMPONENT: " + element.elementName);
             }
             else if (element.type == ElementType.Accessory)
             {
                 accessoryElements.Add(element);
-                Debug.Log("Dodano AKCESORIUM: " + element.elementName);
+                Debug.Log("Added ACCESSORY: " + element.elementName);
             }
         }
 
-        Debug.Log("Komponenty: " + componentElements.Count + ", Akcesoria: " + accessoryElements.Count);
+        Debug.Log("Components: " + componentElements.Count + ", Accessories: " + accessoryElements.Count);
     }
 
     void Update()
@@ -168,7 +166,7 @@ public class TableElementControlPanel : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("Brak komponentów do wyświetlenia!");
+                Debug.LogWarning("No components to display!");
                 ClearPivotUI();
                 ClearMovementUI();
             }
@@ -188,7 +186,7 @@ public class TableElementControlPanel : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("Brak akcesoriów do wyświetlenia!");
+                Debug.LogWarning("No accessories to display!");
                 ClearPivotUI();
                 ClearMovementUI();
             }
@@ -237,7 +235,7 @@ public class TableElementControlPanel : MonoBehaviour
         }
 
         componentVisibilityToggle.interactable = true;
-        Debug.Log("Wybrano komponent: " + currentSelectedElement.elementName);
+        Debug.Log("Selected component: " + currentSelectedElement.elementName);
 
         UpdateComponentToggleState();
         
@@ -299,7 +297,7 @@ public class TableElementControlPanel : MonoBehaviour
             return;
         }
         
-        Debug.Log("Wybrano akcesorium: " + currentSelectedElement.elementName);
+        Debug.Log("Selected accessory: " + currentSelectedElement.elementName);
 
         if (currentSelectedElement.isAttached)
         {
@@ -358,7 +356,7 @@ public class TableElementControlPanel : MonoBehaviour
             if (currentSelectedElement.currentMountPoint != null)
             {
                 currentSelectedElement.currentMountPoint.Detach();
-                Debug.Log("Odłączono akcesorium: " + currentSelectedElement.elementName);
+                Debug.Log("Detached accessory: " + currentSelectedElement.elementName);
                 
                 ClearPivotUI();
                 ClearMovementUI();

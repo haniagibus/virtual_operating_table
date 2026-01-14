@@ -44,7 +44,7 @@ namespace VirtualOperatingTable
             if (indexRight >= 0)
                 Set(indexRight, Mathf.Max(-angle, 0), maxTiltAngle);
 
-            Debug.Log("[LATERAL] LEFT=" + Mathf.Max(angle, 0) + " RIGHT=" + Mathf.Max(-angle, 0));
+            Debug.Log("[TableBlendShapeController] Lateral left=" + Mathf.Max(angle, 0) + " right=" + Mathf.Max(-angle, 0));
         }
 
         private void ResetLateral()
@@ -59,7 +59,7 @@ namespace VirtualOperatingTable
             if (indexBackward >= 0)
                 Set(indexBackward, Mathf.Max(-angle, 0), maxTrendelenburgAngle);
 
-            Debug.Log("[TREND] FORWARD=" + Mathf.Max(angle, 0) + " BACKWARD=" + Mathf.Max(-angle, 0));
+            Debug.Log("TableBlendShapeController] Trend forward=" + Mathf.Max(angle, 0) + " backward=" + Mathf.Max(-angle, 0));
         }
 
 

@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 
-
 namespace VirtualOperatingTable
 {
     public class MenuController : MonoBehaviour
@@ -48,7 +47,7 @@ namespace VirtualOperatingTable
 
             if (positionManager == null)
             {
-                Debug.LogError("[MenuController] TablePositionManager nie jest przypisany!");
+                Debug.LogError("[MenuController] TablePositionManager is not assigned!");
             }
         }
 
@@ -91,7 +90,6 @@ namespace VirtualOperatingTable
                     break;
 
                 case MenuState.Positions:
-
                     Iterate(positionButtons);
                     break;
             }
@@ -112,7 +110,6 @@ namespace VirtualOperatingTable
                 case MenuState.Positions:
                     ExitToMenu();
                     break;
-
             }
         }
 
@@ -263,7 +260,7 @@ namespace VirtualOperatingTable
 
             selectedAction = (MenuAction)currentIndex;
 
-            Debug.Log("[MenuController] Wybrano akcję: " + selectedAction);
+            Debug.Log("[MenuController] Selected action: " + selectedAction);
 
             EnterPositions();
         }
@@ -275,13 +272,13 @@ namespace VirtualOperatingTable
         {
             if (currentIndex < 0)
             {
-                Debug.LogWarning("[MenuController] Nie wybrano pozycji");
+                Debug.LogWarning("[MenuController] No position selected");
                 return;
             }
 
             if (positionManager == null)
             {
-                Debug.LogError("[MenuController] TablePositionManager nie jest przypisany!");
+                Debug.LogError("[MenuController] TablePositionManager is not assigned!");
                 return;
             }
 
@@ -298,7 +295,7 @@ namespace VirtualOperatingTable
                     break;
 
                 default:
-                    Debug.LogWarning("[MenuController] Nie wybrano akcji z menu");
+                    Debug.LogWarning("[MenuController] No menu action selected");
                     break;
             }
         }
@@ -307,7 +304,7 @@ namespace VirtualOperatingTable
         {
             if (positionManager.lockFirstPosition && slotIndex == 0)
             {
-                Debug.LogWarning("[MenuController] Nie można zapisać pozycji 1 - jest ona predefiniowana");
+                Debug.LogWarning("[MenuController] Cannot save position 1 - it is predefined");
                 return;
             }
 
@@ -315,20 +312,20 @@ namespace VirtualOperatingTable
 
             UpdatePositionButtonColors();
 
-            Debug.Log("[MenuController] Pozycja zapisana do slotu " + (slotIndex + 1));
+            Debug.Log("[MenuController] Position saved to slot " + (slotIndex + 1));
         }
 
         private void LoadPosition(int slotIndex)
         {
             if (!positionManager.IsSlotOccupied(slotIndex))
             {
-                Debug.LogWarning("[MenuController] Slot " + (slotIndex + 1) + " jest pusty - nie można załadować");
+                Debug.LogWarning("[MenuController] Slot " + (slotIndex + 1) + " is empty - cannot load");
                 return;
             }
 
             positionManager.LoadPosition(slotIndex);
 
-            Debug.Log("[MenuController] Ładowanie pozycji ze slotu " + (slotIndex + 1) + " rozpoczęte");
+            Debug.Log("[MenuController] Loading position from slot " + (slotIndex + 1) + " started");
         }
 
         // ==========================
@@ -347,6 +344,5 @@ namespace VirtualOperatingTable
                 }
             }
         }
-
     }
 }

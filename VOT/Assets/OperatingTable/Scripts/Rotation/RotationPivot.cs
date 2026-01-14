@@ -44,7 +44,7 @@ namespace VirtualOperatingTable
 
             SyncCurrentAnglesWithTransform();
 
-            Debug.Log(pivotName + " - Kąty początkowe: X=" + currentAngleX.ToString("F1") +
+            Debug.Log("[RotationPivot]" + pivotName + " - Initial angles: X=" + currentAngleX.ToString("F1") +
                       ", Y=" + currentAngleY.ToString("F1") +
                       ", Z=" + currentAngleZ.ToString("F1"));
         }
@@ -65,7 +65,7 @@ namespace VirtualOperatingTable
 
             if (detectedAxis == '?')
             {
-                Debug.LogWarning("Nieznana oś: " + axis);
+                Debug.LogWarning("[RotationPivot] Unknown axis: " + axis);
                 return false;
             }
 
@@ -98,7 +98,7 @@ namespace VirtualOperatingTable
 
             if (!allowed)
             {
-                Debug.LogWarning("Oś " + detectedAxis + " jest wyłączona dla " + pivotName);
+                Debug.LogWarning("[RotationPivot] Axis " + detectedAxis + " is disabled for " + pivotName);
                 return false;
             }
 
@@ -107,14 +107,14 @@ namespace VirtualOperatingTable
 
             if (newAngle > maxAngle)
             {
-                Debug.Log(pivotName + " - Osiągnięto maksymalny kąt na osi " + detectedAxis + ": " + maxAngle.ToString("F1") + "°");
+                Debug.Log("[RotationPivot]" + pivotName + " - Maximum angle reached on axis " + detectedAxis + ": " + maxAngle.ToString("F1") + "°");
                 newAngle = maxAngle;
                 delta = maxAngle - currentAngle;
                 hitLimit = true;
             }
             else if (newAngle < minAngle)
             {
-                Debug.Log(pivotName + " - Osiągnięto minimalny kąt na osi " + detectedAxis + ": " + minAngle.ToString("F1") + "°");
+                Debug.Log("[RotationPivot]" + pivotName + " - Minimum angle reached on axis " + detectedAxis + ": " + minAngle.ToString("F1") + "°");
                 newAngle = minAngle;
                 delta = minAngle - currentAngle;
                 hitLimit = true;
@@ -142,7 +142,7 @@ namespace VirtualOperatingTable
                 
                 transform.localEulerAngles = newRotation;
 
-                Debug.Log(pivotName + " - Oś " + detectedAxis + ": " + currentAngle.ToString("F1") +
+                Debug.Log("[RotationPivot]" + pivotName + " - Axis " + detectedAxis + ": " + currentAngle.ToString("F1") +
                          "° → " + newAngle.ToString("F1") + "° (delta: " + delta.ToString("F1") + "°)");
             }
 
