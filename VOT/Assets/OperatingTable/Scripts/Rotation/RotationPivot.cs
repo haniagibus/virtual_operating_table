@@ -31,7 +31,7 @@ namespace VirtualOperatingTable
         [HideInInspector]
         public float currentAngleZ = 0f;
 
-        private Vector3 initialLocalRotation; // NOWE
+        private Vector3 initialLocalRotation;
 
         void Awake()
         {
@@ -40,18 +40,15 @@ namespace VirtualOperatingTable
                 pivotName = gameObject.name.Replace("_", " ");
             }
 
-            // Zapisz początkową rotację lokalną
             initialLocalRotation = transform.localEulerAngles;
 
-            // Inicjalizuj kąty z aktualnej rotacji obiektu
-            SyncCurrentAnglesWithTransform(); // ZMIENIONE
+            SyncCurrentAnglesWithTransform();
 
-            Debug.Log(pivotName + " - Kąty początkowe: X=" + currentAngleX.ToString("F1") +
+            Debug.Log("[RotationPivot]" + pivotName + " - Initial angles: X=" + currentAngleX.ToString("F1") +
                       ", Y=" + currentAngleY.ToString("F1") +
                       ", Z=" + currentAngleZ.ToString("F1"));
         }
 
-        // NOWA METODA - synchronizuj currentAngle z rzeczywistą rotacją
         private void SyncCurrentAnglesWithTransform()
         {
             Vector3 euler = transform.localEulerAngles;
@@ -62,14 +59,13 @@ namespace VirtualOperatingTable
 
         public bool RotateWithVector3(Vector3 axis, float delta)
         {
-            // NAJPIERW zsynchronizuj kąty z rzeczywistością
-            SyncCurrentAnglesWithTransform(); // NOWE
+            SyncCurrentAnglesWithTransform(); 
             
             char detectedAxis = DetectAxis(axis);
 
             if (detectedAxis == '?')
             {
-                Debug.LogWarning("Nieznana oś: " + axis);
+                Debug.LogWarning("[RotationPivot] Unknown axis: " + axis);
                 return false;
             }
 
@@ -102,7 +98,7 @@ namespace VirtualOperatingTable
 
             if (!allowed)
             {
-                Debug.LogWarning("Oś " + detectedAxis + " jest wyłączona dla " + pivotName);
+                Debug.LogWarning("[RotationPivot] Axis " + detectedAxis + " is disabled for " + pivotName);
                 return false;
             }
 
@@ -111,14 +107,14 @@ namespace VirtualOperatingTable
 
             if (newAngle > maxAngle)
             {
-                Debug.Log(pivotName + " - Osiągnięto maksymalny kąt na osi " + detectedAxis + ": " + maxAngle.ToString("F1") + "°");
+                Debug.Log("[RotationPivot]" + pivotName + " - Maximum angle reached on axis " + detectedAxis + ": " + maxAngle.ToString("F1") + "°");
                 newAngle = maxAngle;
                 delta = maxAngle - currentAngle;
                 hitLimit = true;
             }
             else if (newAngle < minAngle)
             {
-                Debug.Log(pivotName + " - Osiągnięto minimalny kąt na osi " + detectedAxis + ": " + minAngle.ToString("F1") + "°");
+                Debug.Log("[RotationPivot]" + pivotName + " - Minimum angle reached on axis " + detectedAxis + ": " + minAngle.ToString("F1") + "°");
                 newAngle = minAngle;
                 delta = minAngle - currentAngle;
                 hitLimit = true;
@@ -126,7 +122,6 @@ namespace VirtualOperatingTable
 
             if (Mathf.Abs(delta) > 0.001f)
             {
-                // ZAMIAST transform.Rotate(), ustaw bezpośrednio localEulerAngles
                 Vector3 newRotation = transform.localEulerAngles;
                 
                 switch (detectedAxis)
@@ -145,9 +140,9 @@ namespace VirtualOperatingTable
                         break;
                 }
                 
-                transform.localEulerAngles = newRotation; // ZMIENIONE z transform.Rotate()
+                transform.localEulerAngles = newRotation;
 
-                Debug.Log(pivotName + " - Oś " + detectedAxis + ": " + currentAngle.ToString("F1") +
+                Debug.Log("[RotationPivot]" + pivotName + " - Axis " + detectedAxis + ": " + currentAngle.ToString("F1") +
                          "° → " + newAngle.ToString("F1") + "° (delta: " + delta.ToString("F1") + "°)");
             }
 
@@ -180,27 +175,9 @@ namespace VirtualOperatingTable
             return angle;
         }
 
-        // public bool IsAtLimitX()
-        // {
-        //     SyncCurrentAnglesWithTransform(); // NOWE
-        //     return currentAngleX <= minAngleX + 0.1f || currentAngleX >= maxAngleX - 0.1f;
-        // }
-
-        // public bool IsAtLimitY()
-        // {
-        //     SyncCurrentAnglesWithTransform(); // NOWE
-        //     return currentAngleY <= minAngleY + 0.1f || currentAngleY >= maxAngleY - 0.1f;
-        // }
-
-        // public bool IsAtLimitZ()
-        // {
-        //     SyncCurrentAnglesWithTransform(); // NOWE
-        //     return currentAngleZ <= minAngleZ + 0.1f || currentAngleZ >= maxAngleZ - 0.1f;
-        // }
-
         public float GetCurrentAngle(char axis)
         {
-            SyncCurrentAnglesWithTransform(); // NOWE - zawsze aktualna wartość
+            SyncCurrentAnglesWithTransform();
             
             switch (axis)
             {
@@ -218,52 +195,5 @@ namespace VirtualOperatingTable
             }
         }
 
-        // NOWE METODY
-        // public void SetCurrentAngle(char axis, float angle)
-        // {
-        //     switch (axis)
-        //     {
-        //         case 'X':
-        //         case 'x':
-        //             currentAngleX = angle;
-        //             break;
-        //         case 'Y':
-        //         case 'y':
-        //             currentAngleY = angle;
-        //             break;
-        //         case 'Z':
-        //         case 'z':
-        //             currentAngleZ = angle;
-        //             break;
-        //     }
-        // }
-
-        // public void SetRotationDirect(float angleX, float angleY, float angleZ)
-        // {
-        //     Vector3 newRotation = transform.localEulerAngles;
-            
-        //     if (allowX)
-        //     {
-        //         newRotation.x = angleX;
-        //         currentAngleX = angleX;
-        //     }
-            
-        //     if (allowY)
-        //     {
-        //         newRotation.y = angleY;
-        //         currentAngleY = angleY;
-        //     }
-            
-        //     if (allowZ)
-        //     {
-        //         newRotation.z = angleZ;
-        //         currentAngleZ = angleZ;
-        //     }
-            
-        //     transform.localEulerAngles = newRotation;
-            
-        //     Debug.Log(pivotName + " - Bezpośrednio ustawiono rotację: X=" + angleX.ToString("F1") + 
-        //               ", Y=" + angleY.ToString("F1") + ", Z=" + angleZ.ToString("F1"));
-        // }
     }
 }

@@ -4,39 +4,37 @@ using UnityEngine.UI;
 public class TabController : MonoBehaviour
 {
     [Header("Panels")]
-    public GameObject tablePanel;        // przypisz TablePanel (z SelectorWindow inside)
-    public GameObject accessoriesPanel;  // przypisz AccessoriesPanel
+    public GameObject componentsPanel;      
+    public GameObject accessoriesPanel;  
 
     [Header("Top buttons")]
-    public Button tableButton;           // przycisk "Table"
-    public Button accessoriesButton;     // przycisk "Accessories"
+    public Button componentsButton;        
+    public Button accessoriesButton;   
 
     [Header("Optional: default tab")]
-    public bool startWithTable = true;
+    public bool startWithComponents = true;
 
     void Start()
     {
-        // przypnij listenery przycisków (jeśli nie chcesz ustawiać w Inspectorze)
-        if (tableButton != null) tableButton.onClick.AddListener(ShowTablePanel);
+        if (componentsButton != null) componentsButton.onClick.AddListener(ShowComponentsPanel);
         if (accessoriesButton != null) accessoriesButton.onClick.AddListener(ShowAccessoriesPanel);
 
-        // pokaż domyślnie jedną z zakładek
-        if (startWithTable)
-            ShowTablePanel();
+        if (startWithComponents)
+            ShowComponentsPanel();
         else
             ShowAccessoriesPanel();
     }
 
-    public void ShowTablePanel()
+    public void ShowComponentsPanel()
     {
-        SetActivePanel(tablePanel, accessoriesPanel);
-        SetButtonStates(tableButton, accessoriesButton);
+        SetActivePanel(componentsPanel, accessoriesPanel);
+        SetButtonStates(componentsButton, accessoriesButton);
     }
 
     public void ShowAccessoriesPanel()
     {
-        SetActivePanel(accessoriesPanel, tablePanel);
-        SetButtonStates(accessoriesButton, tableButton);
+        SetActivePanel(accessoriesPanel, componentsPanel);
+        SetButtonStates(accessoriesButton, componentsButton);
     }
 
     void SetActivePanel(GameObject toShow, GameObject toHide)
@@ -47,20 +45,7 @@ public class TabController : MonoBehaviour
 
     void SetButtonStates(Button active, Button inactive)
     {
-        if (active != null) active.interactable = false;   // aktywny przycisk nieklikalny
+        if (active != null) active.interactable = false; 
         if (inactive != null) inactive.interactable = true;
-
-        // opcjonalnie: prosty wizualny feedback (zmiana koloru)
-        // domyślny ColorBlock można ustawić ręcznie w Inspectorze; poniżej jest bezpieczne ustawienie alpha
-        // (jeśli chcesz mocniejszy efekt, ustaw w Inspectorze ColorBlock dla każdego przycisku)
     }
-
-    // Opcjonalnie: metoda do przełączenia (np. z klawisza) - nie używaj jednocześnie z SelectorWindow.Toggle
-    // public void TogglePanels()
-    // {
-    //     if (tablePanel != null && tablePanel.activeSelf)
-    //         ShowAccessoriesPanel();
-    //     else
-    //         ShowTablePanel();
-    // }
 }
