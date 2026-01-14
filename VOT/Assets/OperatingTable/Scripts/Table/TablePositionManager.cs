@@ -418,8 +418,7 @@ namespace VirtualOperatingTable
                    "Longitudinal position: " + pos.tableLongitudinalX.ToString("F4") + "\n" +
                    "Reverse: " + pos.tableState.ToString();
         }
-
-        // Coroutines and pivot restoration logs are all now in English
+        
         private IEnumerator LoadPositionCoroutine(TablePosition pos)
         {
             isRestoring = true;
